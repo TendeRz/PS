@@ -1,0 +1,32 @@
+
+
+
+"filebrowserImageUploadUrl": "/root/PS/ckeditor/plugins/image/iaupload.php"
+								"filebrowserBrowseUrl": '/root/PS/ckeditor/plugins/imageuploader/imgbrowser.php',
+    							"filebrowserUploadUrl": '/root/PS/ckeditor/plugins/imageuploader/imgupload.php',
+								extraPlugins: 'uploadimage,imageuploader'
+
+
+extraPlugins: 'imageuploader'
+
+
+$_SESSION["username"] = "disabled_pw";
+
+
+
+
+ckeditor/plugins/imageuploader/D:/Bitnami/wampstack-5.5.30-0/apache2/htdocs/root/PS/ckeditor/test_images//8c5c47a.jpg
+D:/Bitnami/wampstack-5.5.30-0/apache2/htdocs/root/PS/ckeditor/test_images//98db04f.jpg
+
+
+
+
+
+filebrowserBrowseUrl: '/ckfinder/ckfinder.html',
+filebrowserUploadUrl: '/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files',
+
+
+
+filebrowserImageUploadUrl: '/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images'
+filebrowserImageBrowseUrl: '/ckfinder/ckfinder.html?type=Images',
+	

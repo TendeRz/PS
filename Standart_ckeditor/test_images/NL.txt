@@ -1,0 +1,75 @@
+IP: 10.205.8.27
+Port:  17006
+User:	ctmagent 
+Password: 	Pahkaegei1
+Process is running as user:  ctmagent  
+
+
+PRD = hZ8CtaXErWfzv4pvOYrf
+UAT = ehoEGQpgBxX9YHe7eA0z
+INT = GcyrhVgkWMTBPpxDLQLb
+
+
+
+
+Ams-ITHelpdesk <Ams-ITHelpdesk@Tele2.com>
+
+
+
+
+
+PROC_EDW_M_CBS_CDRRefData_Traffic_SE_PGW-ENDED-OK
+
+
+
+
+*******************************************************
+*******************************************************
+*******************************************************
+*******************************************************
+
+
+manuel.stenitzer@tele2.com 17:24: 
+hostname is pcv-v1hex035.itservices.lan
+externally you can access the VM through https://vdi.tele2portal.com
+Sergejs Romanovskis 17:27: 
+I cant download client - 
+ 	The webpage cannot be found
+ 
+;(
+Manuel Stenitzer 17:29: 
+the RDP client should work internally, the above url is only accessible externally
+alternatively internally you can use https://vdi.itservices.lan
+
+ehoEGQpgBxX9YHe7eA0z
+
+
+
+SROMANOVSKIS	changeme1	
+
+
+10.156.146.25   t2sblobieeapp
+
+
+
+zerg [172.16.218.129]
+swarm [10.156.146.14]
+
+
+
+195 ?
+192 PRD
+194 UAT
+
+
+
+10.205.10.195 – iud-mediation01
+10.205.10.194 – iuu-mediation01
+10.205.10.192 – iup-mediation01
+
+
+10.205.8.35     iup-app101
+
+
+
+

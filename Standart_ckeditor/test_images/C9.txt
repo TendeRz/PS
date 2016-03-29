@@ -1,0 +1,78 @@
+Administrator1@dontDelete.com
+Administrator0@dontDelete.com
+
+MyEmail1@domain.com
+Password1
+
+MyEmail11@domain.com
+Password11
+
+MyEmail13@domain.com
+Password13
+
+MyEmail14@domain.com
+Password14
+
+MyEmail15@domain.com
+Password15
+
+Default@User.com
+DefaultUser1
+
+
+
+
+<form actions="test_avatar.php" method="POST" enctype="multipart/form-data">
+
+<input type="file" id="testAva" accept="image/jpeg" name="avatar">
+				<input type="submit" name="upload" value="Upload"/>
+
+</form>
+
+
+
+<?php
+
+if(ISSET($_POST['upload'])){
+	mysql_connect(DB_HOST,DB_USER,DB_PASS) or die("Unable to connect to SQL server");
+	@mysql_select_db(DB_NAME) or die("Unable to select database");
+	$avaName = mysql_real_escape_string($_FILES['avatar']['name']);
+
+	$avaData = mysql_real_escape_string(file_get_contents($_FILES['avatar']['tmp_name']));
+	$avaType = mysql_real_escape_string(($_FILES['avatar']['type']));
+	if(substr($avaType,0,5) == "image"){
+		mysql_query("INSERT INTO avatar VALUES('','$avaName','$avaData')");
+	}
+}
+?>
+
+
+
+
+
+if(ISSET($_GET['id'])){
+	$id = mysql_real_escape_string($_GET['id']);
+	$query = mysql_query("SELECT * FROM avatar WHERE ID='$id'");
+
+	while($row = mysql_fetch_assoc($query)){
+
+		$avaData = $row['avatar'];}
+		header("content-type: image/jpeg");
+
+		echo $avaData;
+		}else{
+
+		//echo 'error!';
+    }
+
+
+
+
+
+<?php
+
+print_r($_SESSION['ID']);
+?>
+
+
+2014 11 04

@@ -1,0 +1,125 @@
+html {
+    overflow-y: scroll !important;
+}
+
+.ccontainer {
+	border: 1px #000000 solid ;
+	margin-top: 20px;
+}
+
+.flag {
+	width: 30px;
+	height: 30px;
+	border-radius:100%;
+    border: 1px solid #000000;
+}
+
+.dlist:hover {
+	background-color: #717375 !important;
+	color: white;
+}
+
+.ddropdown {
+	width: 200px;
+	margin-left: 10px;
+	border-radius: 5px;
+}
+
+.classification {
+	margin-left: -80px;
+	color: black;
+
+}
+
+.row {
+	margin-top: 5px;
+}
+.procTitle {
+	height: 24px;
+	border-radius: 5px;
+}
+
+
+.newProcTitle {
+	margin-left: -71px;
+
+}
+
+.procedure-list-item {
+	margin-left: 15px;
+	padding-top: 1px;
+	padding-bottom: 1px;
+}
+
+.procedure-list-group {
+	margin-bottom: 5px;
+	padding-bottom: 2px;
+}
+
+.procedure-group {
+	margin-bottom: 5px;
+}
+
+.procedure-task-type-item {
+	padding-bottom: 1px;
+	padding-top: 1px;
+}
+
+.newProc-Button-Add {
+	margin-left: 3px;
+	margin-top: -2px;
+	width: 130px;
+}
+
+
+.glyphicon-ok-circle{
+    background-color: green;
+    color: white;
+}
+.glyphicon-ban-circle{
+    background-color: red;
+    color: white;
+}
+
+.padding-bot-15{
+	padding-bottom: 15px;
+}
+
+.margin-bot-5{
+	margin-bottom: 5px;
+}
+
+.margin-top-200{
+	margin-top: 200px;
+}
+
+.cke_editable {
+	line-height: 0.3;
+}
+/* ******************************************************************************************************************************************************************** */
+/*				TEST 	TEST				TEST 	TEST				TEST 	TEST				TEST 	TEST				TEST 	TEST				TEST 	    */
+/* ******************************************************************************************************************************************************************** */
+
+
+.test-div {
+	margin-top: 30px;
+	border: 1px solid #000000;
+	padding: 15px;
+}
+
+.dtable {
+	/*width: 500px !important;*/
+	border: 1px solid #000000;
+	/*display: inline-block;*/
+}
+th {
+	/*text-align: center !important;*/
+}
+
+.ptest:hover {
+	cursor: pointer;
+}
+
+.procedure-description {
+	border-bottom: 1px solid #337AB7;
+}
