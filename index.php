@@ -20,7 +20,7 @@
 			?>
 					<div>
 						<ul class="nav navbar-nav">
-							<li><a href="procedure_list.php">Procedure Storage</a></li>
+							<li><a href="procedure_list.php">Procedure Storages</a></li>
 							<li><a href="#">Task Planner</a></li>
 							<li><a href="logout.php">Logout</a></li>
 						</ul>
