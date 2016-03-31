@@ -1,3 +1,6 @@
+<?php
+	session_start();
+?>
 
 <html lang="en">
 <head>
@@ -12,6 +15,8 @@
 </head>
 <body>
 <?php 
+		include_once('login_check.php');
+		include_once('navigation.php');
         include_once('./adds/queries.php');
     ?>
     <div class="container" style="margin-top: 20px;">

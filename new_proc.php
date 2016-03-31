@@ -1,3 +1,7 @@
+<?php
+    session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -8,9 +12,11 @@
     </head>
     <body>
         <?php
-        include_once('./adds/queries.php');
-        include_once('./js/js.php');
-        include_once('./adds/modal.php');
+            include_once('login_check.php');
+            include_once('navigation.php');
+            include_once('./adds/queries.php');
+            include_once('./js/js.php');
+            include_once('./adds/modal.php');
         ?>
 <script> 
     $(document).ready(function() {
@@ -269,11 +275,8 @@
                     </div>
                 </div>
 
-                <input disabled="true" class="btn btn-primary btn-lg" type="submit" name="newProcedure" style="margin-top: 20px">
+                <input  class="btn btn-primary btn-lg" type="submit" name="newProcedure" style="margin-top: 20px">
             </form>
         </div>
-        <?php 
-
-        ?>
     </body>
 </html>
