@@ -75,6 +75,9 @@
         addNewAdditionQuery();
     }
 
+    if(ISSET($_GET['usrID'])){
+        getAvatar($_GET['usrID'], $link);
+    }
 
     function sessionStart($myemail, $mypassword, $link){
         // To protect MySQL injection (more detail about MySQL injection)
@@ -234,4 +237,33 @@
         mysqli_close($link);
     }
 
+    function getAvatar($user, $link){
+        $user = mysqli_real_escape_string($link, $_GET['usrID']);
+        $sql = "SELECT avatar FROM authorization WHERE username='$user'";
+        $sql2 = "SELECT avatar FROM authorization WHERE username='he'";
+        $query = mysqli_query($link, $sql);
+        $query2 = mysqli_query($link, $sql2);
+            while($row = mysqli_fetch_assoc($query))
+            {
+                if(!empty($row['avatar'])){
+                    $avaData = $row['avatar'];
+                }else{
+                    
+                    while($row = mysqli_fetch_assoc($query2)){
+                        $avaData = $row['avatar'];
+                    }
+                }
+            }
+        header("content-type: image/jpeg");
+        echo $avaData;
+    mysqli_close($link);
+    }
+
+    function selectProfile($username){
+        $link = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME)or die("Cannot Connect");
+        //$user = mysqli_real_escape_string($username);
+        $sql = "SELECT * FROM authorization WHERE username = '$username'";
+        return(mysqli_fetch_all($link->query($sql)));
+    mysqli_close($link);
+    }
 ?>

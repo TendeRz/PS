@@ -11,6 +11,7 @@
         <link rel="stylesheet" type="text/css" href="/root/PS/css/my_style.css">
     </head>
     <body>
+    <div class="container">
         <?php
             include_once('login_check.php');
             include_once('navigation.php');
@@ -18,13 +19,14 @@
             include_once('./js/js.php');
             include_once('./adds/modal.php');
         ?>
+    
 <script> 
     $(document).ready(function() {
         CKEDITOR.timestamp='ABCD'; 
         });
 </script>
         
-        <div class="container panel-group" style="margin-top: 20px">
+        <div class="panel-group" style="margin-top: 20px">
             <form action="./adds/queries.php" method="post">
 
 
@@ -278,5 +280,6 @@
                 <input  class="btn btn-primary btn-lg" type="submit" name="newProcedure" style="margin-top: 20px">
             </form>
         </div>
+    </div>
     </body>
 </html>

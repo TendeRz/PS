@@ -16,12 +16,13 @@
 <body>
 <?php 
 		include_once('login_check.php');
-		include_once('navigation.php');
+
         include_once('./adds/queries.php');
     ?>
-    <div class="container" style="margin-top: 20px;">
+    <div class="container" >
 
-                <?php 
+                <?php
+                include_once('navigation.php');
                 $selectProcedure = procedurez($procidd);
 				foreach ($selectProcedure as $key => $procedureItem) {
                     $pprocid = $procedureItem[0];

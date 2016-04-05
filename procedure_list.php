@@ -11,13 +11,13 @@
 	<link rel="stylesheet" type="text/css" href="/root/PS/css/my_style.css"></head>
 <body>
 
-
+	<div class="container">
 	<?php
 		include_once('login_check.php');
 		include_once('navigation.php');
 		include_once('./adds/queries.php');
 	?>
-	<div class="container" style="margin-top: 20px;">
+	
 	
 
 	<?php

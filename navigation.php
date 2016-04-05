@@ -14,6 +14,9 @@
 		<!-- Collect the nav links, forms, and other content for toggling -->
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-9">
 			<ul class="nav navbar-nav">
+				<?php if(ISSET($_SESSION['myemail'])){ ?>
+				<li class="<?php echo ($_SERVER['PHP_SELF'] == '/root/PS/profile.php' ? ' active' : '');?>"><a href="/root/PS/profile.php">Profile</a></li>
+				<?php } ?>
 				<li class="<?php echo ($_SERVER['PHP_SELF'] == '/root/PS/procedure_list.php' ? ' active' : '');?>"><a href="/root/PS/procedure_list.php">Procedure Storage</a></li>
 				<li class="<?php echo ($_SERVER['PHP_SELF'] == '#' ? ' active' : '');?>"><a href="#">Task Planner</a></li>
 				<li class="<?php echo ($_SERVER['PHP_SELF'] == '/root/PS/new_proc.php' ? ' active' : '');?>"><a href="/root/PS/new_proc.php">New Procedure</a></li>
