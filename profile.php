@@ -78,35 +78,30 @@
 								</div>
 								<div class="panel-body">
 									
-										<form class="form-horizontal">
-											<div class="form-group profile-update">
-												<label for="profileUpdateUsername" class="col-sm-2 control-label">Username</label>
-												<div class="col-sm-10">
-													<input type="text" class="form-control" id="profileUpdateUsername" value="<?php echo $profUsername ?>" onChange="checkUpdateProfileForm(this.value, this)">
-												</div>
-											</div>
+										<form class="form-horizontal" action="./adds/queries.php" method="post" role="form" autocomplete="off" id="updateprofpers">
+
 											<div class="form-group profile-update">
 												<label for="profileUpdateName" class="col-sm-2 control-label">Name</label>
 												<div class="col-sm-10">
-													<input type="text" class="form-control" id="profileUpdateName" value="<?php echo $profName ?>" onChange="checkUpdateProfileForm(this.value, this)">
+													<input name="profileUpdateName" type="text" class="form-control" value="<?php echo $profName ?>" onChange="checkUpdateProfileForm(this.value, this)">
 												</div>
 											</div>
 											<div class="form-group profile-update">
 												<label for="profileUpdateSurname" class="col-sm-2 control-label">Surname</label>
 												<div class="col-sm-10">
-													<input type="text" class="form-control" id="profileUpdateSurname" value="<?php echo $profSurname ?>" onChange="checkUpdateProfileForm(this.value, this)">
+													<input name="profileUpdateSurname" type="text" class="form-control" value="<?php echo $profSurname ?>" onChange="checkUpdateProfileForm(this.value, this)">
 												</div>
 											</div>  
 											<div class="form-group profile-update">
 												<label for="profileUpdateEmail" class="col-sm-2 control-label">Email</label>
 												<div class="col-sm-10">
-													<input type="email" class="form-control" id="profileUpdateEmail" value="<?php echo $profEmail ?>">
+													<input name="profileUpdateEmail" type="email" class="form-control" value="<?php echo $profEmail ?>" onChange="checkUpdateProfileMail(this.value, this)">
 												</div>
 											</div>
 
 											<div class="form-group">
 												<div class="col-sm-offset-2 col-sm-10">
-													<button type="submit" class="btn btn-default profile-update-button" disabled="true">Update</button>
+													<button type="submit" form="updateprofpers" class="btn btn-default profile-update-button" disabled="true">Update</button>
 												</div>
 											</div>
 										</form>

@@ -79,6 +79,16 @@
         getAvatar($_GET['usrID'], $link);
     }
 
+    if(ISSET($_POST['checkUpdateMail'])){
+        checkUpdateMailq($_POST['checkUpdateMail'], $link);
+    }
+
+    if(ISSET($_POST['profileUpdateName'], $_POST['profileUpdateSurname'], $_POST['profileUpdateEmail'])){
+        updateProfilePers($_SESSION['myusername'], $_POST['profileUpdateName'], $_POST['profileUpdateSurname'], $_POST['profileUpdateEmail'], $link);
+    }
+
+
+
     function sessionStart($myusername, $mypassword, $link){
         // To protect MySQL injection (more detail about MySQL injection)
         $myusername = stripslashes($myusername);
@@ -266,4 +276,34 @@
         return(mysqli_fetch_all($link->query($sql)));
     mysqli_close($link);
     }
+
+    function checkUpdateMailq($email, $link){
+        //$useremail = mysqli_real_escape_string($email);
+        $useremail = $email;
+        $usernames = $_SESSION['myusername'];
+        $sql = "SELECT username from authorization where email = '$useremail'";
+        $result=mysqli_query($link, $sql);
+        $count=mysqli_num_rows($result);
+        if($count==0){
+            echo('ok');
+        }else{
+            $sql1 = "SELECT username FROM authorization WHERE email = '$useremail' and username = '$usernames'";
+            $result1=mysqli_query($link, $sql1);
+            $count1=mysqli_num_rows($result1);
+            if($count1==1){
+                echo('ok');
+            }else{
+                echo('not');
+            }
+        }
+    mysqli_close($link);
+    }
+
+    function updateProfilePers($username, $name, $surname, $email, $link){
+        $sql = "UPDATE authorization Set name = '$name', surname = '$surname', email = '$email' WHERE username = '$username'";
+        $query = mysqli_query($link, $sql);
+        header('Location: /root/PS/profile.php');
+    mysqli_close($link);
+    }
+
 ?>

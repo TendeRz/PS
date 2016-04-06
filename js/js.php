@@ -93,14 +93,52 @@
 			}else{
 				$('.profile-update-button').removeAttr('disabled');
 			}
-
 		}else{
 			$(divBox).removeClass('has-success');
 			$(divBox).addClass('has-error');
 			$('.profile-update-button').attr('disabled', 'true');
 		}
+	}
 
-		
+	function checkUpdateProfileMail(value, element){
+		var divBox = $(element).parent().parent();
+		var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+
+		if(value.length > 5){
+			if(regex.test(value)){
+				if(value != " "){
+					$.post('./adds/queries.php', {checkUpdateMail:value}, function(answer){
+						if(answer=='ok'){
+							$(divBox).removeClass('has-error');
+							$(divBox).addClass('has-success');
+
+							if($('.profile-update').hasClass('has-error')){
+								$('.profile-update-button').attr('disabled', 'true');
+							}else{
+								$('.profile-update-button').removeAttr('disabled');
+							}
+						}else{
+							$(divBox).removeClass('has-success');
+							$(divBox).addClass('has-error');
+							$('.profile-update-button').attr('disabled', 'true');
+							alert('Email already in use!');
+						}
+					});
+				}else{
+					$(divBox).removeClass('has-success');
+					$(divBox).addClass('has-error');
+					$('.profile-update-button').attr('disabled', 'true');
+				}
+			}else{
+				$(divBox).removeClass('has-success');
+				$(divBox).addClass('has-error');
+				$('.profile-update-button').attr('disabled', 'true');
+			}			
+		}else{
+			$(divBox).removeClass('has-success');
+			$(divBox).addClass('has-error');
+			$('.profile-update-button').attr('disabled', 'true');
+		}
 	}
 
 </script>
