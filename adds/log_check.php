@@ -1,5 +1,5 @@
 <?php
-    if(empty($_SESSION['myemail']) || empty($_SESSION['mypassword'])){
+    if(empty($_SESSION['myusername']) || empty($_SESSION['mypassword'])){
         header('Location: /root/PS/index.php');
     }
 ?>

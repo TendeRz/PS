@@ -6,8 +6,8 @@
 				                <div class="form-group">
 				                    <div class="input-group">
 				                        <span class="glyphicon glyphicon-user input-group-addon" style="top:0px;"></span>
-				                        <input name="myemail" type="text" class="form-control mailInput" placeholder="Username" onChange="checkUsername(this.value, this)">
-				                        <span class="glyphicon glyphicon-remove-circle input-group-addon myMail" style="top:0px;"></span>
+				                        <input name="myusername" type="text" class="form-control" placeholder="Username" onChange="checkUsername(this.value, this)">
+				                        <span class="glyphicon glyphicon-remove-circle input-group-addon myUser" style="top:0px;"></span>
 				                    </div>
 				                </div>
 				                <div class="form-group">

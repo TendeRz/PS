@@ -62,7 +62,7 @@
 				$(spanPwd).removeClass('glyphicon-ok-circle glyphicon-ban-circle');
 				$(spanPwd).addClass('glyphicon-ok-circle');
 				
-				if($('.myMail').hasClass('glyphicon-ok-circle')){
+				if($('.myUser').hasClass('glyphicon-ok-circle')){
 					$('.signIn').removeAttr('disabled');
 				}
 			}
@@ -79,6 +79,28 @@
 		if(paswd == 'admin'){
 			$('.signIn').removeAttr('disabled');
 			}
-	}	
+	}
+
+	function checkUpdateProfileForm(value, element){
+		var divBox = $(element).parent().parent();
+		
+		if(value.length > 3){
+			$(divBox).removeClass('has-error');
+			$(divBox).addClass('has-success');
+
+			if($('.profile-update').hasClass('has-error')){
+				$('.profile-update-button').attr('disabled', 'true');
+			}else{
+				$('.profile-update-button').removeAttr('disabled');
+			}
+
+		}else{
+			$(divBox).removeClass('has-success');
+			$(divBox).addClass('has-error');
+			$('.profile-update-button').attr('disabled', 'true');
+		}
+
+		
+	}
 
 </script>

@@ -12,7 +12,7 @@
 	<body>
 		<div class="container">
 		<?php
-			if(ISSET($_SESSION['myemail'])){
+			if(ISSET($_SESSION['myusername'])){
 				include_once('navigation.php');
 		?>	
 					<div>

@@ -8,8 +8,8 @@
 		die('Connection Error!');
 	}
 
-    if(ISSET($_POST['myemail'])){
-        sessionStart($_POST['myemail'], $_POST['mypassword'], $link);
+    if(ISSET($_POST['myusername'])){
+        sessionStart($_POST['myusername'], $_POST['mypassword'], $link);
     }    
 
     if(ISSET($_GET['cFlag'])){
@@ -79,18 +79,18 @@
         getAvatar($_GET['usrID'], $link);
     }
 
-    function sessionStart($myemail, $mypassword, $link){
+    function sessionStart($myusername, $mypassword, $link){
         // To protect MySQL injection (more detail about MySQL injection)
-        $myemail = stripslashes($myemail);
+        $myusername = stripslashes($myusername);
         $mypassword = stripslashes($mypassword);
-        $myemail = mysqli_real_escape_string($link, $myemail);
+        $myusername = mysqli_real_escape_string($link, $myusername);
         $mypassword = mysqli_real_escape_string($link, $mypassword);
-        $sql="SELECT * FROM authorization WHERE username='$myemail' and password='$mypassword'";
+        $sql="SELECT * FROM authorization WHERE username='$myusername' and password='$mypassword'";
         $result=mysqli_query($link, $sql);
         $count=mysqli_num_rows($result);
         
         if($count==1){
-            $_SESSION['myemail'] = $myemail;
+            $_SESSION['myusername'] = $myusername;
             $_SESSION['mypassword'] = $mypassword;
             header("Location: /root/PS/index.php");
         }else{

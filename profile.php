@@ -11,12 +11,13 @@
 	</head>
 	<body>
 		<div class="container">
-			<?php 
+			<?php
+				include_once('login_check.php');
 				include_once('navigation.php');
 				include_once('./js/js.php');
 				include_once('./adds/queries.php');
 
-				$uzername = $_SESSION['myemail'];
+				$uzername = $_SESSION['myusername'];
 				$profileInfo = selectProfile($uzername);
 				foreach ($profileInfo as $key => $profileItem) {
                     $profID = $profileItem[0];
@@ -36,7 +37,7 @@
 				</div>
 				<div class="panel-body">
 					<div class="col-md-2">
-						<img class="avatar" src="./adds/queries.php?usrID=<?php print_r($_SESSION['myemail']); ?>">
+						<img class="avatar" src="./adds/queries.php?usrID=<?php print_r($_SESSION['myusername']); ?>">
 					</div>
 					<ul class="col-md-1">
 						<li>Username: </li>
@@ -78,28 +79,34 @@
 								<div class="panel-body">
 									
 										<form class="form-horizontal">
-											<div class="form-group">
-												<label for="profileUpdateName" class="col-sm-2 control-label">Name</label>
+											<div class="form-group profile-update">
+												<label for="profileUpdateUsername" class="col-sm-2 control-label">Username</label>
 												<div class="col-sm-10">
-													<input type="text" class="form-control" id="profileUpdateName" placeholder="Name">
+													<input type="text" class="form-control" id="profileUpdateUsername" value="<?php echo $profUsername ?>" onChange="checkUpdateProfileForm(this.value, this)">
 												</div>
 											</div>
-											<div class="form-group">
+											<div class="form-group profile-update">
+												<label for="profileUpdateName" class="col-sm-2 control-label">Name</label>
+												<div class="col-sm-10">
+													<input type="text" class="form-control" id="profileUpdateName" value="<?php echo $profName ?>" onChange="checkUpdateProfileForm(this.value, this)">
+												</div>
+											</div>
+											<div class="form-group profile-update">
 												<label for="profileUpdateSurname" class="col-sm-2 control-label">Surname</label>
 												<div class="col-sm-10">
-													<input type="text" class="form-control" id="profileUpdateSurname" placeholder="Surname">
+													<input type="text" class="form-control" id="profileUpdateSurname" value="<?php echo $profSurname ?>" onChange="checkUpdateProfileForm(this.value, this)">
 												</div>
 											</div>  
-											<div class="form-group">
+											<div class="form-group profile-update">
 												<label for="profileUpdateEmail" class="col-sm-2 control-label">Email</label>
 												<div class="col-sm-10">
-													<input type="email" class="form-control" id="profileUpdateEmail" placeholder="Email">
+													<input type="email" class="form-control" id="profileUpdateEmail" value="<?php echo $profEmail ?>">
 												</div>
 											</div>
 
 											<div class="form-group">
 												<div class="col-sm-offset-2 col-sm-10">
-													<button type="submit" class="btn btn-default">Update</button>
+													<button type="submit" class="btn btn-default profile-update-button" disabled="true">Update</button>
 												</div>
 											</div>
 										</form>
