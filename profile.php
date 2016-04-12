@@ -110,14 +110,38 @@
 							</div>
 							<div class="panel panel-default">
 								<div class="panel-heading">
-									<h3 class="panel-title">Password!</h3>
+									<h3 class="panel-title">Password Update!</h3>
 								</div>
 								<div class="panel-body">
-									<div class="col-md-2">
-										Current Password: <br>
-										New Password: <br>
-										New Password: <br>
-									</div>
+									
+										<form class="form-horizontal" action="./adds/queries.php" method="post" role="form" autocomplete="off" id="changePasswordForm">
+
+											<div class="form-group password-update">
+												<label for="passwordUpdateCurrent" class="col-sm-2 control-label">Current Password</label>
+												<div class="col-sm-10">
+													<input name="passwordUpdateCurrent" type="password" class="form-control" placeholder="Current Password" onChange="#">
+												</div>
+											</div>
+											<div class="form-group password-update">
+												<label for="passwordUpdateNew" class="col-sm-2 control-label">New Password</label>
+												<div class="col-sm-10">
+													<input name="passwordUpdateNew" type="password" class="form-control" placeholder="New Password" onChange="#">
+												</div>
+											</div>  
+											<div class="form-group password-update">
+												<label for="passwordUpdateNewRepeat" class="col-sm-2 control-label">New Password</label>
+												<div class="col-sm-10">
+													<input name="passwordUpdateNewRepeat" type="password" class="form-control" placeholder="Repeat New Password" onChange="">
+												</div>
+											</div>
+
+											<div class="form-group">
+												<div class="col-sm-offset-2 col-sm-10">
+													<button type="submit" form="changePasswordForm" class="btn btn-default password-update-button" disabled="true">Update</button>
+												</div>
+											</div>
+										</form>
+									
 								</div>
 							</div>
 							<div class="panel panel-default">
