@@ -116,28 +116,28 @@
 									
 										<form class="form-horizontal" action="./adds/queries.php" method="post" role="form" autocomplete="off" id="changePasswordForm">
 
-											<div class="form-group password-update">
+											<div class="form-group password-update password-update-current">
 												<label for="passwordUpdateCurrent" class="col-sm-2 control-label">Current Password</label>
 												<div class="col-sm-10">
-													<input name="passwordUpdateCurrent" type="password" class="form-control" placeholder="Current Password" onChange="#">
+													<input name="passwordUpdateCurrent" type="password" class="form-control" placeholder="Current Password" onChange="checkUpdatePasswordCurrent(this.value, this)">
 												</div>
 											</div>
-											<div class="form-group password-update">
+											<div class="form-group password-update password-update-new">
 												<label for="passwordUpdateNew" class="col-sm-2 control-label">New Password</label>
 												<div class="col-sm-10">
-													<input name="passwordUpdateNew" type="password" class="form-control" placeholder="New Password" onChange="#">
+													<input name="passwordUpdateNew" type="password" class="form-control" placeholder="New Password" onChange="checkUpdatePasswordNew(this)">
 												</div>
 											</div>  
-											<div class="form-group password-update">
+											<div class="form-group password-update password-update-new">
 												<label for="passwordUpdateNewRepeat" class="col-sm-2 control-label">New Password</label>
 												<div class="col-sm-10">
-													<input name="passwordUpdateNewRepeat" type="password" class="form-control" placeholder="Repeat New Password" onChange="">
+													<input name="passwordUpdateNewRepeat" type="password" class="form-control" placeholder="Repeat New Password" onChange="checkUpdatePasswordNew(this)">
 												</div>
 											</div>
 
 											<div class="form-group">
 												<div class="col-sm-offset-2 col-sm-10">
-													<button type="submit" form="changePasswordForm" class="btn btn-default password-update-button" disabled="true">Update</button>
+													<button type="submit" form="changePasswordForm" class="btn btn-default password-update-button" name="changePassword"disabled="true">Update</button>
 												</div>
 											</div>
 										</form>

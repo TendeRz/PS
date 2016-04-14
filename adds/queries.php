@@ -83,11 +83,17 @@
         checkUpdateMailq($_POST['checkUpdateMail'], $link);
     }
 
+    if(ISSET($_POST['checkUpdatePassword'])){
+        checkUpdatePassword($_POST['checkUpdatePassword'], $link);
+    }
+
     if(ISSET($_POST['profileUpdateName'], $_POST['profileUpdateSurname'], $_POST['profileUpdateEmail'])){
         updateProfilePers($_SESSION['myusername'], $_POST['profileUpdateName'], $_POST['profileUpdateSurname'], $_POST['profileUpdateEmail'], $link);
     }
 
-
+    if(ISSET($_POST['changePassword'])){
+        updatePassword($_POST['passwordUpdateNew'], $link);
+    }
 
     function sessionStart($myusername, $mypassword, $link){
         // To protect MySQL injection (more detail about MySQL injection)
@@ -301,6 +307,29 @@
 
     function updateProfilePers($username, $name, $surname, $email, $link){
         $sql = "UPDATE authorization Set name = '$name', surname = '$surname', email = '$email' WHERE username = '$username'";
+        $query = mysqli_query($link, $sql);
+        header('Location: /root/PS/profile.php');
+    mysqli_close($link);
+    }
+
+    function checkUpdatePassword($pass, $link){
+        $passwd = $pass;
+        $username = $_SESSION['myusername'];
+        $sql = "SELECT * FROM authorization WHERE username = '$username' and password = '$passwd'";
+        $result=mysqli_query($link, $sql);
+        $count=mysqli_num_rows($result);
+        
+        if($count==1){
+            echo('ok');
+        }else{
+            echo('not');
+        }
+    mysqli_close($link);
+    }
+
+    function updatePassword($pass, $link){
+        $username = $_SESSION['myusername'];
+        $sql = "UPDATE authorization SET password = '$pass' WHERE username = '$username'";
         $query = mysqli_query($link, $sql);
         header('Location: /root/PS/profile.php');
     mysqli_close($link);

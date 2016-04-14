@@ -141,4 +141,76 @@
 		}
 	}
 
+	function checkUpdatePasswordCurrent(value, element){
+		var divBox = $(element).parent().parent();
+		var regex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
+		if(value.length > 0 ){
+			if(regex.test(value)){
+				$.post('./adds/queries.php', {checkUpdatePassword:value}, function(answer){
+					if(answer=='ok'){
+						$(divBox).removeClass('has-error');
+						$(divBox).addClass('has-success');
+
+						if($('.password-update').hasClass('has-error')){
+							$('.password-update-button').attr('disabled', 'true');
+						}else{
+							$('.password-update-button').removeAttr('disabled');
+								}
+					}else{
+						$(divBox).removeClass('has-success');
+						$(divBox).addClass('has-error');
+						$('.password-update-button').attr('disabled', 'true');
+					}
+			});
+			}else{
+				$(divBox).removeClass('has-success');
+				$(divBox).addClass('has-error');
+				$('.password-update-button').attr('disabled', 'true');
+			}
+		}else{
+			$(divBox).removeClass('has-success');
+			$(divBox).removeClass('has-error');
+		}
+	}
+
+	function checkUpdatePasswordNew(element){
+		var paswd1 = document.getElementsByName('passwordUpdateNew')[0].value;
+		var paswd2 = document.getElementsByName('passwordUpdateNewRepeat')[0].value;
+		var regex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
+				if(paswd1!='' && paswd2!=''){
+					if(paswd1 == paswd2){
+						if(regex.test(paswd1) && regex.test(paswd2)){
+							$('.password-update-new').removeClass('has-error');
+							$('.password-update-new').addClass('has-success');
+							if($('.password-update-current').hasClass('has-success')){
+								$('.password-update-button').removeAttr('disabled');
+							}
+						}else{
+							console.log('Stronger Password Required!');
+							$('.password-update-new').removeClass('has-success');
+							$('.password-update-new').addClass('has-error');
+							$('.password-update-button').attr('disabled', 'true');
+						}
+					}else{						
+						$('.password-update-new').removeClass('has-success');
+						$('.password-update-new').addClass('has-error');
+						$('.password-update-button').attr('disabled', 'true');
+					}
+				}else{
+					$('.password-update-new').removeClass('has-success');
+					$('.password-update-new').removeClass('has-error');
+					$('.password-update-button').attr('disabled', 'true');
+				}
+
+		
+
+
+		//if($('.password-update-current').hasClass('has-success')){
+		//	console.log('has success');
+		//}else{
+		//	console.log('has error or nothing');
+		//}
+		
+	}
+
 </script>
