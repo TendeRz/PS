@@ -83,19 +83,19 @@
 											<div class="form-group profile-update">
 												<label for="profileUpdateName" class="col-sm-2 control-label">Name</label>
 												<div class="col-sm-10">
-													<input name="profileUpdateName" type="text" class="form-control" value="<?php echo $profName ?>" onChange="checkUpdateProfileForm(this.value, this)">
+													<input name="profileUpdateName" type="text" class="form-control" value="<?php echo $profSurname ?>" placeholder="Enter Name" onChange="checkUpdateProfileForm(this.value, this)">
 												</div>
 											</div>
 											<div class="form-group profile-update">
 												<label for="profileUpdateSurname" class="col-sm-2 control-label">Surname</label>
 												<div class="col-sm-10">
-													<input name="profileUpdateSurname" type="text" class="form-control" value="<?php echo $profSurname ?>" onChange="checkUpdateProfileForm(this.value, this)">
+													<input name="profileUpdateSurname" type="text" class="form-control" placeholder="Enter Surname" value="<?php echo $profSurname ?>" onChange="checkUpdateProfileForm(this.value, this)">
 												</div>
 											</div>  
 											<div class="form-group profile-update">
 												<label for="profileUpdateEmail" class="col-sm-2 control-label">Email</label>
 												<div class="col-sm-10">
-													<input name="profileUpdateEmail" type="email" class="form-control" value="<?php echo $profEmail ?>" onChange="checkUpdateProfileMail(this.value, this)">
+													<input name="profileUpdateEmail" type="email" class="form-control" placeholder="Enter Emails" value="<?php echo $profEmail ?>" onChange="checkUpdateProfileMail(this.value, this)">
 												</div>
 											</div>
 

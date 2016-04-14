@@ -98,12 +98,17 @@
 			$(divBox).addClass('has-error');
 			$('.profile-update-button').attr('disabled', 'true');
 		}
+
+		if(value.length == 0){
+			$(divBox).removeClass('has-success');
+			$(divBox).removeClass('has-error');
+		}
 	}
 
 	function checkUpdateProfileMail(value, element){
 		var divBox = $(element).parent().parent();
 		var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-
+		var $val = value;
 		if(value.length > 5){
 			if(regex.test(value)){
 				if(value != " "){
@@ -138,6 +143,10 @@
 			$(divBox).removeClass('has-success');
 			$(divBox).addClass('has-error');
 			$('.profile-update-button').attr('disabled', 'true');
+		}		
+		if(value.length == 0){
+			$(divBox).removeClass('has-success');
+			$(divBox).removeClass('has-error');			
 		}
 	}
 
@@ -170,6 +179,7 @@
 		}else{
 			$(divBox).removeClass('has-success');
 			$(divBox).removeClass('has-error');
+			$('.password-update-button').attr('disabled', 'true');
 		}
 	}
 
@@ -177,40 +187,30 @@
 		var paswd1 = document.getElementsByName('passwordUpdateNew')[0].value;
 		var paswd2 = document.getElementsByName('passwordUpdateNewRepeat')[0].value;
 		var regex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
-				if(paswd1!='' && paswd2!=''){
-					if(paswd1 == paswd2){
-						if(regex.test(paswd1) && regex.test(paswd2)){
-							$('.password-update-new').removeClass('has-error');
-							$('.password-update-new').addClass('has-success');
-							if($('.password-update-current').hasClass('has-success')){
-								$('.password-update-button').removeAttr('disabled');
-							}
-						}else{
-							console.log('Stronger Password Required!');
-							$('.password-update-new').removeClass('has-success');
-							$('.password-update-new').addClass('has-error');
-							$('.password-update-button').attr('disabled', 'true');
-						}
-					}else{						
-						$('.password-update-new').removeClass('has-success');
-						$('.password-update-new').addClass('has-error');
-						$('.password-update-button').attr('disabled', 'true');
+		if(paswd1!='' && paswd2!=''){
+			if(paswd1 == paswd2){
+				if(regex.test(paswd1) && regex.test(paswd2)){
+					$('.password-update-new').removeClass('has-error');
+					$('.password-update-new').addClass('has-success');
+					if($('.password-update-current').hasClass('has-success')){
+						$('.password-update-button').removeAttr('disabled');
 					}
 				}else{
+					console.log('Stronger Password Required!');
 					$('.password-update-new').removeClass('has-success');
-					$('.password-update-new').removeClass('has-error');
+					$('.password-update-new').addClass('has-error');
 					$('.password-update-button').attr('disabled', 'true');
 				}
-
-		
-
-
-		//if($('.password-update-current').hasClass('has-success')){
-		//	console.log('has success');
-		//}else{
-		//	console.log('has error or nothing');
-		//}
-		
+			}else{						
+				$('.password-update-new').removeClass('has-success');
+				$('.password-update-new').addClass('has-error');
+				$('.password-update-button').attr('disabled', 'true');
+			}
+		}else{
+			$('.password-update-new').removeClass('has-success');
+			$('.password-update-new').removeClass('has-error');
+			$('.password-update-button').attr('disabled', 'true');
+		}
 	}
 
 </script>
