@@ -213,4 +213,19 @@
 		}
 	}
 
+
+	function putImage() {
+		var src = document.getElementById("changeAvatarID");
+		var target = document.getElementById("selectedAvatar");
+		showImage(src, target);
+	}
+
+	function showImage(src, target) {
+		var fr = new FileReader();
+		fr.onload = function(){
+			target.src = fr.result;
+		}
+		fr.readAsDataURL(src.files[0]);
+	}
+
 </script>

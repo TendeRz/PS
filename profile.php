@@ -149,9 +149,22 @@
 									<h3 class="panel-title">Avatar!</h3>
 								</div>
 								<div class="panel-body">
-									<div class="col-md-2">
-										Choose New Avatar!
-									</div>
+									<form class="form-horizontal" action="./adds/queries.php" enctype='multipart/form-data' method="post" role="form" autocomplete="off" id="changeAvatar">
+										<div class="form-group">
+											<label style="padding-top: 55px" for="changeAvata" class="col-sm-2 control-label">New Avatar</label>
+											<div class="col-sm-3">
+												<input style="padding-top: 55px" type="file" id="changeAvatarID" accept="image/jpeg" name="avatarUpdate" onChange="putImage()" >
+											</div>
+											<div class="col-sm-5">
+												<img class="avatar-change" id="selectedAvatar" />
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="col-sm-offset-2 col-sm-10">
+												<button type="submit" form="changeAvatar" class="btn btn-default avatar-update-button" name="changeAvatar" disabled="true">Update</button>
+											</div>
+										</div>
+									</form>
 								</div>
 							</div>
 						</div>
