@@ -213,6 +213,25 @@
 		}
 	}
 
+	function checkAvatar(avatarID){
+		$('.avatar-update-button').attr('disabled', 'true');
+		$('.no-image, .wrong-image').addClass('display-none');
+		$('.avatar-change').removeClass('display-none');
+		var filename = document.getElementsByName('avatarUpdate')[0].value;
+		if(filename !== ''){
+			var ext = filename.split('.').pop().toLowerCase();
+			if($.inArray(ext, ['gif','png','jpg','jpeg']) == -1) {
+				$('.avatar-change').addClass('display-none');
+				$('.wrong-image').removeClass('display-none');
+			}else{
+				putImage();
+				$('.avatar-update-button').removeAttr('disabled');
+			}
+		}else{
+			$('.avatar-change').addClass('display-none');
+			$('.no-image').removeClass('display-none');
+		}
+	}
 
 	function putImage() {
 		var src = document.getElementById("changeAvatarID");

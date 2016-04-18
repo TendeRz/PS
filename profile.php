@@ -137,7 +137,7 @@
 
 											<div class="form-group">
 												<div class="col-sm-offset-2 col-sm-10">
-													<button type="submit" form="changePasswordForm" class="btn btn-default password-update-button" name="changePassword"disabled="true">Update</button>
+													<button type="submit" form="changePasswordForm" class="btn btn-default password-update-button" name="changePassword" disabled="true">Update</button>
 												</div>
 											</div>
 										</form>
@@ -151,12 +151,15 @@
 								<div class="panel-body">
 									<form class="form-horizontal" action="./adds/queries.php" enctype='multipart/form-data' method="post" role="form" autocomplete="off" id="changeAvatar">
 										<div class="form-group">
-											<label style="padding-top: 55px" for="changeAvata" class="col-sm-2 control-label">New Avatar</label>
+											<label style="padding-top: 55px"  class="col-sm-2 control-label">New Avatar</label>
 											<div class="col-sm-3">
-												<input style="padding-top: 55px" type="file" id="changeAvatarID" accept="image/jpeg" name="avatarUpdate" onChange="putImage()" >
+												<input class="inputfile" style="padding-top: 55px" type="file" id="changeAvatarID" accept="image/jpeg" name="avatarUpdate" onChange="checkAvatar($(this).attr('id'))" >
+												<label class="btn btn-default" for="changeAvatarID" style="margin-top: 50px"> <span class="glyphicon glyphicon-download-alt"></span>  Select a File...</label>
 											</div>
 											<div class="col-sm-5">
 												<img class="avatar-change" id="selectedAvatar" />
+												<div class="display-none alert alert-danger no-image" role="alert" style="margin-top: 34px; margin-bottom: 34px"> <strong>Ooops! </strong> No Image Selected! </div>
+												<div class="display-none alert alert-danger wrong-image" role="alert" style="margin-top: 34px; margin-bottom: 34px"> <strong>Ooops! </strong> Wrong File Format! </div>
 											</div>
 										</div>
 										<div class="form-group">

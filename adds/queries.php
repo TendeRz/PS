@@ -95,6 +95,10 @@
         updatePassword($_POST['passwordUpdateNew'], $link);
     }
 
+    if(ISSET($_FILES['avatarUpdate']) && $_FILES['avatarUpdate']['size'] > 0){
+        updateAvatar($link);
+    }
+
     function sessionStart($myusername, $mypassword, $link){
         // To protect MySQL injection (more detail about MySQL injection)
         $myusername = stripslashes($myusername);
@@ -335,4 +339,19 @@
     mysqli_close($link);
     }
 
+    function updateAvatar($link){
+        
+        $username = $_SESSION['myusername'];
+        $tmpName = $_FILES['avatarUpdate']['tmp_name'];
+        $fp = fopen($tmpName, 'r');
+        $field = fread($fp, filesize($tmpName));
+        $field = addslashes($field);
+        //echo "Field: ".$field;
+        fclose($fp);
+        $sql = "UPDATE authorization SET avatar = '$field' WHERE username = '$username'";
+        $query = mysqli_query($link, $sql);
+        //header("content-type: image/jpeg");
+        header('Location: /root/PS/profile.php');
+    mysqli_close($link);
+    }
 ?>
