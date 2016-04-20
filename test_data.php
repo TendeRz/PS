@@ -3,9 +3,8 @@
 
 <html lang="en">
 <head>
-	<title>Test Data</title>
+	<title>Test Task List</title>
 	<link rel="stylesheet" type="text/css" href="/root/PS/css/bootstrap.css">		
-	<link rel="stylesheet" href="/root/PS/css/spoiler.css">
 	<link rel="stylesheet" type="text/css" href="/root/PS/css/my_style.css">
 
 </head>
@@ -15,38 +14,40 @@
 		include_once('./js/js.php');
 
 	?>
-	<div class="container" style="border-left: 1px solid #000000; border-right: 1px solid #000000; margin-top: 20px;">
-		<div style="border-bottom: 1px solid #000000">
+	<div class="container">
+		<div>
 			<?php
-
-			$tpline = selectAll('test_data');
-			foreach ($tpline as $key => $tpitem) {
-				echo '<div>'.$tpitem[0].'<br>'.$tpitem[1].'</div>';
+			$now = strtotime("yesterday");
+			$pushToFirst = -1;
+			for($i = $pushToFirst; $i < $pushToFirst+3; $i++)
+			{
+				$now = strtotime("+".$i." day");
+				$year = date("Y", $now);
+				$month = date("m", $now);
+				$day = date("d", $now);
+				$nowString = $year . "-" . $month . "-" . $day;
+				$week = (int) ((date('d', $now) - 1) / 7) + 1;
+				$weekday = date("N", $now);
+        		
+        		echo $nowString . "<br />";
+        		echo "Year :" . $year . "<br/>";
+        		echo "Month :" . $month . "<br/>";
+        		echo "Week :" . $week . "<br/>";
+        		echo "Day :" . $day . "<br/>";
+        		
 			}
 			?>
 		</div>
-		<div style="margin-top: 30px">
-			
-			<form action="./adds/queries.php" method="post">
-				Data Fields:
-				<textarea name="tptxtdata" id="tptxtdata" cols="30" rows="10"></textarea>
-					<script>
-						$(document).ready(function() {
-							CKEDITOR.replace( 'tptxtdata', {
-								"filebrowserUploadUrl": "/root/PS/kcfinder/upload.php?opener=ckeditor&type=files",
-								"filebrowserBrowseUrl": "/root/PS/kcfinder/browse.php?opener=ckeditor&type=files",
-								"filebrowserImageBrowseUrl": "/root/PS/kcfinder/browse.php?opener=ckeditor&type=files",
-								"filebrowserImageUploadUrl": "/root/PS/ckeditor/plugins/imgupload/iaupload.php",
-								imageUploadUrl: "/root/PS/ckeditor/plugins/imgupload/iaupload1.php?responseType=json"
 
-							});
-						});
-					</script>
-				<input type="submit" name="tpprocedrue">
-				<input type="submit" value="Delete" name="tpdelete" >
-				<input type="submit" value="Call" name="call" >
-			</form>
-
+		<div>
+			<?php 
+				$tasklist = selectTasks();
+				foreach ($tasklist as $key => $value) {
+					echo $value[0] . '<br/>';
+					echo $value[1] . '<br/>';
+					echo $value[2] . '<br/>';
+				}
+			?>
 		</div>
 	</div>
 

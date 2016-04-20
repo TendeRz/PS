@@ -354,4 +354,24 @@
         header('Location: /root/PS/profile.php');
     mysqli_close($link);
     }
+
+
+    function selectTasks(){
+        $link = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME)or die("Cannot Connect");
+        $sql = "SELECT T.taskname as task, TD.day as day, concat(TT.hours, ':', TT.minutes) as time
+                FROM tasks T
+                RIGHT JOIN taskdates TD ON TD.taskid = T.taskid
+                RIGHT JOIN tasktimes TT ON TT.taskid = T.taskid
+                WHERE (TD.year = 2016 or TD.year = '*')
+                      AND
+                      (TD.month = 4 or TD.month = '*')
+                      AND
+                      (TD.week = 4 or TD.week = '*')
+                      AND
+                      (TD.day = 3 or TD.day = '*')
+                ORDER BY time";
+                      
+        return(mysqli_fetch_all($link->query($sql)));
+    mysqli_close($link);
+    }
 ?>
