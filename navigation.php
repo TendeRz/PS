@@ -18,7 +18,7 @@
 				<li class="<?php echo ($_SERVER['PHP_SELF'] == '/root/PS/profile.php' ? ' active' : '');?>"><a href="/root/PS/profile.php">Profile</a></li>
 				<?php } ?>
 				<li class="<?php echo ($_SERVER['PHP_SELF'] == '/root/PS/procedure_list.php' ? ' active' : '');?>"><a href="/root/PS/procedure_list.php">Procedure Storage</a></li>
-				<li class="<?php echo ($_SERVER['PHP_SELF'] == '#' ? ' active' : '');?>"><a href="#">Task Planner</a></li>
+				<li class="<?php echo ($_SERVER['PHP_SELF'] == '/root/PS/test_data.php' ? ' active' : '');?>"><a href="/root/PS/test_data.php">Task Planner</a></li>
 				<li class="<?php echo ($_SERVER['PHP_SELF'] == '/root/PS/new_proc.php' ? ' active' : '');?>"><a href="/root/PS/new_proc.php">New Procedure</a></li>
 			</ul>
 			

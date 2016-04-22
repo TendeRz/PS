@@ -356,6 +356,7 @@
     }
 
 
+
     function selectTasks(){
         $link = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME)or die("Cannot Connect");
         $sql = "SELECT T.taskname as task, TD.day as day, concat(TT.hours, ':', TT.minutes) as time
@@ -370,7 +371,14 @@
                       AND
                       (TD.day = 3 or TD.day = '*')
                 ORDER BY time";
-                      
+
+        return(mysqli_fetch_all($link->query($sql)));
+    mysqli_close($link);
+    }
+
+    function selectInitState(){
+        $link = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME)or die("Cannot Connect");
+        $sql="SELECT * FROM taskstate WHERE taskstateid = 0 || taskstateid = 1";
         return(mysqli_fetch_all($link->query($sql)));
     mysqli_close($link);
     }
