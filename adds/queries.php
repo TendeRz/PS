@@ -120,9 +120,9 @@
     }
 
 
-	function selectAll($tableName = "countries"){
+	function selectAll($tableName = "countries", $order = 2){
 		$link = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME)or die("Cannot Connect");
-		$sql="SELECT*FROM $tableName ORDER BY 2 ASC";
+		$sql="SELECT*FROM $tableName ORDER BY $order ASC";
 		return(mysqli_fetch_all($link->query($sql)));
 		mysqli_close($link);
 	}
@@ -181,7 +181,7 @@
 
     function selectFuncArea($country_id){
         $link = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME)or die("Cannot Connect");
-        $sql = "SELECT DISTINCT proccountry, classfuncname, classfuncid FROM procedures, classfuncarea WHERE ProcFuncArea = ClassFuncID AND proccountry = '$country_id'";
+        $sql = "SELECT DISTINCT proccountry, classfuncname, classfuncid FROM procedures, classfuncarea WHERE ProcFuncArea = ClassFuncID AND proccountry = '$country_id' ORDER BY 2 ASC";
         return(mysqli_fetch_all($link->query($sql)));
         mysqli_close($link);
         //$sql = "SELECT * FROM classfuncarea";
