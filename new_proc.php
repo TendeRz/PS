@@ -17,6 +17,7 @@
             include_once('navigation.php');
             include_once('./adds/queries.php');
             include_once('./js/js.php');
+            include_once('./js/ck_editor_js.php');
             include_once('./adds/modal.php');
         ?>
     

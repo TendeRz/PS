@@ -1,12 +1,5 @@
 <script src="/root/PS/js/jquery-2.2.0.js"></script>
-<script src="/root/PS/js/jquery-1.12.0.min.js"> </script>
 <script src="/root/PS/js/bootstrap.js"></script>
-
-<script src="/root/PS/ckeditor/ckeditor.js"></script>
-
-
-
-<script src="/root/PS/js/spoiler.js"></script>
 
 <script>
 

@@ -6,27 +6,18 @@
 
 <html lang="en">
 <head>
-	<title>Test Task List</title>
+	<title>Task Planner</title>
 	<link rel="stylesheet" type="text/css" href="/root/PS/css/bootstrap.css">		
 	<link rel="stylesheet" type="text/css" href="/root/PS/css/my_style.css">
-	<link rel="stylesheet" type="text/css" href="/root/PS/datepicker/jsDatePick_ltr.min.css" />
-	<script type="text/javascript" src="/root/PS/datepicker/jsDatePick.min.1.3.js"></script>
-	<script type="text/javascript">
-		window.onload = function(){
-			new JsDatePick({
-				useMode:2,
-				target:"inputField",
-				dateFormat:"%Y-%m-%d"
-			});
-		};
-	</script>
+	<link rel="stylesheet" type="text/css" href="/root/PS/css/bootstrap-datetimepicker.css" />
+
 </head>
 <body>
 	<?php
 		include_once('./adds/queries.php');
 		include_once('./js/js.php');
+		include_once('./js/datepicker_js.php');
 	?>
-
 	<div class="container">
 		<?php 
 			include_once('login_check.php');
@@ -56,8 +47,21 @@
 						</div>
 						<label for="inputfield" class="col-sm-2 control-label margin-top-5">Start Date</label>
 						<div class="col-sm-10">
-							<input id="inputField" class="form-control" />
+							    
+							<input type='text' class="form-control" id='datetimepicker4' />
+							<script type="text/javascript">
+								$(function () {
+									$('#datetimepicker4').datetimepicker({
+										locale: 'en',
+										format: "DD/MM/YYYY HH:mm",
+										sideBySide: true
+									});
+								});
+        					</script>
+								
+							    
 						</div>
+
 						<label for="inputfield" class="col-sm-2 control-label margin-top-5">Select Schedule</label>
 						<div  class="col-sm-10">
 							<select class="form-control" name="Schedule">'
@@ -74,5 +78,11 @@
 		</div>
 	</div>
 
+    <script type="text/javascript">
+      $('#datetimepicker').datetimepicker({
+        format: 'dd/MM/yyyy hh:mm:ss',
+        language: 'en'
+      });
+    </script>
 </body>
 </html>
