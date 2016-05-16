@@ -32,19 +32,20 @@ session_start();
 		</div>
 
 
+
+
+
+
+
+		<div class="row">
+			<button id="addTime" class="btn" style="margin: 20px 0 20px 20px">Add Time</button>
+			<button onclick="testFunc()" id="postTime" class="btn" style="margin: 20px 0 20px 20px">Post</button>
+		</div>
 	</div>
-
-
-
-
-	<div class="row">
-		<button id="addTime" class="btn" style="margin: 20px 0 20px 20px">Select</button>
-	</div>
-
 	<script>
 		$(function () {
 			$('#addTime').on('click',function () {
-				$('.col-sm-12').append('<input type="text" class="form-control" />');
+				$('.col-sm-12').append('<input type="text" class="form-control addedTime" />');
 				$('.timeset input').each(function () {
 
 					$(this).datetimepicker({
@@ -55,6 +56,18 @@ session_start();
 				});
 			})
 		})
+
+		function testFunc() {
+			$(".timeset input[type=text]").each(function() {
+				if(isNaN(this.value)) {
+					console.log(this.value.substring(0,2) + ':' + this.value.substring(3,5));
+				} else {
+					console.log('empty value');
+				}
+
+			})
+			
+		}
 	</script>
 
 	<script type="text/javascript">
