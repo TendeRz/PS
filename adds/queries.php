@@ -99,6 +99,34 @@
         updateAvatar($link);
     }
 
+
+
+    if (ISSET($_POST['newSched'])){
+
+// NOTE: FINISH SWITCH//
+
+        switch ($_POST['Schedule']) {
+            case 1:
+                foreach($_POST['schedTimeset'] as $key => $timeItem){
+                    schedTestSet($timeItem);
+                }
+                break;
+            default:
+                insertNewSchedule();
+                break;
+        }        
+    }
+
+
+
+/////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////
+////////////////////////    FUNCTIONS   /////////////////////////////
+/////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////
+
+
+
     function sessionStart($myusername, $mypassword, $link){
         // To protect MySQL injection (more detail about MySQL injection)
         $myusername = stripslashes($myusername);
@@ -381,5 +409,17 @@
         $sql="SELECT * FROM taskstate WHERE taskstateid = 0 || taskstateid = 1";
         return(mysqli_fetch_all($link->query($sql)));
     mysqli_close($link);
+    }
+
+    function insertNewSchedule(){
+        print_r($_POST);
+
+        echo '<br>';
+        echo '<a href="../test_data.php">Back</a>';
+    }
+
+    function schedTestSet($timeset){
+        echo 'HR ' . substr($timeset, 0, 2) . '  MIN ' . substr($timeset, 3, 2);
+        echo '<br>';
     }
 ?>
