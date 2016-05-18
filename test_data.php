@@ -14,7 +14,6 @@
 </head>
 <body>
 	<?php
-		include_once('./adds/queries.php');
 		include_once('./js/js.php');
 		include_once('./js/datepicker_js.php');
 		include_once('./adds/queries.php');
@@ -24,13 +23,13 @@
 			include_once('login_check.php');
 			include_once('navigation.php');
 		?>
-
+	<form action="./adds/queries.php" enctype='multipart/form-data' method="post" role="form" autocomplete="off" id="scheduleInsertForm">
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title"> Schedule </h3>
 			</div>
 			<div class="panel-body">
-				<form action="./adds/queries.php" enctype='multipart/form-data' method="post" role="form" autocomplete="off" id="scheduleInsertForm">
+				<!-- <form action="./adds/queries.php" enctype='multipart/form-data' method="post" role="form" autocomplete="off" id="scheduleInsertForm"> -->
 					<div class="form-group">
 						<label class="col-sm-2 control-label margin-top-5">Subject</label>
 						<div class="col-sm-10">
@@ -188,11 +187,7 @@
 							</div>
 						</div>
 					</div>					
-					<div class="col-sm-2"></div>
-					<div class="col-sm-10">
-						<input  class="btn btn-default" type="submit" form="scheduleInsertForm" name="newSched" style="margin-top: 20px">
-					</div>
-				</form>
+				<!-- </form> -->
 			</div>
 		</div>
 		<div class="panel panel-default">
@@ -202,7 +197,7 @@
 			<div class="panel-body">
 				<label class="col-sm-2 control-label margin-top-5">System</label>
 				<div class="col-sm-10">
-					<select id="schedSelect" class="form-control" name="schedType">'
+					<select class="form-control" name="schedSystem">'
 						<?php 
 							$dropSystem = selectAll('classsystem', 2);
 							foreach ($dropSystem as $key => $dropSystemItem) {
@@ -214,7 +209,7 @@
 
 				<label class="col-sm-2 control-label margin-top-5">Country</label>
 				<div class="col-sm-10">
-					<select id="schedSelect" class="form-control" name="schedType">'
+					<select class="form-control" name="schedCountry">'
 						<?php 
 							$dropCountry = selectAll('classcountry', 2);
 							foreach ($dropCountry as $key => $dropCountryItem) {
@@ -226,7 +221,7 @@
 
 				<label class="col-sm-2 control-label margin-top-5">Functional Area</label>
 				<div class="col-sm-10">
-					<select id="schedSelect" class="form-control" name="schedType">'
+					<select class="form-control" name="schedFuncArea">'
 						<?php 
 							$dropFuncArea = selectAll('classfuncarea', 2);
 							foreach ($dropFuncArea as $key => $dropFuncAreaItem) {
@@ -235,8 +230,83 @@
 						?>
 					</select>
 				</div>
+
+				<label class="col-sm-2 control-label margin-top-5">Procedure</label>
+				<div class="col-sm-10">
+					<input id="schedProcID" type="text" class="form-control" placeholder="Task Name" name="schedProcedure" data-toggle="modal" data-target="#schedProcedureModal">
+					<div class="modal fade" id="schedProcedureModal" tabindex="-1" role="dialog" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+									<h4 class="modal-title">Select Procedure</h4>
+								</div>
+									
+								<div class="modal-body">								
+									<div>
+										<?php
+											include_once('./adds/queries.php');
+											$countryList = selectAll('classcountry');
+											$countryID=1;
+											foreach ($countryList as $key => $countrName) {
+												echo '<div class="panel-group procedure-list-group radio">';
+													echo '<div class="panel panel-primary">';
+														echo '<div class="panel-heading">';
+															echo '<h4 class="panel-title">';
+																echo '<a data-toggle="collapse" href="#collapse'.$countryID.'"><strong>'.$countrName[1].'</strong></a>';
+															echo '</h4>';
+														echo '</div>';
+														echo '<div id="collapse'.$countryID.'" class="panel-collapse collapse">';
+															echo '<ul class="list-group">';
+															
+															$funcAreaList = selectFuncArea($countrName[0]);
+															$funcAreaID=1;
+															foreach ($funcAreaList as $key => $funcAreaName){															
+																echo '<li class="list-group-item procedure-task-type-item">';
+																	echo '<div class="panel-heading">';
+																		echo '<h4 class="panel-title">';
+																			echo '<a data-toggle="collapse" href="#collapseFuncArea'.$countryID.''.$funcAreaID.'"><strong>'.$funcAreaName[1].'</strong></a>';
+																		echo '</h4>';
+																	echo '</div>';
+																	echo '<div id="collapseFuncArea'.$countryID.''.$funcAreaID.'" class="panel-collapse collapse">';
+																				echo '<ul class="list-group procedure-list-group">';
+																					$procList = selectProcedure($countrName[0], $funcAreaName[2]);
+																					foreach ($procList as $key => $procedureName) {
+																					echo '<li class="list-group-item procedure-list-item">';
+																						echo '<label><input type="radio" name="schedProcName" value="'.$procedureName[0].'" checked="">'.$procedureName[1].'</input></label>';
+																					echo '</li>';
+																					}
+																				echo '</ul>';
+																	echo '</div>';
+																echo '</li>';
+																$funcAreaID++;
+															}
+															echo '</ul>';
+														echo '</div>';
+														$countryID++;
+													echo '</div>';
+												echo '</div>';
+											}
+										?>
+									</div>
+								</div>
+									
+								<div class="modal-footer">
+									<div class="form-group">
+										<div class="col-sm-offset-2 col-sm-10">
+											<button type="button" class="btn btn-primary" id="schedAddProcedure" data-dismiss="modal">Add</button>
+											<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
+	</form>
+			<input  class="btn btn-default" type="submit" form="scheduleInsertForm" name="newSched" style="margin-top: 5px">
 	</div>
 
     <script type="text/javascript">
@@ -245,7 +315,14 @@
         	language: 'en'
       	});
 
-      	$(function () {      		
+      	$(function () {
+      		$('#schedAddProcedure').on('click', function () {
+				
+				$('#schedProcID').val($('input[type="radio"][name="schedProcName"]:checked').val());
+				//$('#schedProcID').val($('input[type="radio"][name="schedProcName"]:checked'));
+			})
+
+
 			$('#addTime').on('click',function () {
 				$('.timeset').append('<input type="text" class="form-control addedTime" name="schedTimeset[]"/>');				
 				$('.timeset input').each(function () {
