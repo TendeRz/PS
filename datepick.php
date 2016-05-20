@@ -48,9 +48,6 @@ session_start();
 		<label class="col-sm-2 control-label margin-top-5">Subject</label>
 		<div class="col-sm-6">
 			<input id="schedProcID" type="text" class="form-control" placeholder="Task Name" name="schedProcedure" data-toggle="modal" data-target="#schedProcedureModal">
-
-
-
 				<div class="modal fade" id="schedProcedureModal" tabindex="-1" role="dialog" aria-hidden="true">
 					<div class="modal-dialog">
 						<div class="modal-content">
