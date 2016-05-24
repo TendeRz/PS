@@ -53,7 +53,7 @@
 									$(function () {
 										$('#datetimepicker1').datetimepicker({
 											locale: 'en',
-											format: "DD/MM/YYYY",
+											format: "YYYY-MM-DD",
 											sideBySide: true
 										});
 									});
@@ -87,16 +87,17 @@
 									<div class="panel panel-default">
 										<div class="panel-body addTime">
 											Schedule will be set for every day of month.
+											
 											<input type='text' class="form-control" id='datetimepicker2' name="schedTimesetDaily"/>
 											<script type="text/javascript">
 												$(function () {
 													$('#datetimepicker2').datetimepicker({
 														locale: 'en',
-														format: "HH:mm",
-														sideBySide: true
+														format: "HH:mm"														
 													});
 												});
 											</script>
+
 										</div>
 									</div>
 								</div>
@@ -109,8 +110,7 @@
 												$(function () {
 													$('#datetimepicker3').datetimepicker({
 														locale: 'en',
-														format: "HH:mm",
-														sideBySide: true
+														format: "HH:mm"
 													});
 												});
 											</script>
@@ -180,8 +180,12 @@
 								<div id="schedOption6" class="schedulingOptions">
 									<div class="panel panel-default">
 										<div class="panel-body addTime">
-											To add custom Calendar.
+											<div class="customDateset">
+												
+											</div>
 										</div>
+										<button type="button" id="addCustomDate" class="btn" style="margin: 20px 0 20px 20px">Add Date Line</button>
+										<button type="button" id="removeCustomDate" class="btn" style="margin: 20px 0 20px 20px">Remove Date Line</button>
 									</div>
 								</div>
 							</div>
@@ -337,7 +341,7 @@
 
     <script type="text/javascript">
 		$('#datetimepicker').datetimepicker({
-        	format: 'dd/MM/yyyy hh:mm:ss',
+        	format: 'YYYY-MM-DD hh:mm:ss',
         	language: 'en'
       	});
 
@@ -362,6 +366,23 @@
 			$('#removeTime').on('click',function () {
 				$('.addedTime:last-child').remove();
 			})
+
+
+			$('#addCustomDate').on('click',function () {
+				$('.customDateset').append('<input type="text" class="form-control addedCustomDate" name="schedCustomTimeset[]"/>');				
+				$('.customDateset input').each(function () {
+
+					$(this).datetimepicker({
+						locale: 'en',
+						format: "YYYY-MM-DD HH:mm",
+						sideBySide: true
+					});
+				});
+			})
+
+			$('#removeCustomDate').on('click',function () {
+				$('.addedCustomDate:last-child').remove();
+			})			
 		})
 
       $('.schedulingOptions').hide();
