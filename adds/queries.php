@@ -112,6 +112,15 @@
             case 3:
                 insertScheduleDailyNoWeekend();
                 break;
+            case 4:
+                insertScheduleWeekly();
+                break;
+            case 5:
+                insertScheduleMonthly();
+                break;
+            case 6:
+                insertScheduleCustom();
+                break;
             default:
                 spoolPOST();
                 break;
@@ -421,7 +430,7 @@ $newTaskID;
 
     function selecttasklistz(){
         $link = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME)or die("Cannot Connect");
-        $sql = "SELECT * FROM tasks where taskid = 7";
+        $sql = "SELECT * FROM tasks";
         return(mysqli_fetch_all($link->query($sql)));
     mysqli_close($link);
     }
@@ -503,7 +512,7 @@ $newTaskID;
         $sql="INSERT INTO taskdates (taskid, taskstartdate, year, month, week, weekday, day) VALUES ('$newTaskID', '$schedStartDate' ,'all' ,'all' ,'all' ,'all' ,'all')";
 
         if (mysqli_query($link, $sql)) {
-            echo "New schedule created successfully";            
+            echo "New schedule created successfully";
 
             $taskHour = substr($schedTimesetDaily, 0, 2);
             $taskMinute = substr($schedTimesetDaily, 3, 2);
@@ -539,14 +548,96 @@ $newTaskID;
             foreach ($schedDayset as $key => $weekday) {
                 $sql="INSERT INTO taskdates (taskid, taskstartdate, year, month, week, weekday, day) VALUES ('$newTaskID', '$schedStartDate' ,'all' ,'all' ,'all' ,'$weekday' ,'all')";
                 if (mysqli_query($link, $sql)) {
-                    echo "Day added successfully <br />";            
+                    echo "Day added successfully <br />";
                 } else {
                     echo "Error: " . $sql . "<br>" . mysqli_error($link);
-                }   
+                }
             }
         } else {
             echo "Error: " . $sql . "<br>" . mysqli_error($link);
         }      
     mysqli_close($link);
-    } 
+    }
+
+    function insertScheduleWeekly(){
+        global $newTaskID, $link;
+        insertNewTask();
+        $schedStartDate = $_POST['schedStartDate'];
+        $schedTimesetWeekday = $_POST['schedTimesetWeekday'];
+        
+        $taskHour = substr($schedTimesetWeekday, 0, 2);
+        $taskMinute = substr($schedTimesetWeekday, 3, 2);
+
+        $sql2="INSERT INTO tasktimes (taskid, hours, minutes) VALUES ('$newTaskID', '$taskHour', '$taskMinute')";
+
+        if (mysqli_query($link, $sql2)) {
+            echo "Time added successfully <br />";
+            foreach ($_POST['schedWeekday'] as $key => $weekday) {
+                $sql="INSERT INTO taskdates (taskid, taskstartdate, year, month, week, weekday, day) VALUES ('$newTaskID', '$schedStartDate' ,'all' ,'all' ,'all' ,'$weekday' ,'all')";
+                 if (mysqli_query($link, $sql)) {
+                    echo "Day added successfully <br />";
+                } else {
+                    echo "Error: " . $sql . "<br>" . mysqli_error($link);
+                }                
+            }
+        } else {
+            echo "Error: " . $sql . "<br>" . mysqli_error($link);
+        }      
+    mysqli_close($link);
+    }
+
+    function  insertScheduleMonthly(){
+        global $newTaskID, $link;
+        insertNewTask();
+        $schedStartDate = $_POST['schedStartDate'];
+        $schedTimesetMonthday = $_POST['schedTimesetMonthday'];
+        
+        $taskHour = substr($schedTimesetMonthday, 0, 2);
+        $taskMinute = substr($schedTimesetMonthday, 3, 2);
+
+        $sql2="INSERT INTO tasktimes (taskid, hours, minutes) VALUES ('$newTaskID', '$taskHour', '$taskMinute')";
+
+        if (mysqli_query($link, $sql2)) {
+            echo "Time added successfully <br />";
+            foreach ($_POST['schedMonthday'] as $key => $monthday) {
+                $sql="INSERT INTO taskdates (taskid, taskstartdate, year, month, week, weekday, day) VALUES ('$newTaskID', '$schedStartDate' ,'all' ,'all' ,'all' ,'all' ,'$monthday')";
+                 if (mysqli_query($link, $sql)) {
+                    echo "Day added successfully <br />";
+                } else {
+                    echo "Error: " . $sql . "<br>" . mysqli_error($link);
+                }                
+            }
+        } else {
+            echo "Error: " . $sql . "<br>" . mysqli_error($link);
+        }      
+    mysqli_close($link);
+    }
+
+    function insertScheduleCustom(){
+        global $newTaskID, $link;
+        insertNewTask();
+        $schedStartDate = $_POST['schedStartDate'];
+
+        foreach ($_POST['schedCustomTimeset'] as $key => $customTimeSet) {
+            $taskYear = substr($customTimeSet, 0, 4);
+            $taskMonth = substr($customTimeSet, 5, 2);
+            $taskDay = substr($customTimeSet, 8, 2);
+            $taskHour = substr($customTimeSet, 11, 2);
+            $taskMinute = substr($customTimeSet, 14, 2);
+            $sql="INSERT INTO taskdates (taskid, taskstartdate, year, month, week, weekday, day) VALUES ('$newTaskID', '$schedStartDate' ,'$taskYear' ,'$taskMonth' ,'all' ,'all' ,'$taskDay')";
+            $sql2="INSERT INTO tasktimes (taskid, hours, minutes) VALUES ('$newTaskID', '$taskHour', '$taskMinute')";
+            if (mysqli_query($link, $sql2)) {
+                echo "Time added successfully <br />";
+                if (mysqli_query($link, $sql)) {
+                    echo "Day added successfully <br />";
+                } else {
+                    echo "Error: " . $sql . "<br>" . mysqli_error($link);
+                } 
+            } else {
+                echo "Error: " . $sql . "<br>" . mysqli_error($link);
+            }
+
+        }
+    mysqli_close($link);
+    }
 ?>

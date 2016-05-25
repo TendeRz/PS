@@ -86,18 +86,10 @@
 								<div id="schedOption2" class="schedulingOptions">
 									<div class="panel panel-default">
 										<div class="panel-body addTime">
-											Schedule will be set for every day of month.
-											
-											<input type='text' class="form-control" id='datetimepicker2' name="schedTimesetDaily"/>
-											<script type="text/javascript">
-												$(function () {
-													$('#datetimepicker2').datetimepicker({
-														locale: 'en',
-														format: "HH:mm"														
-													});
-												});
-											</script>
-
+											Schedule will be set for every day of month.											
+												<input type='text' class="form-control timeInput" name="schedTimesetDaily"/>
+											<div>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -105,15 +97,9 @@
 									<div class="panel panel-default">
 										<div class="panel-body addTime">
 											Schedule will be set for every day of month, excluding weekends.
-											<input type='text' class="form-control" id='datetimepicker3' name="schedTimesetNoWeekends"/>
-											<script type="text/javascript">
-												$(function () {
-													$('#datetimepicker3').datetimepicker({
-														locale: 'en',
-														format: "HH:mm"
-													});
-												});
-											</script>
+											<input type='text' class="form-control timeInput" name="schedTimesetNoWeekends"/>
+										<div>											
+										</div>
 										</div>
 									</div>
 								</div>
@@ -128,53 +114,59 @@
 											<label class="checkbox-inline"><input type="checkbox" name="schedWeekday[]" value="6"> Staurday</label>
 											<label class="checkbox-inline"><input type="checkbox" name="schedWeekday[]" value="7"> Sunday</label>
 										</div>
+										<input type='text' class="form-control timeInput" name="schedTimesetWeekday"/>
+										<div>
+										</div>
 									</div> 
 								</div>
 								<div id="schedOption5" class="schedulingOptions">
 									<div class="panel panel-default">
 										<div class="panel-body addTime">
 											<div class="row">
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="1"> 01 </input></label>
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="2"> 02 </input></label>
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="3"> 03 </input></label>
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="4"> 04 </input></label>
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="5"> 05 </input></label>
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="6"> 06 </input></label>
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="7"> 07 </input></label>
+												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="1"> 01 </label>
+												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="2"> 02 </label>
+												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="3"> 03 </label>
+												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="4"> 04 </label>
+												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="5"> 05 </label>
+												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="6"> 06 </label>
+												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="7"> 07 </label>
 											</div>
 											<div class="row">
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="8"> 08 </input></label>
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="9"> 09 </input></label>
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="10"> 10 </input></label>
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="11"> 11 </input></label>
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="12"> 12 </input></label>
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="13"> 13 </input></label>
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="14"> 14 </input></label>
+												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="8"> 08 </label>
+												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="9"> 09 </label>
+												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="10"> 10 </label>
+												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="11"> 11 </label>
+												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="12"> 12 </label>
+												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="13"> 13 </label>
+												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="14"> 14 </label>
 											</div>
 											<div class="row">
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="15"> 15 </input></label>
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="16"> 16 </input></label>
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="17"> 17 </input></label>
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="18"> 18 </input></label>
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="19"> 19 </input></label>
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="20"> 20 </input></label>
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="21"> 21 </input></label>
+												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="15"> 15 </label>
+												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="16"> 16 </label>
+												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="17"> 17 </label>
+												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="18"> 18 </label>
+												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="19"> 19 </label>
+												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="20"> 20 </label>
+												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="21"> 21 </label>
 											</div>
 											<div class="row">
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="22"> 22 </input></label>
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="23"> 23 </input></label>
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="24"> 24 </input></label>
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="25"> 25 </input></label>
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="26"> 26 </input></label>
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="27"> 27 </input></label>
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="28"> 28 </input></label>
+												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="22"> 22 </label>
+												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="23"> 23 </label>
+												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="24"> 24 </label>
+												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="25"> 25 </label>
+												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="26"> 26 </label>
+												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="27"> 27 </label>
+												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="28"> 28 </label>
 											</div>
 											<div class="row">
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="29"> 29 </input></label>
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="30"> 30 </input></label>
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="31"> 31 </input></label>
+												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="29"> 29 </label>
+												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="30"> 30 </label>
+												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="31"> 31 </label>
 											</div>
 										</div>
+										<input type='text' class="form-control timeInput" name="schedTimesetMonthday"/>
+										<div>
+										</div>										
 									</div>
 								</div>
 								<div id="schedOption6" class="schedulingOptions">
@@ -248,7 +240,6 @@
 									<div class="modal-body">
 										<div>
 											<?php
-												include_once('./adds/queries.php');
 												$countryList = selectAll('classcountry');
 												$countryID=1;
 												foreach ($countryList as $key => $countrName) {
@@ -340,28 +331,29 @@
 	</div>
 
     <script type="text/javascript">
-		$('#datetimepicker').datetimepicker({
-        	format: 'YYYY-MM-DD hh:mm:ss',
-        	language: 'en'
-      	});
+       	$(function () {
+			$('.timeInput').each(function(){
+				$(this).datetimepicker({
+					locale: 'en',
+					format: "HH:mm"	
+				})
+			});
 
-      	$(function () {
-      		$('#schedAddProcedure').on('click', function () {				
+      		$('#schedAddProcedure').on('click', function () {
 				$('#schedProcName').val($('input[type="radio"][name="schedProcID"]:checked').data('procid'));
 			})
 
 
 			$('#addTime').on('click',function () {
-				$('.timeset').append('<input type="text" class="form-control addedTime" name="schedTimeset[]"/>');				
+				$('.timeset').append('<input type="text" class="form-control addedTime" name="schedTimeset[]"/>');
 				$('.timeset input').each(function () {
 
 					$(this).datetimepicker({
 						locale: 'en',
-						format: "HH:mm",
-						sideBySide: true
+						format: "HH:mm"
 					});
 				});
-			})
+			});
 
 			$('#removeTime').on('click',function () {
 				$('.addedTime:last-child').remove();
@@ -369,7 +361,7 @@
 
 
 			$('#addCustomDate').on('click',function () {
-				$('.customDateset').append('<input type="text" class="form-control addedCustomDate" name="schedCustomTimeset[]"/>');				
+				$('.customDateset').append('<input type="text" class="form-control addedCustomDate" name="schedCustomTimeset[]"/>');
 				$('.customDateset input').each(function () {
 
 					$(this).datetimepicker({
