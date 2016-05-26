@@ -20,28 +20,37 @@
 		include_once('./adds/queries.php');
 	?>
 
-	<?php 
-		$showtaks = selecttasklistz();
-		foreach ($showtaks as $key => $showtaksitems) {
-			$id			= $showtaksitems[0];
-			$name		= $showtaksitems[1];
-			$state		= $showtaksitems[2];
-			$system		= $showtaksitems[3];
-			$country	= $showtaksitems[4];
-			$funcarea	= $showtaksitems[5];
-			$procedure	= $showtaksitems[6];
-			$descript	= $showtaksitems[7];
-		}
-	 ?>
-
-		<div><?php echo $id		?></div>
-		<div><?php echo $name	?></div>
-		<div><?php echo $state	?></div>
-		<div><?php echo $system	?></div>
-		<div><?php echo $country ?></div>
-		<div><?php echo $funcarea ?></div>
-		<div><?php echo $procedure ?></div>
-		<div><?php echo $descript ?></div>
+		<table class="table table-hover"> 
+			<thead> 
+				<tr> 
+					<th>#</th> 
+					<th>First Name</th> 
+					<th>Last Name</th> 
+					<th>Username</th> 
+				</tr> 
+			</thead> 
+			<tbody> 
+				<tr> 
+					<th scope="row">1</th> 
+					<td>Mark</td> 
+					<td>Otto</td> 
+					<td>@mdo</td> 
+				</tr> 
+				<tr> 
+					<th scope="row">2</th> 
+					<td>Jacob</td> 
+					<td>Thornton</td> 
+					<td>@fat</td> 
+				</tr> 
+				<tr> 
+					<th scope="row">3</th> 
+					<td>Larry</td> 
+					<td>the Bird</td> 
+					<td>@twitter</td> 
+				</tr> 
+			</tbody> 
+		</table>
+		
 	</div>
 </body>
 </html>

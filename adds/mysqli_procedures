@@ -1,0 +1,135 @@
+BEGIN
+
+INSERT INTO dstorage.tasklist(tasklistid, taskid, taskname, tasktime) 
+VALUES(NULL, new.taskid, 'temmp_taskname', 3333);
+
+END
+
+
+
+SELECT T.taskstate FROM taskstate T WHERE 'T.taskstateid' = 0 OR 'T.taskstateid' = 1
+
+SELECT
+CURDATE() as Today,
+concat(IF(TD.day='all',DAYOFMONTH(CURDATE()),TD.day), '/', IF(TD.month='all',MONTH(CURDATE()),TD.month)) as Date,
+concat(TT.hours, ':', TT.minutes) as Time,
+T.taskid as id,
+T.taskname as Name,
+CC.classcountryname as Country,
+TS.taskstate as State
+FROM tasks T
+RIGHT JOIN taskdates TD on TD.taskid = T.taskid
+RIGHT JOIN tasktimes TT on TT.taskid = T.taskid
+RIGHT JOIN classcountry CC on CC.ClassCountryID = T.taskcountry
+RIGHT JOIN taskstate TS on TS.taskstateid = T.taskinitstate
+WHERE
+(TD.year = 2016 or TD.year = 'all')
+AND
+(TD.month = 4 or TD.month = 'all')
+AND
+(TD.week = 4 or TD.week = 'all')
+AND
+(TD.weekday = 4 or TD.weekday = 'all')
+AND
+(TD.day = 3 or TD.day = 'all')
+ORDER BY TD.day, TT.hours
+
+
+
+SELECT
+CURDATE() as Today,
+concat(IF(TD.day='all',DAYOFMONTH(CURDATE()),TD.day), '/', IF(TD.month='all',MONTH(CURDATE()),TD.month)) as Date,
+concat(TT.hours, ':', TT.minutes) as Time,
+T.taskid as id,
+T.taskname as Name,
+CC.classcountryname as Country,
+TS.taskstate as State
+FROM tasks T
+RIGHT JOIN taskdates TD on TD.taskid = T.taskid
+RIGHT JOIN tasktimes TT on TT.taskid = T.taskid
+RIGHT JOIN classcountry CC on CC.ClassCountryID = T.taskcountry
+RIGHT JOIN taskstate TS on TS.taskstateid = T.taskinitstate
+WHERE
+(TD.year = YEAR(CURDATE()) or TD.year = 'all')
+AND
+(TD.month = MONTH(CURDATE()) or TD.month = 'all')
+AND
+(TD.week = WEEK(CURDATE()) or TD.week = 'all')
+AND
+(TD.weekday = WEEKDAY(CURDATE()) or TD.weekday = 'all')
+AND
+(TD.day = DAYOFMONTH(CURDATE()) or TD.day = 'all')
+ORDER BY TD.month, TD.day, TT.hours
+
+
+
+DROP PROCEDURE IF EXISTS taskListSelect;
+
+DELIMITER #
+CREATE PROCEDURE taskListSelect()
+BEGIN
+DECLARE enddate DATE DEFAULT ADDDATE(CURDATE(), 11);
+DECLARE today DATE DEFAULT CURDATE();
+DECLARE year, month, week, weekday, day INT;
+
+WHILE today < enddate DO
+
+	SET year = YEAR(today);
+	SET month = MONTH(today);
+	SET week = WEEK(today);
+	SET weekday = WEEKDAY(today);
+	SET day = DAYOFMONTH(today);
+
+	SELECT	
+	concat(IF(TD.day='all',day,TD.day), '/', IF(TD.month='all',month,TD.month)) as Date,
+	concat(TT.hours, ':', TT.minutes) as Time,
+	T.taskid as id,
+	T.taskname as Name,
+	CC.classcountryname as Country,
+	TS.taskstate as State
+	FROM tasks T
+	RIGHT JOIN taskdates TD on TD.taskid = T.taskid
+	RIGHT JOIN tasktimes TT on TT.taskid = T.taskid
+	RIGHT JOIN classcountry CC on CC.ClassCountryID = T.taskcountry
+	RIGHT JOIN taskstate TS on TS.taskstateid = T.taskinitstate
+	WHERE
+		(TD.year = year or TD.year = 'all')
+		AND
+		(TD.month = month or TD.month = 'all')
+		AND
+		(TD.week = week or TD.week = 'all')
+		AND
+		(TD.weekday = weekday or TD.weekday = 'all')
+		AND
+		(TD.day = day or TD.day = 'all')
+	ORDER BY Today;
+
+	SET today = ADDDATE(today, 1);
+END WHILE;
+END #
+
+DELIMITER ;
+
+CALL taskListSelect();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

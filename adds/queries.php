@@ -407,13 +407,13 @@ $newTaskID;
                 FROM tasks T
                 RIGHT JOIN taskdates TD ON TD.taskid = T.taskid
                 RIGHT JOIN tasktimes TT ON TT.taskid = T.taskid
-                WHERE (TD.year = 2016 or TD.year = '*')
+                WHERE (TD.year = 2016 or TD.year = 'all')
                       AND
-                      (TD.month = 4 or TD.month = '*')
+                      (TD.month = 4 or TD.month = 'all')
                       AND
-                      (TD.week = 4 or TD.week = '*')
+                      (TD.week = 4 or TD.week = 'all')
                       AND
-                      (TD.day = 3 or TD.day = '*')
+                      (TD.day = 3 or TD.day = 'all')
                 ORDER BY time";
 
         return(mysqli_fetch_all($link->query($sql)));
