@@ -7,42 +7,48 @@ session_start();
 <html lang="en">
 <head>
 	<title>Date Picker</title>
-
-
 	<link rel="stylesheet" type="text/css" href="/root/PS/css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="/root/PS/css/my_style.css">
+	<link rel="stylesheet" type="text/css" href="/root/PS/css/bootstrap-datetimepicker.css" />
 
 
-
-	<script src="/root/PS/js/jquery-2.2.0.js"> </script>
-	<script src="/root/PS/js/bootstrap.js"></script>
-
+	
 </head>
 <body>
-
 	<div class="container">
 		<?php 
-			$testarray = array(1, 2, 3, 4, 5);
+		include_once('./js/js.php');
+		include_once('./js/datepicker_js.php'); 
+		?>
 
-			function tester(){
-				echo "Start <br />";				
-				$testarray = array(1, 2, 3, 4, 5);
 
-				if (1){
-					echo "This should be only Once! <br />";
-					foreach ($testarray as $key => $dayset) {
-						echo "Day: $dayset <br />";
-					}
-				} else {
-					echo "Dunno whats wrong!";
-				}
-			}
+		<form action="./adds/queries.php" enctype='multipart/form-data' method="post" role="form" autocomplete="off" id="testform">
+			<div class="col-sm-10">
+				<div class="panel-body addTime">
+					<div class="timeset">
+						<input type='text' class="form-control" id='datetimepicker1' name="testtime"/>
+						<script type="text/javascript">
+							$(function () {
+								$('#datetimepicker1').datetimepicker({
+									locale: 'en',
+									format: "HH:mm"
+								});
+							});
+						</script>
 
-			tester();
-		 ?>
+						<input  class="btn btn-default" type="submit" form="testform" name="newtestform" value="Create" style="margin-top: 5px">
+					</div>
+				</div>
+			</div>
+		</form>
 
 	</div>
 
+
+
+	<script type="text/javascript">
+		
+	</script>
 
 
 

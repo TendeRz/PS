@@ -118,6 +118,64 @@ CALL taskListSelect();
 
 
 
+DROP TRIGGER taskListTrigger
+
+DELIMITER #
+CREATE TRIGGER taskListTrigger
+AFTER INSERT ON tasks FOR EACH ROW
+
+BEGIN
+DECLARE enddate DATE DEFAULT ADDDATE(CURDATE(), 5);
+DECLARE today DATE DEFAULT CURDATE();
+DECLARE year, month, week, weekday, day INT;
+DECLARE newTaskID INT;
+SET newTaskID = NEW.taskid;
+WHILE today < enddate DO
+
+	SET year = YEAR(today);
+	SET month = MONTH(today);
+	SET week = WEEK(today);
+	SET weekday = WEEKDAY(today);
+	SET day = DAYOFMONTH(today);
+
+
+	INSERT INTO tasklist
+	(taskid, taskname, tlistfulldate, tlistdate, tlisttime, tlistsystem, tlistcountry,
+	tlistfuncarea, tliststate, tlistprocedure, tlistdescription, tlistcreatedate, tlistcreatename, tlistcreatestate)
+	SELECT
+	T.taskid,
+	T.taskname,
+	today,
+	concat(IF(TD.day='all',day,TD.day), '/', IF(TD.month='all',month,TD.month)),
+	TT.starttime,
+	T.tasksystem,
+	T.taskcountry,
+	T.taskfuncarea,
+	T.taskinitstate,
+	T.taskprocedure,
+	T.taskdescription,
+	T.taskcreatedate,
+	T.taskcreatename,
+	T.taskinitstate
+	FROM  tasks T
+	RIGHT JOIN taskdates TD on TD.taskid = newTaskID
+	RIGHT JOIN tasktimes TT on TT.taskid = newTaskID
+	WHERE
+		(TD.year = year or TD.year = 'all')
+		AND
+		(TD.month = month or TD.month = 'all')
+		AND
+		(TD.week = week or TD.week = 'all')
+		AND
+		(TD.weekday = weekday or TD.weekday = 'all')
+		AND
+		(TD.day = day or TD.day = 'all')
+		AND
+		T.taskid = newTaskID;
+		
+	SET today = ADDDATE(today, 1);
+END WHILE;
+END #
 
 
 
@@ -126,10 +184,38 @@ CALL taskListSelect();
 
 
 
+DELIMITER #
+CREATE PROCEDURE clearScheduleTables()
+BEGIN
+TRUNCATE TABLE tasks;
+TRUNCATE TABLE tasklist;
+TRUNCATE TABLE taskdates;
+TRUNCATE TABLE tasktimes;
+END#
+
+
+DROP PROCEDURE clearScheduleTables
 
 
 
 
 
 
+
+CALL clearScheduleTables();
+DROP TRIGGER taskListTrigger;
+
+DELIMITER #
+CREATE TRIGGER taskListTrigger
+AFTER INSERT ON tasks FOR EACH ROW
+
+
+BEGIN
+DECLARE today DATE DEFAULT CURDATE();
+INSERT INTO tasklist (taskid, taskname, tlistfulldate, tlistdate)
+SELECT T.taskid, T.taskname, today, 44
+FROM tasks T
+RIGHT JOIN taskdates TD ON TD.taskid = T.taskid
+WHERE T.taskid = NEW.taskid;
+END#
 

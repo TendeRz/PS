@@ -127,6 +127,9 @@
         }        
     }
 
+    if (ISSET($_POST['newtestform'])){
+        testinsert();
+    }
 /////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////
 ////////////////////////     GLOBAL     /////////////////////////////
@@ -486,9 +489,9 @@ $newTaskID;
             echo "New schedule created successfully";
             //header("Location: {$_SERVER['HTTP_REFERER']}");
             foreach($_POST['schedTimeset'] as $key => $timeItem){
-                $taskHour = substr($timeItem, 0, 2);
-                $taskMinute = substr($timeItem, 3, 2);
-                $sql2="INSERT INTO tasktimes (taskid, hours, minutes) VALUES ('$newTaskID', '$taskHour', '$taskMinute')";
+                $starttime = substr($timeItem, 0, 5);
+    
+                $sql2="INSERT INTO tasktimes (taskid, starttime) VALUES ('$newTaskID', '$starttime')";
                 
                 if (mysqli_query($link, $sql2)) {
                     echo "<br>";
@@ -514,9 +517,9 @@ $newTaskID;
         if (mysqli_query($link, $sql)) {
             echo "New schedule created successfully";
 
-            $taskHour = substr($schedTimesetDaily, 0, 2);
-            $taskMinute = substr($schedTimesetDaily, 3, 2);
-            $sql2="INSERT INTO tasktimes (taskid, hours, minutes) VALUES ('$newTaskID', '$taskHour', '$taskMinute')";
+            $starttime = substr($schedTimesetDaily, 0, 5);
+
+            $sql2="INSERT INTO tasktimes (taskid, starttime) VALUES ('$newTaskID', '$starttime')";
 
             if (mysqli_query($link, $sql2)) {
                 echo "<br>";
@@ -538,10 +541,9 @@ $newTaskID;
         $schedTimesetNoWeekends = $_POST['schedTimesetNoWeekends'];
         $schedDayset = array(1, 2, 3, 4, 5);
 
-        $taskHour = substr($schedTimesetNoWeekends, 0, 2);
-        $taskMinute = substr($schedTimesetNoWeekends, 3, 2);
+        $starttime = substr($schedTimesetNoWeekends, 0, 5);
 
-        $sql2="INSERT INTO tasktimes (taskid, hours, minutes) VALUES ('$newTaskID', '$taskHour', '$taskMinute')";
+        $sql2="INSERT INTO tasktimes (taskid, starttime) VALUES ('$newTaskID', '$starttime')";
 
         if (mysqli_query($link, $sql2)) {
             echo "Time added successfully <br />";
@@ -565,10 +567,9 @@ $newTaskID;
         $schedStartDate = $_POST['schedStartDate'];
         $schedTimesetWeekday = $_POST['schedTimesetWeekday'];
         
-        $taskHour = substr($schedTimesetWeekday, 0, 2);
-        $taskMinute = substr($schedTimesetWeekday, 3, 2);
+        $starttime = substr($schedTimesetWeekday, 0, 5);
 
-        $sql2="INSERT INTO tasktimes (taskid, hours, minutes) VALUES ('$newTaskID', '$taskHour', '$taskMinute')";
+        $sql2="INSERT INTO tasktimes (taskid, starttime) VALUES ('$newTaskID', '$starttime')";
 
         if (mysqli_query($link, $sql2)) {
             echo "Time added successfully <br />";
@@ -592,10 +593,9 @@ $newTaskID;
         $schedStartDate = $_POST['schedStartDate'];
         $schedTimesetMonthday = $_POST['schedTimesetMonthday'];
         
-        $taskHour = substr($schedTimesetMonthday, 0, 2);
-        $taskMinute = substr($schedTimesetMonthday, 3, 2);
+        $starttime = substr($schedTimesetMonthday, 0, 5);
 
-        $sql2="INSERT INTO tasktimes (taskid, hours, minutes) VALUES ('$newTaskID', '$taskHour', '$taskMinute')";
+        $sql2="INSERT INTO tasktimes (taskid, starttime) VALUES ('$newTaskID', '$starttime')";
 
         if (mysqli_query($link, $sql2)) {
             echo "Time added successfully <br />";
@@ -622,10 +622,10 @@ $newTaskID;
             $taskYear = substr($customTimeSet, 0, 4);
             $taskMonth = substr($customTimeSet, 5, 2);
             $taskDay = substr($customTimeSet, 8, 2);
-            $taskHour = substr($customTimeSet, 11, 2);
-            $taskMinute = substr($customTimeSet, 14, 2);
+            $starttime = substr($customTimeSet, 11, 5);
+
             $sql="INSERT INTO taskdates (taskid, taskstartdate, year, month, week, weekday, day) VALUES ('$newTaskID', '$schedStartDate' ,'$taskYear' ,'$taskMonth' ,'all' ,'all' ,'$taskDay')";
-            $sql2="INSERT INTO tasktimes (taskid, hours, minutes) VALUES ('$newTaskID', '$taskHour', '$taskMinute')";
+            $sql2="INSERT INTO tasktimes (taskid, starttime) VALUES ('$newTaskID', '$starttime')";
             if (mysqli_query($link, $sql2)) {
                 echo "Time added successfully <br />";
                 if (mysqli_query($link, $sql)) {
@@ -640,4 +640,6 @@ $newTaskID;
         }
     mysqli_close($link);
     }
+
+    
 ?>
