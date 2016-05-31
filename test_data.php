@@ -106,13 +106,13 @@
 								<div id="schedOption4" class="schedulingOptions">
 									<div class="panel panel-default">
 										<div class="panel-body addTime">
-											<label class="checkbox-inline"><input type="checkbox" name="schedWeekday[]" value="1"> Monday</label>
-											<label class="checkbox-inline"><input type="checkbox" name="schedWeekday[]" value="2"> Tuesday</label>
-											<label class="checkbox-inline"><input type="checkbox" name="schedWeekday[]" value="3"> Wednesday</label>
-											<label class="checkbox-inline"><input type="checkbox" name="schedWeekday[]" value="4"> Thursday</label>
-											<label class="checkbox-inline"><input type="checkbox" name="schedWeekday[]" value="5"> Friday</label>
-											<label class="checkbox-inline"><input type="checkbox" name="schedWeekday[]" value="6"> Staurday</label>
-											<label class="checkbox-inline"><input type="checkbox" name="schedWeekday[]" value="7"> Sunday</label>
+											<label class="checkbox-inline"><input type="checkbox" name="schedWeekday[]" value="0"> Monday</label>
+											<label class="checkbox-inline"><input type="checkbox" name="schedWeekday[]" value="1"> Tuesday</label>
+											<label class="checkbox-inline"><input type="checkbox" name="schedWeekday[]" value="2"> Wednesday</label>
+											<label class="checkbox-inline"><input type="checkbox" name="schedWeekday[]" value="3"> Thursday</label>
+											<label class="checkbox-inline"><input type="checkbox" name="schedWeekday[]" value="4"> Friday</label>
+											<label class="checkbox-inline"><input type="checkbox" name="schedWeekday[]" value="5"> Staurday</label>
+											<label class="checkbox-inline"><input type="checkbox" name="schedWeekday[]" value="6"> Sunday</label>
 										</div>
 										<input type='text' class="form-control timeInput" name="schedTimesetWeekday"/>
 										<div>

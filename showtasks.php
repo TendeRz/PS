@@ -23,34 +23,40 @@
 		<table class="table table-hover"> 
 			<thead> 
 				<tr> 
-					<th>#</th> 
-					<th>First Name</th> 
-					<th>Last Name</th> 
-					<th>Username</th> 
+					<th>Start Date</th> 
+					<th>Start Time</th> 
+					<th>Country</th>
+					<th>Subject</th>
+					<th>Status</th>
+					<th>System</th>
 				</tr> 
 			</thead> 
 			<tbody> 
-				<tr> 
-					<th scope="row">1</th> 
-					<td>Mark</td> 
-					<td>Otto</td> 
-					<td>@mdo</td> 
-				</tr> 
-				<tr> 
-					<th scope="row">2</th> 
-					<td>Jacob</td> 
-					<td>Thornton</td> 
-					<td>@fat</td> 
-				</tr> 
-				<tr> 
-					<th scope="row">3</th> 
-					<td>Larry</td> 
-					<td>the Bird</td> 
-					<td>@twitter</td> 
-				</tr> 
+	<?php 
+		$taskList = selectTaskList();
+		$counter = 1;
+		foreach ($taskList as $key => $taskListItem) {
+			$startDate = $taskListItem[0];
+			$startTime = $taskListItem[1];
+			$country = $taskListItem[2];
+			$subject = $taskListItem[3];
+			$status = $taskListItem[4];
+			$system = $taskListItem[5];
+		echo
+ 				"<tr> 
+					<td>".$startDate."</td> 
+					<td>".$startTime."</td> 
+					<td>".$country."</td> 
+					<td>".$subject."</td> 
+					<td>".$status."</td> 
+					<td>".$system."</td> 
+				</tr>";
+				 }?>
 			</tbody> 
 		</table>
-		
+
+
+
 	</div>
 </body>
 </html>

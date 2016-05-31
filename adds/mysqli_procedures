@@ -117,19 +117,19 @@ CALL taskListSelect();
 
 
 
-
-DROP TRIGGER taskListTrigger
+CALL clearScheduleTables();
+DROP TRIGGER taskListTrigger;
 
 DELIMITER #
 CREATE TRIGGER taskListTrigger
-AFTER INSERT ON tasks FOR EACH ROW
+AFTER INSERT ON newtask FOR EACH ROW
 
 BEGIN
 DECLARE enddate DATE DEFAULT ADDDATE(CURDATE(), 5);
 DECLARE today DATE DEFAULT CURDATE();
 DECLARE year, month, week, weekday, day INT;
 DECLARE newTaskID INT;
-SET newTaskID = NEW.taskid;
+SET newTaskID = NEW.newtask;
 WHILE today < enddate DO
 
 	SET year = YEAR(today);
@@ -140,7 +140,7 @@ WHILE today < enddate DO
 
 
 	INSERT INTO tasklist
-	(taskid, taskname, tlistfulldate, tlistdate, tlisttime, tlistsystem, tlistcountry,
+	(taskid, taskname, tlistfulldate, tlisttime, tlistsystem, tlistcountry,
 	tlistfuncarea, tliststate, tlistprocedure, tlistdescription, tlistcreatedate, tlistcreatename, tlistcreatestate)
 	SELECT
 	T.taskid,
@@ -158,8 +158,8 @@ WHILE today < enddate DO
 	T.taskcreatename,
 	T.taskinitstate
 	FROM  tasks T
-	RIGHT JOIN taskdates TD on TD.taskid = newTaskID
-	RIGHT JOIN tasktimes TT on TT.taskid = newTaskID
+	RIGHT JOIN taskdates TD on TD.taskid = NEW.newtask
+	RIGHT JOIN tasktimes TT on TT.taskid = NEW.newtask
 	WHERE
 		(TD.year = year or TD.year = 'all')
 		AND
@@ -171,7 +171,7 @@ WHILE today < enddate DO
 		AND
 		(TD.day = day or TD.day = 'all')
 		AND
-		T.taskid = newTaskID;
+		T.taskid = NEW.newtask;
 		
 	SET today = ADDDATE(today, 1);
 END WHILE;
@@ -195,27 +195,33 @@ END#
 
 
 DROP PROCEDURE clearScheduleTables
-
-
-
-
-
-
-
 CALL clearScheduleTables();
 DROP TRIGGER taskListTrigger;
 
-DELIMITER #
-CREATE TRIGGER taskListTrigger
-AFTER INSERT ON tasks FOR EACH ROW
 
 
-BEGIN
-DECLARE today DATE DEFAULT CURDATE();
-INSERT INTO tasklist (taskid, taskname, tlistfulldate, tlistdate)
-SELECT T.taskid, T.taskname, today, 44
-FROM tasks T
-RIGHT JOIN taskdates TD ON TD.taskid = T.taskid
-WHERE T.taskid = NEW.taskid;
-END#
 
+
+SELECT
+CONCAT(LPAD(MONTH(TL.tlistfulldate),2,0),'/',LPAD(DAYOFMONTH(TL.tlistfulldate),2,0)) AS 'Start Date',
+TIME_FORMAT(TL.tlisttime, '%H:%i') AS 'Start Time',
+CC.ClassCountryName AS Country,
+TL.taskname AS Subject,
+TS.taskstate AS Status,
+CS.ClassSysName AS System
+FROM tasklist TL, classcountry CC, classfuncarea CF, classsystem CS, taskstate TS, procedures P
+WHERE
+	TL.tlistfulldate >= CURDATE()
+	AND
+	TL.tlistsystem = CS.classsysid
+	AND
+	TL.tlistcountry = CC.classcountryid
+	AND
+	TL.tlistfuncarea = CF.classfuncid
+	AND
+	TL.tliststate = TS.taskstateid
+	AND
+	TL.tlistprocedure = P.procid
+	AND
+	TL.tlistcreatestate = TS.taskstateid
+ORDER BY TL.tlistfulldate, TL.tlisttime;

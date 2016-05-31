@@ -430,15 +430,6 @@ $newTaskID;
     mysqli_close($link);
     }
 
-
-    function selecttasklistz(){
-        $link = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME)or die("Cannot Connect");
-        $sql = "SELECT * FROM tasks";
-        return(mysqli_fetch_all($link->query($sql)));
-    mysqli_close($link);
-    }
-
-
     function spoolPOST(){
 
         echo "<pre>";
@@ -479,6 +470,17 @@ $newTaskID;
         echo '<br>';
     }
 
+    function trigger(){        
+        global $newTaskID, $link;
+
+        $sql="INSERT INTO newtask (newtask) VALUES ('$newTaskID')";
+        if (mysqli_query($link, $sql)) {
+            echo "Trigger Should be Go";            
+        } else {
+            echo "Error: " . $sql . "<br>" . mysqli_error($link);
+        }
+    }
+
     function insertScheduleMoreThenOnce(){
         global $newTaskID, $link;
         insertNewTask();
@@ -502,7 +504,8 @@ $newTaskID;
             }
         } else {
             echo "Error: " . $sql . "<br>" . mysqli_error($link);
-        }        
+        }
+    trigger();
     mysqli_close($link);
     }
 
@@ -530,7 +533,8 @@ $newTaskID;
             
         } else {
             echo "Error: " . $sql . "<br>" . mysqli_error($link);
-        }        
+        }
+    trigger();
     mysqli_close($link);
     }    
 
@@ -539,7 +543,7 @@ $newTaskID;
         insertNewTask();
         $schedStartDate = $_POST['schedStartDate'];
         $schedTimesetNoWeekends = $_POST['schedTimesetNoWeekends'];
-        $schedDayset = array(1, 2, 3, 4, 5);
+        $schedDayset = array(0, 1, 2, 3, 4);
 
         $starttime = substr($schedTimesetNoWeekends, 0, 5);
 
@@ -557,7 +561,8 @@ $newTaskID;
             }
         } else {
             echo "Error: " . $sql . "<br>" . mysqli_error($link);
-        }      
+        }
+    trigger();
     mysqli_close($link);
     }
 
@@ -583,7 +588,8 @@ $newTaskID;
             }
         } else {
             echo "Error: " . $sql . "<br>" . mysqli_error($link);
-        }      
+        }
+    trigger();
     mysqli_close($link);
     }
 
@@ -609,16 +615,20 @@ $newTaskID;
             }
         } else {
             echo "Error: " . $sql . "<br>" . mysqli_error($link);
-        }      
+        }
+    trigger();
     mysqli_close($link);
     }
 
     function insertScheduleCustom(){
         global $newTaskID, $link;
-        insertNewTask();
+        
         $schedStartDate = $_POST['schedStartDate'];
 
         foreach ($_POST['schedCustomTimeset'] as $key => $customTimeSet) {
+
+            insertNewTask();
+
             $taskYear = substr($customTimeSet, 0, 4);
             $taskMonth = substr($customTimeSet, 5, 2);
             $taskDay = substr($customTimeSet, 8, 2);
@@ -637,9 +647,44 @@ $newTaskID;
                 echo "Error: " . $sql . "<br>" . mysqli_error($link);
             }
 
+            trigger();
         }
+    
     mysqli_close($link);
     }
 
+    function selectTaskList(){
+        global $link;
+        $sql="SELECT
+                CONCAT(LPAD(MONTH(TL.tlistfulldate),2,0),'/',LPAD(DAYOFMONTH(TL.tlistfulldate),2,0)) AS 'Start Date',
+                TIME_FORMAT(TL.tlisttime, '%H:%i') AS 'Start Time',
+                CC.ClassCountryName AS Country,
+                TL.taskname AS Subject,
+                TS.taskstate AS Status,
+                CS.ClassSysName AS System
+                FROM tasklist TL, classcountry CC, classfuncarea CF, classsystem CS, taskstate TS, procedures P
+                WHERE
+                    TL.tlistfulldate >= CURDATE()
+                    AND
+                    TL.tlistsystem = CS.classsysid
+                    AND
+                    TL.tlistcountry = CC.classcountryid
+                    AND
+                    TL.tlistfuncarea = CF.classfuncid
+                    AND
+                    TL.tliststate = TS.taskstateid
+                    AND
+                    TL.tlistprocedure = P.procid
+                    AND
+                    TL.tlistcreatestate = TS.taskstateid
+                ORDER BY TL.tlistfulldate, TL.tlisttime;";
+                if (mysqli_query($link, $sql)) {
+                    return(mysqli_fetch_all($link->query($sql)));
+                } else {
+                    echo "Error: " . $sql . "<br>" . mysqli_error($link);
+                }
+        
+        mysqli_close($link);
+    }
     
 ?>
