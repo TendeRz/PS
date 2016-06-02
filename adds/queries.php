@@ -466,7 +466,7 @@ $newTaskID;
 
 
         echo '<br>';
-        echo '<a href="../test_data.php">Back</a>';
+        echo '<a href="../new_task.php">Back</a>';
         echo '<br>';
     }
 
@@ -655,13 +655,14 @@ $newTaskID;
 
     function selectTaskList(){
         global $link;
-        $sql="SELECT
+        $sql="SELECT                
                 CONCAT(LPAD(MONTH(TL.tlistfulldate),2,0),'/',LPAD(DAYOFMONTH(TL.tlistfulldate),2,0)) AS 'Start Date',
                 TIME_FORMAT(TL.tlisttime, '%H:%i') AS 'Start Time',
                 CC.ClassCountryName AS Country,
                 TL.taskname AS Subject,
                 TS.taskstate AS Status,
-                CS.ClassSysName AS System
+                CS.ClassSysName AS System,
+                TL.tasklistid AS ID
                 FROM tasklist TL, classcountry CC, classfuncarea CF, classsystem CS, taskstate TS, procedures P
                 WHERE
                     TL.tlistfulldate >= CURDATE()
@@ -686,5 +687,40 @@ $newTaskID;
         
         mysqli_close($link);
     }
+  
     
+    function selectTask($taskid){
+        global $link;
+        $sql="SELECT
+                TL.taskname,
+                CONCAT(TL.tlistfulldate,'  ', TIME_FORMAT(TL.tlisttime, '%H:%i')),
+                TS.taskstate,
+                CS.ClassSysName,
+                CF.classfuncname,
+                CC.ClassCountryName,
+                P.proctitle,
+                TL.tlistprocedure,
+                TL.tlistdescription,
+                TL.tlistcreatedate,
+                TL.tlistcreatename
+                FROM tasklist TL, classcountry CC, classfuncarea CF, classsystem CS, taskstate TS, procedures P
+                WHERE
+                    TL.tlistsystem = CS.classsysid
+                    AND
+                    TL.tlistcountry = CC.classcountryid
+                    AND
+                    TL.tlistfuncarea = CF.classfuncid
+                    AND
+                    TL.tliststate = TS.taskstateid
+                    AND
+                    TL.tlistprocedure = P.procid
+                    AND
+                    TL.tasklistid = '$taskid'";
+            if (mysqli_query($link, $sql)) {
+                    return(mysqli_fetch_all($link->query($sql)));
+                } else {
+                    echo "Error: " . $sql . "<br>" . mysqli_error($link);
+                }        
+        mysqli_close($link);
+    }
 ?>

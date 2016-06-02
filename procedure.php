@@ -7,7 +7,7 @@
 	<?php
 		$procidd = $_GET['procID'];
 		$procname = $_GET['procName'];
-		echo '<title>Procedure: '.$procname.'</title>';
+		echo '<title>Proc: '.$procname.'</title>';
 	?>
 	
 	<link rel="stylesheet" type="text/css" href="/root/PS/css/bootstrap.css">
@@ -16,7 +16,6 @@
 <body>
 <?php 
 		include_once('login_check.php');
-
         include_once('./adds/queries.php');
     ?>
     <div class="container" >

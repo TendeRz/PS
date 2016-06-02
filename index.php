@@ -15,13 +15,8 @@
 			if(ISSET($_SESSION['myusername'])){
 				include_once('navigation.php');
 		?>	
-					<div>
-						<ul class="nav navbar-nav">
-							<li><a href="procedure_list.php">Procedure Storages</a></li>
-							<li><a href="#">Task Planner</a></li>
-							<li><a href="logout.php">Logout</a></li>
-						</ul>
-						<button id="logoutBTN" class="btn btn-primary" onClick="location.href='logout.php'">Logout</button>
+					<div class="container">
+					<img src="/root/PS/img/JB.jpg" alt="JB">
 					</div>
 			<?php 
 				}else{

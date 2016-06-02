@@ -6,7 +6,7 @@
 
 <html lang="en">
 <head>
-	<title>Task Planner</title>
+	<title>New Task</title>
 	<link rel="stylesheet" type="text/css" href="/root/PS/css/bootstrap.css">		
 	<link rel="stylesheet" type="text/css" href="/root/PS/css/my_style.css">
 	<link rel="stylesheet" type="text/css" href="/root/PS/css/bootstrap-datetimepicker.css" />

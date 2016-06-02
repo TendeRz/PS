@@ -61,7 +61,7 @@
                                             echo '<option value='.$dropSystItem[0].'>'.$dropSystItem[1].'</option>';
                                             }
                                         echo '</select>';
-                                        echo '<button type="button" data-toggle="modal" data-target="#newSystemModal" class="btn btn-default btn-xs newProc-Button-Add">Add System</button>';
+                                        echo '<button type="button" data-toggle="modal" data-target="#newSystemModal" class="btn btn-default btn-xs newProc-Button-Add" disabled="true">Add System</button>';
                                     echo'</div>';
                                 echo'</div>';
                                 ?>
@@ -77,7 +77,7 @@
                                             echo '<option value='.$dropCountryItem[0].'>'.$dropCountryItem[1].'</option>';
                                             }
                                         echo '</select>';
-                                        echo '<button type="button" data-toggle="modal" data-target="#newCountryModal" class="btn btn-default btn-xs newProc-Button-Add">Add Country</button>';
+                                        echo '<button type="button" data-toggle="modal" data-target="#newCountryModal" class="btn btn-default btn-xs newProc-Button-Add" disabled="true">Add Country</button>';
                                     echo'</div>';
                                 echo'</div>';
                                 ?>
@@ -93,7 +93,7 @@
                                             echo '<option value='.$dropFuncItem[0].'>'.$dropFuncItem[1].'</option>';
                                             }
                                         echo '</select>';
-                                        echo '<button type="button" data-toggle="modal" data-target="#newFuncAreaModal" class="btn btn-default btn-xs newProc-Button-Add">Add Functional Area</button>';
+                                        echo '<button type="button" data-toggle="modal" data-target="#newFuncAreaModal" class="btn btn-default btn-xs newProc-Button-Add" disabled="true">Add Functional Area</button>';
                                     echo'</div>';
                                 echo'</div>';
                                 ?>
@@ -278,7 +278,7 @@
                     </div>
                 </div>
 
-                <input  class="btn btn-primary btn-lg" type="submit" name="newProcedure" style="margin-top: 20px">
+                <input  class="btn btn-primary btn-lg" type="submit" name="newProcedure" style="margin-top: 20px" disabled="true">
             </form>
         </div>
     </div>

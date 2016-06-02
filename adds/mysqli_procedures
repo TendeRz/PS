@@ -112,8 +112,16 @@ DELIMITER ;
 
 CALL taskListSelect();
 
+DELIMITER #
+CREATE TRIGGER temptrigger
+AFTER INSERT ON tasklist FOR EACH ROW
 
+BEGIN
+DECLARE insertedid INT;
+SET insertedid NEW.tasklistid;
 
+INSERT INTO temptable (tempusername, temptaskid) VALUES (CURRENT_USER(), insertedid);
+END #
 
 
 
@@ -146,7 +154,6 @@ WHILE today < enddate DO
 	T.taskid,
 	T.taskname,
 	today,
-	concat(IF(TD.day='all',day,TD.day), '/', IF(TD.month='all',month,TD.month)),
 	TT.starttime,
 	T.tasksystem,
 	T.taskcountry,
@@ -161,6 +168,8 @@ WHILE today < enddate DO
 	RIGHT JOIN taskdates TD on TD.taskid = NEW.newtask
 	RIGHT JOIN tasktimes TT on TT.taskid = NEW.newtask
 	WHERE
+		TD.taskstartdate <= today
+		AND
 		(TD.year = year or TD.year = 'all')
 		AND
 		(TD.month = month or TD.month = 'all')
@@ -225,3 +234,23 @@ WHERE
 	AND
 	TL.tlistcreatestate = TS.taskstateid
 ORDER BY TL.tlistfulldate, TL.tlisttime;
+
+
+
+
+
+
+
+CALL taskListSelect();
+
+DELIMITER #
+CREATE TRIGGER temptrigger
+AFTER INSERT ON tasklist FOR EACH ROW
+
+BEGIN
+DECLARE insertedid INT;
+DECLARE inserter VAR;
+SET insertedid = NEW.tasklistid;
+
+INSERT INTO temptable (tempusername, temptaskid) VALUES (CURRENT_USER(), insertedid);
+END #

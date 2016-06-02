@@ -6,7 +6,7 @@
 
 <html lang="en">
 <head>
-	<title>Task List</title>
+	<title>Task Planner</title>
 	<link rel="stylesheet" type="text/css" href="/root/PS/css/bootstrap.css">		
 	<link rel="stylesheet" type="text/css" href="/root/PS/css/my_style.css">	
 
@@ -33,8 +33,7 @@
 			</thead> 
 			<tbody> 
 	<?php 
-		$taskList = selectTaskList();
-		$counter = 1;
+		$taskList = selectTaskList();		
 		foreach ($taskList as $key => $taskListItem) {
 			$startDate = $taskListItem[0];
 			$startTime = $taskListItem[1];
@@ -42,15 +41,16 @@
 			$subject = $taskListItem[3];
 			$status = $taskListItem[4];
 			$system = $taskListItem[5];
+			$taskid = $taskListItem[6];
 		echo
- 				"<tr> 
-					<td>".$startDate."</td> 
-					<td>".$startTime."</td> 
-					<td>".$country."</td> 
-					<td>".$subject."</td> 
-					<td>".$status."</td> 
-					<td>".$system."</td> 
-				</tr>";
+ 				'<tr> 
+					<td>'.$startDate.'</td> 
+					<td>'.$startTime.'</td> 
+					<td>'.$country.'</td>
+					<td><a href="task.php?taskid='.$taskid.'" target="_blank">'.$subject.'</a></td>					
+					<td>'.$status.'</td> 
+					<td>'.$system.'</td> 
+				</tr>';
 				 }?>
 			</tbody> 
 		</table>
