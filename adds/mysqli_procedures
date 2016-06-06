@@ -254,3 +254,136 @@ SET insertedid = NEW.tasklistid;
 
 INSERT INTO temptable (tempusername, temptaskid) VALUES (CURRENT_USER(), insertedid);
 END #
+
+
+
+DELIMITER #
+CREATE PROCEDURE historyBackup()
+BEGIN
+INSERT INTO tasklisthistory (tasklistid, taskid, taskname, tlistfulldate, tlisttime, tlistsystem,
+	tlistcountry, tlistfuncarea, tliststate, tlistprocedure, tlistdescription, tlistcreatedate,
+	tlistcreatename, tlistcreatestate)
+SELECT tasklistid, taskid, taskname, tlistfulldate, tlisttime, tlistsystem,
+	tlistcountry, tlistfuncarea, tliststate, tlistprocedure, tlistdescription, tlistcreatedate,
+	tlistcreatename, tlistcreatestate FROM tasklist WHERE tlistfulldate < ADDDATE(CURDATE(), -4);
+DELETE FROM tasklist WHERE tlistfulldate < ADDDATE(CURDATE(), -4);
+END #
+
+
+SELECT * FROM tasklist
+ORDER BY tlistfulldate DESC
+LIMIT 1
+
+
+DELIMITER #
+CREATE PROCEDURE updateTaskListTest()
+BEGIN
+DECLARE done INT DEFAULT FALSE;
+DECLARE dectaskid INT;
+DECLARE enddate DATE DEFAULT ADDDATE(CURDATE(), 3);
+DECLARE startdate DATE;
+DECLARE decfulldate DATE;
+DECLARE year, month, week, weekday, day INT;
+DECLARE cursortask CURSOR FOR SELECT taskid FROM tasks;
+DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+
+OPEN cursortask;
+
+	read_loop: LOOP
+		FETCH cursortask INTO dectaskid;
+		IF done THEN
+			LEAVE read_loop;
+		END IF;
+		SELECT tlistfulldate INTO decfulldate FROM tasklist WHERE taskid = dectaskid ORDER BY tlistfulldate DESC LIMIT 1;
+		IF decfulldate < enddate THEN
+			SET startdate = ADDDATE(decfulldate, 1);
+			WHILE startdate < enddate DO
+
+				INSERT INTO temptable (taskdate, newdate, taskid, confirm) VALUES (decfulldate, startdate, dectaskid, 'YES');
+					
+				SET startdate = ADDDATE(startdate, 1);
+			END WHILE;
+		ELSE
+			INSERT INTO temptable (taskdate, newdate, taskid, confirm) VALUES (decfulldate, startdate, dectaskid, 'NO');
+		END IF;
+	END LOOP;
+CLOSE cursortask;
+END #
+
+
+
+DELIMITER #
+CREATE PROCEDURE updateTaskList()
+BEGIN
+DECLARE done INT DEFAULT FALSE;
+DECLARE dectaskid INT;
+DECLARE enddate DATE DEFAULT ADDDATE(CURDATE(), 15);
+DECLARE startdate DATE;
+DECLARE decfulldate DATE;
+DECLARE year, month, week, weekday, day INT;
+DECLARE cursortask CURSOR FOR SELECT taskid FROM tasks;
+DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+
+OPEN cursortask;
+
+	read_loop: LOOP
+		FETCH cursortask INTO dectaskid;
+		IF done THEN
+			LEAVE read_loop;
+		END IF;
+		SELECT tlistfulldate INTO decfulldate FROM tasklist WHERE taskid = dectaskid ORDER BY tlistfulldate DESC LIMIT 1;
+		IF decfulldate < enddate THEN
+			SET startdate = ADDDATE(decfulldate, 1);
+			WHILE startdate < enddate DO
+
+				SET year = YEAR(startdate);
+				SET month = MONTH(startdate);
+				SET week = WEEK(startdate);
+				SET weekday = WEEKDAY(startdate);
+				SET day = DAYOFMONTH(startdate);
+
+
+				INSERT INTO tasklist
+				(taskid, taskname, tlistfulldate, tlisttime, tlistsystem, tlistcountry,
+				tlistfuncarea, tliststate, tlistprocedure, tlistdescription, tlistcreatedate, tlistcreatename, tlistcreatestate)
+				SELECT
+				T.taskid,
+				T.taskname,
+				startdate,
+				TT.starttime,
+				T.tasksystem,
+				T.taskcountry,
+				T.taskfuncarea,
+				T.taskinitstate,
+				T.taskprocedure,
+				T.taskdescription,
+				T.taskcreatedate,
+				T.taskcreatename,
+				T.taskinitstate
+				FROM  tasks T
+				RIGHT JOIN taskdates TD on TD.taskid = dectaskid
+				RIGHT JOIN tasktimes TT on TT.taskid = dectaskid
+				WHERE
+					TD.taskstartdate <= startdate
+					AND
+					(TD.year = year or TD.year = 'all')
+					AND
+					(TD.month = month or TD.month = 'all')
+					AND
+					(TD.week = week or TD.week = 'all')
+					AND
+					(TD.weekday = weekday or TD.weekday = 'all')
+					AND
+					(TD.day = day or TD.day = 'all')
+					AND
+					T.taskid = dectaskid;
+					
+				SET startdate = ADDDATE(startdate, 1);
+			END WHILE;
+		END IF;
+	END LOOP;
+CLOSE cursortask;
+END #
+
+
+
