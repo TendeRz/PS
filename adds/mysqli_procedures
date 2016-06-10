@@ -384,6 +384,3 @@ OPEN cursortask;
 	END LOOP;
 CLOSE cursortask;
 END #
-
-
-
