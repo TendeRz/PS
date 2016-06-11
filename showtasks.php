@@ -43,12 +43,12 @@
 			$system = $taskListItem[5];
 			$taskid = $taskListItem[6];
 		echo
- 				'<tr> 
-					<td>'.$startDate.'</td> 
-					<td>'.$startTime.'</td> 
+ 				'<tr class="taskrow"> 
+					<td class="taskdate">'.$startDate.'</td> 
+					<td class="tasktime">'.$startTime.'</td> 
 					<td>'.$country.'</td>
 					<td><a href="task.php?taskid='.$taskid.'" target="_blank">'.$subject.'</a></td>					
-					<td>'.$status.'</td> 
+					<td class="status">'.$status.'</td> 
 					<td>'.$system.'</td> 
 				</tr>';
 				 }?>
@@ -58,5 +58,11 @@
 
 
 	</div>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			checkTasks();
+			setInterval(checkTasks, 60000);
+		});
+	</script>
 </body>
 </html>

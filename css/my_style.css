@@ -142,6 +142,23 @@ html {
 .display-none {
 	display: none;
 }
+
+.task-late {
+	background: orange;
+}
+
+.task-missed {
+	background: red;
+}
+
+.task-inprogress {
+	background: yellow;
+}
+
+.task-notpossible {
+	background: blue;
+}
+
 /* ******************************************************************************************************************************************************************** */
 /*				TEST 	TEST				TEST 	TEST				TEST 	TEST				TEST 	TEST				TEST 	TEST				TEST 	    */
 /* ******************************************************************************************************************************************************************** */
@@ -169,3 +186,6 @@ th {
 .procedure-description {
 	border-bottom: 1px solid #337AB7;
 }
+
+
+
