@@ -29,6 +29,8 @@
 					<th>Subject</th>
 					<th>Status</th>
 					<th>System</th>
+					<th>Modified</th>
+					<th>Progress</th>
 				</tr> 
 			</thead> 
 			<tbody> 
@@ -49,7 +51,9 @@
 					<td>'.$country.'</td>
 					<td><a href="task.php?taskid='.$taskid.'" target="_blank">'.$subject.'</a></td>					
 					<td class="status">'.$status.'</td> 
-					<td>'.$system.'</td> 
+					<td>'.$system.'</td>
+					<td>Like Somebody</td>
+					<td> <button class="btn btn-default btn-xs" type="button">In Progress</button></td>
 				</tr>';
 				 }?>
 			</tbody> 

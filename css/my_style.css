@@ -144,20 +144,50 @@ html {
 }
 
 .task-late {
-	background: orange;
+	background: #B55C0C;
+	color: white;
 }
 
 .task-missed {
-	background: red;
+	background: #9E0012;
+	color: white;
 }
 
 .task-inprogress {
-	background: yellow;
+	background: #084F07;
+	color: white;
 }
 
 .task-notpossible {
-	background: blue;
+	background: #111399;
+	color: white;
 }
+
+
+.task-late:hover,
+.task-missed:hover,
+.task-inprogress:hover,
+.task-notpossible:hover {
+	color: black;
+}
+
+
+.task-late > td > a,
+.task-missed > td > a,
+.task-inprogress > td > a,
+.task-notpossible > td > a {
+	color: white;
+	font-weight: bold;
+}
+
+.task-late:hover > td > a,
+.task-missed:hover > td > a,
+.task-inprogress:hover > td > a,
+.task-notpossible:hover > td > a {
+	color: black;
+	font-weight: bold;
+}
+
 
 /* ******************************************************************************************************************************************************************** */
 /*				TEST 	TEST				TEST 	TEST				TEST 	TEST				TEST 	TEST				TEST 	TEST				TEST 	    */

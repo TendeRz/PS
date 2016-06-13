@@ -9,38 +9,61 @@
 		<?php
 			include_once('./js/js.php');
 		?>
-			<table class="table">			
+			<table class="table table-hover">			
 				<thead>
 					<tr>
 						<th>Date</th>
 						<th>Time</th>
 						<th>Name</th>
+						<th>Link</th>
 					</tr>		
 				</thead>
 				<tbody>
-					<tr class="testrow">
+					<tr class="testrow task-late">
 						<td class="taskdate">06/11</td>
-						<td class="testtime" id="testtime_1">18:23</td>
-						<td class="status">To be done</td>
+						<td class="testtime" id="testtime_1">10:27</td>
+						<td class="status">Close to start</td>
+						<td class="task-link"> <a href="#">Link Uno</a></td>
 					</tr>
-					<tr class="testrow">
+					<tr class="testrow task-missed">
 						<td class="taskdate">06/11</td>
-						<td class="testtime" id="testtime_2">17:55</td>
-						<td class="status">Check result</td>
+						<td class="testtime" id="testtime_2">10:35</td>
+						<td class="status">Already late</td>
+						<td class="task-link"> <a href="#">Link Uno</a></td>
 					</tr>
-					<tr class="testrow">
+					<tr class="testrow task-notpossible">
 						<td class="taskdate">06/12</td>
 						<td class="testtime" id="testtime_3">15:00</td>
 						<td class="status">Not possible now</td>
+						<td class="task-link"> <a href="#">Link Uno</a></td>
 					</tr>
-					<tr class="testrow">
+					<tr class="testrow task-inprogress ">
 						<td class="taskdate">06/13</td>
 						<td class="testtime" id="testtime_4">17:10</td>
 						<td class="status">In progress</td>
+						<td class="task-link"> <a href="#">Link Uno</a></td>
+					</tr>
+										<tr class="testrow">
+						<td class="taskdate">06/13</td>
+						<td class="testtime" id="testtime_4">17:10</td>
+						<td class="status">In Future</td>
+						<td class="task-link"> <a href="#">Link Uno</a></td>
+					</tr>
+										<tr class="testrow">
+						<td class="taskdate">06/13</td>
+						<td class="testtime" id="testtime_4">17:10</td>
+						<td class="status">In Future</td>
+						<td class="task-link"> <a href="#">Link Uno</a></td>
+					</tr>
+										<tr class="testrow">
+						<td class="taskdate">06/13</td>
+						<td class="testtime" id="testtime_4">17:10</td>
+						<td class="status">In Future</td>
+						<td class="task-link"> <a href="#">Link Uno</a></td>
 					</tr>
 				</tbody>
 			</table>
-			<button class="btn" id="test_button"> Change </button>
+			<!-- <button class="btn" id="test_button"> Change </button> -->
 		</div>
 
 		<script type="text/javascript">
@@ -60,15 +83,15 @@
 							console.log(curdate);
 
 
-							// if (status == 'Not possible now') {
-							//  	$(this).addClass('task-notpossible');
-							// } else if (((status == 'To be done') || (status == 'Check result')) && (timedifference <= 0)) {
-							// 	$(this).addClass('task-missed');
-							// }else if (((status == 'To be done') || (status == 'Check result')) && (timedifference <= 5)) {
-							// 	$(this).addClass('task-late');
-							// }else if (status == 'In progress'){
-							// 	$(this).addClass('task-inprogress');
-							// }
+							if (status == 'Not possible now') {
+							 	$(this).addClass('task-notpossible');
+							} else if (((status == 'To be done') || (status == 'Check result')) && (timedifference <= 0)) {
+								$(this).addClass('task-missed');
+							}else if (((status == 'To be done') || (status == 'Check result')) && (timedifference <= 5)) {
+								$(this).addClass('task-late');
+							}else if (status == 'In progress'){
+								$(this).addClass('task-inprogress');
+							}
 						})
 					})
 
