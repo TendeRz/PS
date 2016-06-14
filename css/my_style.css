@@ -188,7 +188,21 @@ html {
 	font-weight: bold;
 }
 
+.select-country {
+	border: 2px gray solid;
+	margin: 10px;
+	border-radius: 5%;
+	padding: 10px;
+}
 
+.select-country > form > label {
+	padding-left: 20px;
+}
+
+.select-country > form > label:hover {
+	font-weight: bold;
+	background: #E6E6E6;
+}
 /* ******************************************************************************************************************************************************************** */
 /*				TEST 	TEST				TEST 	TEST				TEST 	TEST				TEST 	TEST				TEST 	TEST				TEST 	    */
 /* ******************************************************************************************************************************************************************** */
