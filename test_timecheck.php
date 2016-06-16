@@ -33,14 +33,23 @@
 	</div>
 
 	<div class="container" id="tasklist">
+		<button class="btn btn-primary" onclick="callmodal()">Call Modal</button>
 
+		<div id="piu" style="border: 1px solid black">This</div>
+		<span></span>
 	</div>
-
+	
 	<script type="text/javascript">
-		$(document).ready(function() {
+		// $(document).ready(function() {
+		// 	setInterval(checkTasks, 60000);
+		// });
 
-			setInterval(checkTasks, 60000);
-		});
+		function callmodal(){
+			//$('#newstatus').modal('show');
+			$('#piu').data('test', 33);
+			var valer = $('#piu').data('test');
+			$('span').text(valer);
+		}
 	</script>
 </body>
 </html>

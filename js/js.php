@@ -286,7 +286,36 @@
 		    $('input:checkbox').prop('checked', false);
 	};
 
+	function quickprogresstaskstate(element){
+		var status = $(element).parent().siblings('.status').text();
+		var taskid = $(element).data('taskid');
+
+		if ((status == 'To be done') || (status == 'Check result')){
+			$.post('./adds/ajax.php', {quickprogresstaskstatez:taskid}, function(data){
+				if(data=='done'){
+					selectcountries();
+					//console.log('It is done. It is over!')
+				}else{
+					alert(data);
+				}
+			})
+		} else {
+			$('#newstate').data('taskid', taskid);
+			$('#newstatus').modal('show');
+		}
+	};
+
 	function progresstaskstate(element){
-		console.log($(element));
+		var newstatus = $(":selected").val();
+		var taskid = $(element).data('taskid');
+		
+		$.post('./adds/ajax.php', {progresstatus:newstatus, progresstaskid:taskid}, function(data){
+			if(data=='done'){
+				selectcountries();
+				//console.log('It is done. It is over!')
+			}else{
+				alert(data);
+			}
+		})
 	}
 </script>

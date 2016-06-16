@@ -430,6 +430,13 @@ $newTaskID;
     mysqli_close($link);
     }
 
+    function selectprogressstate(){
+        global $link;
+        $sql="SELECT * FROM taskstate WHERE taskstateid > 2";
+        return(mysqli_fetch_all($link->query($sql)));
+    mysqli_close($link);
+    }
+
     function spoolPOST(){
 
         echo "<pre>";

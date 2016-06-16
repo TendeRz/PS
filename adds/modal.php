@@ -117,3 +117,36 @@
 		</div>	
 	</div>
 </div>
+
+<div class="modal fade" id="newstatus" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">Set new status!</h4>
+			</div>
+			<div class="modal-body">		
+				<?php
+                echo '<div class="row">';
+                    $dropstatus = selectprogressstate();
+                    echo '<div class="col-xs-2">Status  </div><div>';
+                        echo '<select>';
+                            foreach ($dropstatus as $key => $dropstatusItem) {
+                            echo '<option value='.$dropstatusItem[0].'>'.$dropstatusItem[1].'</option>';
+                            }
+                        echo '</select>';                        
+                    echo'</div>';
+                echo'</div>';
+                ?>
+			</div>
+			<div class="modal-footer">
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">						
+						<button type="button" data-toggle="modal" data-target="#newstatus" class="btn btn-primary" id="newstate" onClick="progresstaskstate(this)">Set Status</button>
+						<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>			
+		</div>	
+	</div>
+</div>

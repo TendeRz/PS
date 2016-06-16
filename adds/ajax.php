@@ -12,6 +12,13 @@
         selectCountries();
     }
 
+    if (ISSET($_POST['quickprogresstaskstatez'])){
+    	quickprogresstaskstate($_POST['quickprogresstaskstatez']);
+    }
+
+    if (ISSET($_POST['progresstatus'])){
+    	progresstaskstate($_POST['progresstatus'], $_POST['progresstaskid']);
+    }
 #############################################
 ############### FUNCTIONS ################
 #############################################
@@ -28,8 +35,8 @@
                 TL.tasklistid AS ID
                 FROM tasklist TL, classcountry CC, classfuncarea CF, classsystem CS, taskstate TS, procedures P
                 WHERE
-                    TL.tlistfulldate >= CURDATE()
-                    AND
+                    -- TL.tlistfulldate >= CURDATE()
+                    -- AND
                     TL.tlistsystem = CS.classsysid
                     AND
                     TL.tlistcountry = CC.classcountryid
@@ -40,7 +47,7 @@
                     AND
                     TL.tlistprocedure = P.procid
                     AND
-                    TL.tlistcreatestate = TS.taskstateid
+                    TL.tliststate IN (0, 1, 2, 4, 7)
                     AND
                     CC.classcountryid IN (".$_POST['selected'].")
                 ORDER BY TL.tlistfulldate, TL.tlisttime; ";
@@ -73,7 +80,7 @@
 							<td class="status">'.$row['Status'].'</td> 
 							<td>'.$row['System'].'</td>
 							<td>Like Somebody</td>
-							<td> <button class="btn btn-default btn-xs" type="button" onClick="progresstaskstate('.$row['ID'].')">Next</button></td>
+							<td> <button class="btn btn-default btn-xs" type="button" data-taskid="'.$row['ID'].'" onClick="quickprogresstaskstate($(this))">Next</button></td>
 						</tr>
 				';
 			}
@@ -87,6 +94,25 @@
     mysqli_close($link);
     };
 	
+    function quickprogresstaskstate($taskid){    	
+    	global $link;
+    	$sql="UPDATE tasklist SET tliststate = 2 WHERE tasklistid = '$taskid'";
+    	if (mysqli_query($link, $sql)) {
+    		echo "done";
+    	} else {
+    		echo "Error: " . $sql . "<br>" . mysqli_error($link);
+    	}
+    mysql_close($link);
+    }
 
-
+    function progresstaskstate($taskstate, $taskid){
+    	global $link;
+    	$sql="UPDATE tasklist SET tliststate = '$taskstate' WHERE tasklistid = '$taskid'";
+    	if (mysqli_query($link, $sql)) {
+    		echo "done";
+    	} else {
+    		echo "Error: " . $sql . "<br>" . mysqli_error($link);
+    	}
+    mysql_close($link);
+    }
  ?>
