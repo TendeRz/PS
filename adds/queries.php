@@ -127,9 +127,9 @@
         }        
     }
 
-    if (ISSET($_POST['selected'])){
-        selectCountries();
-    }
+    // if (ISSET($_POST['selected'])){
+    //     selectCountries();
+    // }
 /////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////
 ////////////////////////     GLOBAL     /////////////////////////////
@@ -724,27 +724,14 @@ $newTaskID;
         mysqli_close($link);
     }
 
-    function selectCountries(){
-        
-        //echo "got so far";
-        echo "<pre>";
-        print_r($_POST['selected']);
-        echo "</pre>";
-        $sql="SELECT ClassCountryName FROM classcountry WHERE classcountryid IN (".$_POST['selected'].")";
-        echo $sql;
-        //echo $_POST['selected'];
-        // if (empty($_POST['data']) ) {
-        //     echo "Bad Mojo";
-        // } else {
-            
-    //         $sql="SELECT ClassCountryName FROM classcountry WHERE classcountryid IN (".implode(',',$_POST['setCountry']).")";
-    //         echo $sql;
-    //         if (mysqli_query($link, $sql)) {
-    //             return(mysqli_fetch_all($link->query($sql)));
-    //         } else {
-    //             echo "Error: " . $sql . "<br>" . mysqli_error($link);
-    //         }
-    //     }
+    // function selectCountries(){
+    //     global $link;
+    //     $sql="SELECT ClassCountryName FROM classcountry WHERE classcountryid IN (".$_POST['selected'].")";        
+    //     if (mysqli_query($link, $sql)) {
+    //         return(mysqli_fetch_all($link->query($sql)));
+    //     } else {
+    //         echo "Error: " . $sql . "<br>" . mysqli_error($link);
+    //     }        
     // mysqli_close($link);
-    }
+    // }
 ?>

@@ -262,4 +262,31 @@
 				}
 			})
 	}
+
+	function selectcountries() {
+		var selected = $( "input:checked" ).map(function() {
+			return this.value;
+		}).get().join();
+
+		if (selected) {
+			$.post('./adds/ajax.php', {selected}, function(data){
+		 		$("#tasklist").html(data);
+		 		checkTasks();
+		 	});
+		} else {
+			$('#noCountriesModal').modal('show');
+		}
+	};
+
+	function checkallcountries(){			
+		    $('input:checkbox').prop('checked', true);
+	};
+
+	function uncheckallcountries(){			
+		    $('input:checkbox').prop('checked', false);
+	};
+
+	function progresstaskstate(element){
+		console.log($(element));
+	}
 </script>

@@ -12,59 +12,39 @@
 
 </head>
 <body>
+
 	<div class="container">
 	<?php
 		include_once('login_check.php');
 		include_once('navigation.php');
-		include_once('./js/js.php');		
+		include_once('./js/js.php');
 		include_once('./adds/queries.php');
+		include_once('./adds/ajax.php');
+		include_once('./adds/modal.php');
 	?>
 
-		<table class="table table-hover"> 
-			<thead> 
-				<tr> 
-					<th>Start Date</th> 
-					<th>Start Time</th> 
-					<th>Country</th>
-					<th>Subject</th>
-					<th>Status</th>
-					<th>System</th>
-					<th>Modified</th>
-					<th>Progress</th>
-				</tr> 
-			</thead> 
-			<tbody> 
-	<?php 
-		$taskList = selectTaskList();		
-		foreach ($taskList as $key => $taskListItem) {
-			$startDate = $taskListItem[0];
-			$startTime = $taskListItem[1];
-			$country = $taskListItem[2];
-			$subject = $taskListItem[3];
-			$status = $taskListItem[4];
-			$system = $taskListItem[5];
-			$taskid = $taskListItem[6];
-		echo
- 				'<tr class="taskrow"> 
-					<td class="taskdate">'.$startDate.'</td> 
-					<td class="tasktime">'.$startTime.'</td> 
-					<td>'.$country.'</td>
-					<td><a href="task.php?taskid='.$taskid.'" target="_blank">'.$subject.'</a></td>					
-					<td class="status">'.$status.'</td> 
-					<td>'.$system.'</td>
-					<td>Like Somebody</td>
-					<td> <button class="btn btn-default btn-xs" type="button">In Progress</button></td>
-				</tr>';
-				 }?>
-			</tbody> 
-		</table>
-
-
-
 	</div>
+	<div class="select-country">
+		<button class="btn btn-default btn-xs" onClick="checkallcountries()" style="width:100%">Check All</button>
+		<button class="btn btn-default btn-xs" onClick="uncheckallcountries()" style="width:100%">Uncheck</button>
+		<form action="" id="setCountries">				
+			<?php 
+			$setCountry = selectAll('classcountry');
+			foreach ($setCountry as $key => $setCountryItem) {
+				$countryid = $setCountryItem[0];
+				$countryname = $setCountryItem[1];
+				echo '
+				<label class="checkbox"><input type="checkbox" name="setCountry[]" value="'.$countryid.'">'.$countryname.'</label>
+				';
+			}
+			?>				
+		</form>
+		<button class="btn btn-primary" onclick="selectcountries()">Set Countries</button>
+	</div>
+	<div class="container" id="tasklist"></div>
+
 	<script type="text/javascript">
 		$(document).ready(function() {
-			checkTasks();
 			setInterval(checkTasks, 60000);
 		});
 	</script>

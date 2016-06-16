@@ -9,12 +9,13 @@
 		<?php
 		include_once('./js/js.php');
 		include_once('./adds/queries.php');
+		//include_once('./adds/ajax.php');
 		include_once('./adds/modal.php');
 		?>
 	</div>
 
-	<div class="col-xs-1 select-country">
-		<button class="btn btn-default btn-xs" onClick="checkallcountries()" style="width:100%">Check</button>
+	<div class="select-country">
+		<button class="btn btn-default btn-xs" onClick="checkallcountries()" style="width:100%">Check All</button>
 		<button class="btn btn-default btn-xs" onClick="uncheckallcountries()" style="width:100%">Uncheck</button>
 		<form action="" id="setCountries">				
 			<?php 
@@ -36,26 +37,10 @@
 	</div>
 
 	<script type="text/javascript">
-		function selectcountries() {
-				var selected = $( "input:checked" ).map(function() {
-					return this.value;
-				}).get().join();
+		$(document).ready(function() {
 
-				if (selected) {
-					$.post('./adds/queries.php', {selected}, function(data){
-				 		$("#tasklist").html(data);
-				 	});
-				} else {
-					$('#noCountriesModal').modal('show');
-				}
-		};
-
-		function checkallcountries(){			
-			    $('input:checkbox').prop('checked', true);
-		};
-		function uncheckallcountries(){			
-			    $('input:checkbox').prop('checked', false);
-		};
+			setInterval(checkTasks, 60000);
+		});
 	</script>
 </body>
 </html>

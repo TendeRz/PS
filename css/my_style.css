@@ -190,9 +190,12 @@ html {
 
 .select-country {
 	border: 2px gray solid;
-	margin: 10px;
+	margin: 38px 0 0 50px;
 	border-radius: 5%;
 	padding: 10px;
+	width: 140px;
+	position: fixed;
+	background-color: white;
 }
 
 .select-country > form > label {

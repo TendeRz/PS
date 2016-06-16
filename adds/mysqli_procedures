@@ -384,3 +384,60 @@ OPEN cursortask;
 	END LOOP;
 CLOSE cursortask;
 END #
+
+
+
+
+
+AJAX
+   //      	if (mysqli_query($link, $sql)) {
+   //      		$test = mysqli_query($link, $sql);
+   //      		while ($row = mysqli_fetch_array($test)){
+   //      			echo $row['ClassCountryName'];
+   //      			echo "<br>";
+   //      		};
+			// } else {
+			// 	echo "Error: " . $sql . "<br>" . mysqli_error($link);
+			// }
+mv /data1/T2EDW/landing/00301010/00301010.CDR_Usage.P.%%EDW_00301010_PREV_Date.*.EDW /data1/T2EDW/landing/00301010/work/
+
+
+
+<!-- 		<table class="table table-hover"> 
+			<thead> 
+				<tr> 
+					<th>Start Date</th> 
+					<th>Start Time</th> 
+					<th>Country</th>
+					<th>Subject</th>
+					<th>Status</th>
+					<th>System</th>
+					<th>Modified</th>
+					<th>Progress</th>
+				</tr> 
+			</thead> 
+			<tbody> 
+	<?php 
+		$taskList = selectTaskList();		
+		foreach ($taskList as $key => $taskListItem) {
+			$startDate = $taskListItem[0];
+			$startTime = $taskListItem[1];
+			$country = $taskListItem[2];
+			$subject = $taskListItem[3];
+			$status = $taskListItem[4];
+			$system = $taskListItem[5];
+			$taskid = $taskListItem[6];
+		echo
+ 				'<tr class="taskrow"> 
+					<td class="taskdate">'.$startDate.'</td> 
+					<td class="tasktime">'.$startTime.'</td> 
+					<td>'.$country.'</td>
+					<td><a href="task.php?taskid='.$taskid.'" target="_blank">'.$subject.'</a></td>					
+					<td class="status">'.$status.'</td> 
+					<td>'.$system.'</td>
+					<td>Like Somebody</td>
+					<td> <button class="btn btn-default btn-xs" type="button">In Progress</button></td>
+				</tr>';
+				 }?>
+			</tbody> 
+		</table> -->
