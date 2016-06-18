@@ -251,7 +251,7 @@
 				var curtime = now.getHours() + ":" + now.getMinutes();
 				var timedifference = ( new Date(startdate + " " + tasktime ) - new Date(curdate + " " + curtime) ) / 60000;				
 				
-				if (status == 'Not possible now') {
+				if ((status == 'Not possible now') || (status == 'Problem')){
 				 	$(this).addClass('task-notpossible');
 				} else if (((status == 'To be done') || (status == 'Check result')) && (timedifference <= 0)) {
 					$(this).addClass('task-missed');
@@ -264,18 +264,20 @@
 	}
 
 	function selectcountries() {
-		var selected = $( "input:checked" ).map(function() {
-			return this.value;
-		}).get().join();
+		
+			var selected = $( "input:checked" ).map(function() {
+				return this.value;
+			}).get().join();
 
-		if (selected) {
-			$.post('./adds/ajax.php', {selected}, function(data){
-		 		$("#tasklist").html(data);
-		 		checkTasks();
-		 	});
-		} else {
-			$('#noCountriesModal').modal('show');
-		}
+			if (selected) {
+				$.post('./adds/ajax.php', {selected}, function(data){
+			 		$("#tasklist").html(data);
+			 		checkTasks();
+			 	});
+			} else {
+				$('#noCountriesModal').modal('show');
+			}
+		
 	};
 
 	function checkallcountries(){			
