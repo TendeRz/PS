@@ -290,10 +290,11 @@
 
 	function quickprogresstaskstate(element){
 		var status = $(element).parent().siblings('.status').text();
+		var tasklistid = $(element).data('tasklistid');
 		var taskid = $(element).data('taskid');
 
 		if ((status == 'To be done') || (status == 'Check result')){
-			$.post('./adds/ajax.php', {quickprogresstaskstatez:taskid}, function(data){
+			$.post('./adds/ajax.php', {qprogtasklistid:tasklistid, qprogtaskid:taskid}, function(data){
 				if(data=='done'){
 					selectcountries();
 					//console.log('It is done. It is over!')
@@ -302,16 +303,19 @@
 				}
 			})
 		} else {
+			$('#newstate').data('tasklistid', tasklistid);
 			$('#newstate').data('taskid', taskid);
+
 			$('#newstatus').modal('show');
 		}
 	};
 
-	function progresstaskstate(element){
+	function progresstaskstate(element, comment){
 		var newstatus = $(":selected").val();
+		var tasklistid = $(element).data('tasklistid');
 		var taskid = $(element).data('taskid');
 		
-		$.post('./adds/ajax.php', {progresstatus:newstatus, progresstaskid:taskid}, function(data){
+		$.post('./adds/ajax.php', {progresstatus:newstatus, progresstasklistid:tasklistid, progresstaskid:taskid, progresscomment:comment}, function(data){
 			if(data=='done'){
 				selectcountries();
 				//console.log('It is done. It is over!')

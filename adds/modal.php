@@ -137,12 +137,16 @@
                         echo '</select>';                        
                     echo'</div>';
                 echo'</div>';
-                ?>
+                ?>					
+				<input id="taskprogdescript" class="form-control" placeholder="Comment" style="margin-top: 20px">
+						
+				
+				
 			</div>
 			<div class="modal-footer">
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10">						
-						<button type="button" data-toggle="modal" data-target="#newstatus" class="btn btn-primary" id="newstate" onClick="progresstaskstate(this)" autofocus>Set Status</button>
+						<button type="button" data-toggle="modal" data-target="#newstatus" class="btn btn-primary" id="newstate" onClick="progresstaskstate(this, $('#taskprogdescript').val())">Set Status</button>
 						<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
 					</div>
 				</div>

@@ -708,9 +708,12 @@ $newTaskID;
                 P.proctitle,
                 TL.tlistprocedure,
                 TL.tlistdescription,
-                TL.tlistcreatedate,
-                TL.tlistcreatename
-                FROM tasklist TL, classcountry CC, classfuncarea CF, classsystem CS, taskstate TS, procedures P
+                IF(LENGTH(TLH.modifydate)>0, TLH.modifydate, TL.tlistcreatedate),
+                -- TL.tlistcreatedate,
+                IF(LENGTH(TLH.modifyname)>0, TLH.modifyname, TL.tlistcreatename),
+                -- TL.tlistcreatename,
+                 TLH.modifycomment
+                FROM classcountry CC, classfuncarea CF, classsystem CS, taskstate TS, procedures P, tasklist TL LEFT JOIN tasklisthistory TLH ON TL.tasklistid = TLH.tasklistid
                 WHERE
                     TL.tlistsystem = CS.classsysid
                     AND

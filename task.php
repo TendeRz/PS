@@ -29,6 +29,7 @@ session_start();
     			$taskdescription = $selectTaskItem[8];
     			$taskcreatedate = $selectTaskItem[9];
     			$taskcreatename = $selectTaskItem[10];
+                $taskmoddate = $selectTaskItem[11];
     		}
     	?>
 
@@ -75,7 +76,7 @@ session_start();
     		<div class="panel-body">
     			<div class="col-sm-2"><?php echo $taskcreatedate ?></div>
     			<div class="col-sm-4"><?php echo $taskcreatename ?></div>
-    			<div class="col-sm-4">What</div>
+    			<div class="col-sm-4"><?php echo $taskmoddate ?></div>
     		</div>
     	</div>
     </div>

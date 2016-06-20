@@ -1,6 +1,7 @@
 <?php 
     session_start();
 	include_once('const.php');
+	$username = $_SESSION['myusername'];
 
 	$link = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME)or die("Cannot Connect"); 
 	if(isset($link)){
@@ -12,12 +13,13 @@
         selectCountries();
     }
 
-    if (ISSET($_POST['quickprogresstaskstatez'])){
-    	quickprogresstaskstate($_POST['quickprogresstaskstatez']);
+    if (ISSET($_POST['qprogtasklistid'])){
+    	quickprogresstaskstate($_POST['qprogtasklistid'], $_POST['qprogtaskid']);
     }
 
     if (ISSET($_POST['progresstatus'])){
-    	progresstaskstate($_POST['progresstatus'], $_POST['progresstaskid']);
+    	progresstaskstate($_POST['progresstatus'], $_POST['progresstasklistid'], $_POST['progresstaskid'], $_POST['progresscomment']);
+    	//spoolPOST2();
     }
 #############################################
 ############### FUNCTIONS ################
@@ -25,18 +27,18 @@
 
     function selectCountries(){
         global $link;
-        $sql="SELECT                
+        $sql="SELECT  DISTINCT              
                 CONCAT(LPAD(MONTH(TL.tlistfulldate),2,0),'/',LPAD(DAYOFMONTH(TL.tlistfulldate),2,0)) AS Startdate,
                 TIME_FORMAT(TL.tlisttime, '%H:%i') AS Starttime,
                 CC.ClassCountryName AS Country,
                 TL.taskname AS Subject,
                 TS.taskstate AS Status,
                 CS.ClassSysName AS System,
-                TL.tasklistid AS ID
-                FROM tasklist TL, classcountry CC, classfuncarea CF, classsystem CS, taskstate TS, procedures P
+                TL.tasklistid AS ID,
+                TL.taskid AS Taskid,
+                IF(LENGTH(TLH.modifyname)>0, lastmodified(TL.tasklistid), TL.tlistcreatename) as Lastmod
+                FROM classcountry CC, classfuncarea CF, classsystem CS, taskstate TS, procedures P, tasklist TL LEFT JOIN tasklisthistory TLH ON TL.tasklistid = TLH.tasklistid
                 WHERE
-                    -- TL.tlistfulldate >= CURDATE()
-                    -- AND
                     TL.tlistsystem = CS.classsysid
                     AND
                     TL.tlistcountry = CC.classcountryid
@@ -65,9 +67,9 @@
 							<th>System</th>
 							<th>Modified</th>
 							<th>Progress</th>
-						</tr> 
-					</thead> 
-					<tbody> 
+						</tr>
+					</thead>
+					<tbody>
         		';
         	$data = mysqli_query($link, $sql);
         	while ($row = mysqli_fetch_array($data)) {
@@ -79,8 +81,8 @@
 							<td><a href="task.php?taskid='.$row['ID'].'" target="_blank">'.$row['Subject'].'</a></td>					
 							<td class="status">'.$row['Status'].'</td> 
 							<td>'.$row['System'].'</td>
-							<td>Like Somebody</td>
-							<td> <button class="btn btn-default btn-xs" type="button" data-taskid="'.$row['ID'].'" onClick="quickprogresstaskstate($(this))">Next</button></td>
+							<td>'.$row['Lastmod'].'</td>
+							<td> <button class="btn btn-default btn-xs" type="button" data-taskid="'.$row['Taskid'].'" data-tasklistid="'.$row['ID'].'" onClick="quickprogresstaskstate($(this))">Next</button></td>
 						</tr>
 				';
 			}
@@ -94,25 +96,45 @@
     mysqli_close($link);
     };
 	
-    function quickprogresstaskstate($taskid){    	
-    	global $link;
-    	$sql="UPDATE tasklist SET tliststate = 2 WHERE tasklistid = '$taskid'";
+    function quickprogresstaskstate($tasklistid, $taskid){    	
+    	global $link, $username;    	
+
+    	$sql="UPDATE tasklist SET tliststate = 2 WHERE tasklistid = '$tasklistid'";
+    	$sql2="INSERT INTO tasklisthistory (taskid, tasklistid, modifyname, modifystate, modifycomment) VALUES ('$taskid', '$tasklistid', '$username', '2', 'In progress' )";
     	if (mysqli_query($link, $sql)) {
+    		if (mysqli_query($link, $sql2)){
     		echo "done";
-    	} else {
+    		} else {
+    			echo "Error: " . $sql . "<br>" . mysqli_error($link);
+    		}
+    	}  else {
     		echo "Error: " . $sql . "<br>" . mysqli_error($link);
     	}
     mysql_close($link);
     }
 
-    function progresstaskstate($taskstate, $taskid){
-    	global $link;
-    	$sql="UPDATE tasklist SET tliststate = '$taskstate' WHERE tasklistid = '$taskid'";
+    function progresstaskstate($taskstate, $tasklistid, $taskid, $comment){
+    	global $link, $username;
+
+    	$sql="UPDATE tasklist SET tliststate = '$taskstate' WHERE tasklistid = '$tasklistid'";
+    	$sql2="INSERT INTO tasklisthistory (taskid, tasklistid, modifyname, modifystate, modifycomment) VALUES ('$taskid', '$tasklistid', '$username', '$taskstate', '$comment' )";
     	if (mysqli_query($link, $sql)) {
+    		if (mysqli_query($link, $sql2)){
     		echo "done";
-    	} else {
+    		} else {
+    			echo "Error: " . $sql . "<br>" . mysqli_error($link);
+    		}
+    	}  else {
     		echo "Error: " . $sql . "<br>" . mysqli_error($link);
     	}
     mysql_close($link);
     }
+
+	function spoolPOST2(){
+
+        echo "<pre>";
+        print_r($_POST);
+        echo "</pre>";
+
+    };
  ?>

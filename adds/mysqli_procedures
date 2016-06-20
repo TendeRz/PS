@@ -441,3 +441,31 @@ mv /data1/T2EDW/landing/00301010/00301010.CDR_Usage.P.%%EDW_00301010_PREV_Date.*
 				 }?>
 			</tbody> 
 		</table> -->
+
+
+
+DROP FUNCTION IF EXISTS LAST;
+DELIMITER #
+CREATE FUNCTION LAST(tasklistidz INT) RETURNS VARCHAR(50)
+BEGIN
+DECLARE modname VARCHAR(50);
+SELECT modifyname INTO modname FROM tasklisthistory WHERE tasklistid = tasklistidz ORDER BY tasklisthistoryid DESC LIMIT 1;
+RETURN modname;
+END; #
+
+
+DROP FUNCTION IF EXISTS TEST;
+DELIMITER #
+CREATE FUNCTION TEST(param INT) RETURNS VARCHAR(50)
+BEGIN
+DECLARE modname VARCHAR(50);
+
+RETURN param;
+END; #
+
+
+testuser
+Password14
+
+
+
