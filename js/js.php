@@ -246,8 +246,8 @@
 				var status = $(this).children('.status').text();
 				var taskdate = $(this).children('.taskdate').text();
 				var now = new Date(Date.now());
-				var startdate = now.getFullYear() + "-" + taskdate.substr(0, 2) + "-" + taskdate.substr(3, 2);
-				var curdate = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate();
+				var startdate = now.getFullYear() + "/" + taskdate.substr(0, 2) + "/" + taskdate.substr(3, 2);
+				var curdate = now.getFullYear() + "/" + (now.getMonth() + 1) + "/" + now.getDate();
 				var curtime = now.getHours() + ":" + now.getMinutes();
 				var timedifference = ( new Date(startdate + " " + tasktime ) - new Date(curdate + " " + curtime) ) / 60000;				
 				
@@ -305,7 +305,7 @@
 		} else {
 			$('#newstate').data('tasklistid', tasklistid);
 			$('#newstate').data('taskid', taskid);
-
+			$('#taskprogdescript').val('');
 			$('#newstatus').modal('show');
 		}
 	};

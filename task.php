@@ -29,7 +29,7 @@ session_start();
     			$taskdescription = $selectTaskItem[8];
     			$taskcreatedate = $selectTaskItem[9];
     			$taskcreatename = $selectTaskItem[10];
-                $taskmoddate = $selectTaskItem[11];
+                $taskmodstatus = $selectTaskItem[11];
     		}
     	?>
 
@@ -75,8 +75,22 @@ session_start();
     		<div class="panel-heading">History</div>
     		<div class="panel-body">
     			<div class="col-sm-2"><?php echo $taskcreatedate ?></div>
-    			<div class="col-sm-4"><?php echo $taskcreatename ?></div>
-    			<div class="col-sm-4"><?php echo $taskmoddate ?></div>
+    			<div class="col-sm-2"><?php echo $taskcreatename ?></div>
+    			<div class="col-sm-8"><?php echo $taskmodstatus ?></div>
+                
+                <?php 
+                $taskhistory = selectTaskHistory($taskid);
+                foreach ($taskhistory as $key => $taskhistoryitem) {
+                    echo "
+                        <div class='col-sm-2'>".$taskhistoryitem[0]."</div>
+                        <div class='col-sm-2'>".$taskhistoryitem[1]."</div>
+                        <div class='col-sm-2'>".$taskhistoryitem[2]."</div>
+                        <div class='col-sm-6'>".$taskhistoryitem[3]."</div>
+                    ";
+                }
+                ?>
+
+
     		</div>
     	</div>
     </div>

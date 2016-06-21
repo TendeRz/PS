@@ -708,11 +708,12 @@ $newTaskID;
                 P.proctitle,
                 TL.tlistprocedure,
                 TL.tlistdescription,
-                IF(LENGTH(TLH.modifydate)>0, TLH.modifydate, TL.tlistcreatedate),
-                -- TL.tlistcreatedate,
-                IF(LENGTH(TLH.modifyname)>0, TLH.modifyname, TL.tlistcreatename),
-                -- TL.tlistcreatename,
-                 TLH.modifycomment
+                -- IF(LENGTH(TLH.modifydate)>0, TLH.modifydate, TL.tlistcreatedate),
+                TL.tlistcreatedate,
+                -- IF(LENGTH(TLH.modifyname)>0, TLH.modifyname, TL.tlistcreatename),
+                TL.tlistcreatename,
+                'Task Created'
+                -- TLH.modifycomment
                 FROM classcountry CC, classfuncarea CF, classsystem CS, taskstate TS, procedures P, tasklist TL LEFT JOIN tasklisthistory TLH ON TL.tasklistid = TLH.tasklistid
                 WHERE
                     TL.tlistsystem = CS.classsysid
@@ -734,14 +735,24 @@ $newTaskID;
         mysqli_close($link);
     }
 
-    // function selectCountries(){
-    //     global $link;
-    //     $sql="SELECT ClassCountryName FROM classcountry WHERE classcountryid IN (".$_POST['selected'].")";        
-    //     if (mysqli_query($link, $sql)) {
-    //         return(mysqli_fetch_all($link->query($sql)));
-    //     } else {
-    //         echo "Error: " . $sql . "<br>" . mysqli_error($link);
-    //     }        
-    // mysqli_close($link);
-    // }
+    function selectTaskHistory($taskid){
+        global $link;
+        $sql="SELECT
+                TLH.modifydate,
+                TLH.modifyname,
+                CONCAT('Set ', TS.taskstate),
+                IF(LENGTH(TLH.modifycomment)>0, TLH.modifycomment, '&nbsp;')
+            FROM
+                tasklisthistory TLH, taskstate TS
+            WHERE
+                TLH.modifystate = TS.taskstateid
+                AND
+                TLH.tasklistid = '$taskid';";
+        if (mysqli_query($link, $sql)) {
+                    return(mysqli_fetch_all($link->query($sql)));
+                } else {
+                    echo "Error: " . $sql . "<br>" . mysqli_error($link);
+                }        
+        mysqli_close($link);
+    }
 ?>

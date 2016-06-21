@@ -27,7 +27,7 @@
 
     function selectCountries(){
         global $link;
-        $sql="SELECT  DISTINCT              
+        $sql="SELECT               
                 CONCAT(LPAD(MONTH(TL.tlistfulldate),2,0),'/',LPAD(DAYOFMONTH(TL.tlistfulldate),2,0)) AS Startdate,
                 TIME_FORMAT(TL.tlisttime, '%H:%i') AS Starttime,
                 CC.ClassCountryName AS Country,
@@ -36,8 +36,31 @@
                 CS.ClassSysName AS System,
                 TL.tasklistid AS ID,
                 TL.taskid AS Taskid,
-                IF(LENGTH(TLH.modifyname)>0, lastmodified(TL.tasklistid), TL.tlistcreatename) as Lastmod
-                FROM classcountry CC, classfuncarea CF, classsystem CS, taskstate TS, procedures P, tasklist TL LEFT JOIN tasklisthistory TLH ON TL.tasklistid = TLH.tasklistid
+                IF(LENGTH(TLHR.modifyname)>0, TLHR.modifyname, TL.tlistcreatename) as Lastmod,
+                TLHR.tasklisthistoryid,
+                TLHR.rank
+                FROM 	classcountry CC,
+                		classfuncarea CF,
+                		classsystem CS,
+                		taskstate TS,
+                		procedures P, 
+                		tasklist TL LEFT JOIN               		
+                		(SELECT 	
+                				tasklisthistoryid,
+								tasklistid,
+								CASE
+								WHEN @prevRank = tasklistid THEN @curRank := @curRank + 1
+								WHEN @prevRank := tasklistid THEN @curRank := 0 
+								END AS rank,
+								taskid,
+								modifydate,
+								modifyname,
+								modifystate,
+								modifycomment
+
+						FROM 	tasklisthistory,
+								(SELECT @curRank :=0, @prevRank := NULL) r
+						ORDER BY tasklistid, tasklisthistoryid DESC) TLHR ON TL.tasklistid = TLHR.tasklistid
                 WHERE
                     TL.tlistsystem = CS.classsysid
                     AND
@@ -51,7 +74,9 @@
                     AND
                     TL.tliststate IN (0, 1, 2, 4, 7)
                     AND
-                    CC.classcountryid IN (".$_POST['selected'].")
+                    CC.classcountryid IN (".$_POST['selected'].")                    
+                    AND
+                    (TLHR.rank = 0 || TLHR.rank IS NULL)
                 ORDER BY TL.tlistfulldate, TL.tlisttime; ";
         
         if (mysqli_query($link, $sql)) {
@@ -100,7 +125,7 @@
     	global $link, $username;    	
 
     	$sql="UPDATE tasklist SET tliststate = 2 WHERE tasklistid = '$tasklistid'";
-    	$sql2="INSERT INTO tasklisthistory (taskid, tasklistid, modifyname, modifystate, modifycomment) VALUES ('$taskid', '$tasklistid', '$username', '2', 'In progress' )";
+    	$sql2="INSERT INTO tasklisthistory (taskid, tasklistid, modifyname, modifystate, modifycomment) VALUES ('$taskid', '$tasklistid', '$username', '2', 'Started' )";
     	if (mysqli_query($link, $sql)) {
     		if (mysqli_query($link, $sql2)){
     		echo "done";

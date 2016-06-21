@@ -33,7 +33,7 @@
 	</div>
 
 	<div class="container" id="tasklist">
-		<button class="btn btn-primary" onclick="callmodal()">Call Modal</button>
+		<button class="btn btn-primary" onclick="testtime()">Call Modal</button>
 
 		<div id="piu" style="border: 1px solid black">This</div>
 		<span></span>
@@ -43,6 +43,29 @@
 		// $(document).ready(function() {
 		// 	setInterval(checkTasks, 60000);
 		// });
+		function testtime(){
+
+				var now = new Date(Date.now());
+				var tasktime = '14:30';
+				var taskdate = '06/21';
+				var startdate = now.getFullYear() + "/" + taskdate.substr(0, 2) + "/" + taskdate.substr(3, 2);
+				var curdate = now.getFullYear() + "/" + (now.getMonth() + 1) + "/" + now.getDate();
+				var curtime = now.getHours() + ":" + now.getMinutes();
+				//var fullfrom = startdate + ' ' + tasktime + ':00';
+				//var fullto = curdate + ' ' + curtime + ':00';
+				var timedifference = ( new Date(startdate + ' ' + tasktime + ':00' ) - new Date(curdate + ' ' + curtime + ':00') ) / 60000;
+				
+				console.log(now);
+				console.log(tasktime);
+				console.log(taskdate);
+				console.log(startdate);
+				console.log(curdate);
+				console.log(curtime);
+				//console.log(fullfrom);
+				//console.log(fullto);
+				console.log(timedifference);
+				
+		}
 
 		function callmodal(){
 			//$('#newstatus').modal('show');
