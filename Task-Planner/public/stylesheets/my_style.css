@@ -1,0 +1,238 @@
+html {
+    overflow-y: scroll !important;
+}
+
+.ccontainer {
+	border: 1px #000000 solid ;
+	margin-top: 20px;
+}
+
+.flag {
+	width: 30px;
+	height: 30px;
+	border-radius:100%;
+    border: 1px solid #000000;
+}
+
+.dlist:hover {
+	background-color: #717375 !important;
+	color: white;
+}
+
+.ddropdown {
+	width: 200px;
+	margin-left: 10px;
+	border-radius: 5px;
+}
+
+.classification {
+	margin-left: -80px;
+	color: black;
+
+}
+
+.row {
+	margin-top: 5px;
+}
+.procTitle {
+	height: 24px;
+	border-radius: 5px;
+}
+
+
+.newProcTitle {
+	margin-left: -71px;
+
+}
+
+.procedure-list-item {
+	margin-left: 15px;
+	padding-top: 1px;
+	padding-bottom: 1px;
+}
+
+.procedure-list-group {
+	margin-bottom: 5px;
+	padding-bottom: 2px;
+}
+
+.procedure-group {
+	margin-bottom: 5px;
+}
+
+.procedure-task-type-item {
+	padding-bottom: 1px;
+	padding-top: 1px;
+}
+
+.newProc-Button-Add {
+	margin-left: 3px;
+	margin-top: -2px;
+	width: 130px;
+}
+
+
+.glyphicon-ok-circle{
+    background-color: green;
+    color: white;
+}
+.glyphicon-ban-circle{
+    background-color: red;
+    color: white;
+}
+
+.padding-bot-15{
+	padding-bottom: 15px;
+}
+
+.margin-bot-5{
+	margin-bottom: 5px;
+}
+
+.margin-top-5{
+	margin-top: 5px;
+}
+
+.margin-bot-15{
+	margin-bottom: 10px;
+}
+
+.margin-top-200{
+	margin-top: 200px;
+}
+
+.cke_editable {
+	line-height: 0.3;
+}
+
+.middle {
+	
+	text-align: center;
+}
+
+.avatar{
+    width: 120px;
+    height: 120px;
+    border-radius:100%;
+    border: 1px solid #22373E;
+}
+
+.avatar-change{
+    width: 120px;
+    height: 120px;
+    border-radius:100%;
+    border: 1px solid #F5F5F5;
+}
+
+.well-updated {
+	background-color: #FFFFFF !important;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0);
+			box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0);
+}
+
+.inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.display-none {
+	display: none;
+}
+
+.task-late {
+	background: #B55C0C;
+	color: white;
+}
+
+.task-missed {
+	background: #9E0012;
+	color: white;
+}
+
+.task-inprogress {
+	background: #084F07;
+	color: white;
+}
+
+.task-notpossible {
+	background: #111399;
+	color: white;
+}
+
+
+.task-late:hover,
+.task-missed:hover,
+.task-inprogress:hover,
+.task-notpossible:hover {
+	color: black;
+}
+
+
+.task-late > td > a,
+.task-missed > td > a,
+.task-inprogress > td > a,
+.task-notpossible > td > a {
+	color: white;
+	font-weight: bold;
+}
+
+.task-late:hover > td > a,
+.task-missed:hover > td > a,
+.task-inprogress:hover > td > a,
+.task-notpossible:hover > td > a {
+	color: black;
+	font-weight: bold;
+}
+
+.select-country {
+	border: 2px gray solid;
+	margin: 38px 0 0 50px;
+	border-radius: 5%;
+	padding: 10px;
+	width: 140px;
+	position: fixed;
+	background-color: white;
+}
+
+.select-country > form > label {
+	padding-left: 20px;
+}
+
+.select-country > form > label:hover {
+	font-weight: bold;
+	background: #E6E6E6;
+}
+/* ******************************************************************************************************************************************************************** */
+/*				TEST 	TEST				TEST 	TEST				TEST 	TEST				TEST 	TEST				TEST 	TEST				TEST 	    */
+/* ******************************************************************************************************************************************************************** */
+
+
+.test-div {
+	margin-top: 30px;
+	border: 1px solid #000000;
+	padding: 15px;
+}
+
+.dtable {
+	/*width: 500px !important;*/
+	border: 1px solid #000000;
+	/*display: inline-block;*/
+}
+th {
+	/*text-align: center !important;*/
+}
+
+.ptest:hover {
+	cursor: pointer;
+}
+
+.procedure-description {
+	border-bottom: 1px solid #337AB7;
+}
+
+
+

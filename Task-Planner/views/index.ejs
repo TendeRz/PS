@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+<head>
+    <title>Task Planner</title>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/my_style.css">
+
+</head>
+<body>
+
+
+<%- include modal.ejs %>
+
+    <div class="select-country">
+        <button class="btn btn-default btn-xs" onClick="checkallcountries()" style="width:100%">Check All</button>
+        <button class="btn btn-default btn-xs" onClick="uncheckallcountries()" style="width:100%">Uncheck</button>
+        <form action="" id="setCountries">
+            <% for (var i=0; i < countries.length; i++) {%>
+            <label class="checkbox">
+                <input 
+                type="checkbox" 
+                name="setCountry[]" 
+                value="<%= countries[i].ClassCountryID %>" 
+                >
+                <%= countries[i].ClassCountryName %>
+            </label>
+            <% }%>
+        </form>
+        <button class="btn btn-primary" onclick="selectcountries()">Set Countries</button>
+    </div>
+    <div class="container" >
+        <table class="table table-hover"> 
+            <thead> 
+                <tr> 
+                    <th>Start Date</th> 
+                    <th>Start Time</th> 
+                    <th>Country</th>
+                    <th>Subject</th>
+                    <th>Status</th>
+                    <th>System</th>
+                    <th>Modified</th>
+                    <th>Progress</th>
+                </tr>
+            </thead>
+            <tbody id="tasklist">
+                <!-- <div id="tasklist"></div> -->
+            </tbody>
+        </table>
+    </div>
+    
+    
+
+
+    <script src="/javascripts/jquery-2.2.0.js"></script>
+    <script src="/javascripts/bootstrap.js"></script>
+    <script src="/javascripts/main.js"></script>
+    <script>
+        $(document).ready(function() {
+            setInterval(checkTasks, 60000);
+        });
+    </script>
+</body>
+</html>
+
