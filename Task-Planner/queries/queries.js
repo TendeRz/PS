@@ -82,5 +82,55 @@ module.exports = {
             if(err) throw err;            
             callbackz(row);                
         })        
+    },
+    selectTask: function (tasklistid, callback){
+        var sqlQuery = "SELECT\
+                TL.taskname,\
+                CONCAT(TL.tlistfulldate,'  ', TIME_FORMAT(TL.tlisttime, '%H:%i')) as startdate,\
+                TS.taskstate as state,\
+                CS.ClassSysName as system,\
+                CF.classfuncname as funcarea,\
+                CC.ClassCountryName as country,\
+                P.proctitle as procname,\
+                TL.tlistprocedure as listproc,\
+                TL.tlistdescription as descript,\
+                TL.tlistcreatedate as createdate,\
+                TL.tlistcreatename as createname,\
+                'Task Created' as note\
+                FROM classcountry CC, classfuncarea CF, classsystem CS, taskstate TS, procedures P, tasklist TL LEFT JOIN tasklisthistory TLH ON TL.tasklistid = TLH.tasklistid\
+                WHERE\
+                    TL.tlistsystem = CS.classsysid\
+                    AND\
+                    TL.tlistcountry = CC.classcountryid\
+                    AND\
+                    TL.tlistfuncarea = CF.classfuncid\
+                    AND\
+                    TL.tliststate = TS.taskstateid\
+                    AND\
+                    TL.tasklistid = "+tasklistid+"\
+                    AND\
+                    TL.tlistprocedure = P.procid";
+        
+        con.query(sqlQuery, function(err,rows){
+            if(err) throw err;
+            callback(rows);
+        })
+    },
+    selectHistory: function (tasklistid, callback){
+        var sqlQuery = "SELECT\
+                TLH.modifydate as moddate,\
+                TLH.modifyname as modname,\
+                CONCAT('Set ', TS.taskstate) as setstate,\
+                IF(LENGTH(TLH.modifycomment)>0, TLH.modifycomment, '&nbsp;') as comment\
+            FROM\
+                tasklisthistory TLH, taskstate TS\
+            WHERE\
+                TLH.tasklistid = "+tasklistid+"\
+                AND\
+                TLH.modifystate = TS.taskstateid";
+        con.query(sqlQuery, function(err,rows){
+            if(err) throw err;
+            callback(rows);
+        })
     }
 }

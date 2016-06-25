@@ -8,39 +8,39 @@
 </head>
 <body>
 	<div class="container">
-		<h1> Task ID: <%= tasklistid %></h1>
+		
 		<div class="panel panel-default">
 			<div class="panel-heading">Description</div>
 			<div class="panel-body">
 				<div class="col-sm-2">Subject: </div>
-				<div class="col-sm-10"><?php echo $taskname ?></div>
+				<div class="col-sm-10"><%= task[0].taskname %></div>
 				<div class="col-sm-2">Start Date: </div>
-				<siv class="col-sm-10"><?php echo $taskstartdate ?></siv>
+				<siv class="col-sm-10"><%= task[0].startdate %></siv>
 				<div class="col-sm-2">Status:  </div>
-				<siv class="col-sm-10"><?php echo $taskstate ?></siv>
+				<siv class="col-sm-10"><%= task[0].state %></siv>
 			</div>
 		</div>
 		<div class="panel panel-default">
 			<div class="panel-heading">Classification</div>
 			<div class="panel-body">
 				<div class="col-sm-2">System: </div>
-				<div class="col-sm-4"><?php echo $tasksystem ?></div>
+				<div class="col-sm-4"><%= task[0].system %></div>
 				<div class="col-sm-2">Functional Area: </div>
-				<div class="col-sm-4"><?php echo $taskfuncarea ?></div>
+				<div class="col-sm-4"><%= task[0].funcarea %></div>
 				<div class="col-sm-2">Country: </div>
-				<div class="col-sm-10"><?php echo $taskcountry ?></div>
+				<div class="col-sm-10"><%= task[0].country %></div>
 			</div>
 		</div>
 		<div class="panel panel-default">
 			<div class="panel-heading">Procedure</div>
 			<div class="panel-body">
 				<div class="col-sm-2">Procedure</div>
-				<div class="col-sm-10"><?php echo '<a href="procedure.php?procID='.$taskprocid.'&procName='.$taskproctitle.'" target="_blank">'.$taskproctitle.'</a>' ?></div>
+				<div class="col-sm-10"><a href="procedure.php?procID=<%= task[0].listproc %>&procName=<%= task[0].procname %>" target="_blank"><%= task[0].procname %></a></div>
 			</div>
 		</div>
 		<div class="panel panel-default">
 			<div class="panel-heading">Detailed Description</div>
-			<div class="panel-body"><?php echo $taskdescription ?></div>
+			<div class="panel-body"><%= task[0].descript %></div>
 			<div class="panel-body">
 				<textarea class="form-control" rows="3" placeholder="IF got any.."></textarea>
 			</div>
@@ -48,21 +48,16 @@
 		<div class="panel panel-default">
 			<div class="panel-heading">History</div>
 			<div class="panel-body">
-				<div class="col-sm-2"><?php echo $taskcreatedate ?></div>
-				<div class="col-sm-2"><?php echo $taskcreatename ?></div>
-				<div class="col-sm-8"><?php echo $taskmodstatus ?></div>
-				
-				<?php 
-				$taskhistory = selectTaskHistory($taskid);
-				foreach ($taskhistory as $key => $taskhistoryitem) {
-				echo "
-				<div class='col-sm-2'>".$taskhistoryitem[0]."</div>
-				<div class='col-sm-2'>".$taskhistoryitem[1]."</div>
-				<div class='col-sm-2'>".$taskhistoryitem[2]."</div>
-				<div class='col-sm-6'>".$taskhistoryitem[3]."</div>
-				";
-			}
-			?>
+			<div class="col-sm-2"><%= createdate %></div>
+			<div class="col-sm-2"><%= task[0].createname %></div>
+			<div class="col-sm-8"><%= task[0].note %></div>
+
+			<% for (i=0; i < tablehistory.length; i++) { %>
+				<div class='col-sm-2'><%= new Date(tablehistory[i].moddate).toISOString().replace(/T/, ' ').replace(/\..+/, ''); %></div>
+				<div class='col-sm-2'><%= tablehistory[i].modname %></div>
+				<div class='col-sm-2'><%= tablehistory[i].setstate %></div>
+				<div class='col-sm-6'><%= tablehistory[i].comment %></div>	
+			<% } %>
 
 
 		</div>
