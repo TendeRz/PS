@@ -27,6 +27,7 @@
             <% }%>
         </form>
         <button class="btn btn-primary" onclick="selectcountries()">Set Countries</button>
+        <button class="btn btn-primary" onclick="tester()">Socket Ping</button>
     </div>
     <div class="container" >
         <table class="table table-hover"> 
@@ -58,6 +59,13 @@
         var socket = io();
         $(document).ready(function() {
             setInterval(checkTasks, 60000);
+        });
+        function tester(){
+            socket.emit('Send Ping');
+        }
+        socket.on('Ping', function(){
+            console.log('Ping Received!');
+            selectcountries();
         });
     </script>
 </body>
