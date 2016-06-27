@@ -5,8 +5,7 @@ var con = mysql.createConnection({
     host: "127.0.0.1",
     user: "root",
     password: "051rdb188",
-    database: "dstorage",
-    multipleStatements: true
+    database: "dstorage"
 });
 
 con.connect(function(err){
