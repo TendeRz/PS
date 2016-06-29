@@ -1,3 +1,5 @@
+var socket = io();
+
 function checkallcountries(){           
 	$('input:checkbox').prop('checked', true);
 };
@@ -60,3 +62,52 @@ function selectcountries() {
 	}
 };
 
+function quickprogresstaskstate(element){
+	var status = $(element).parent().siblings('.status').text();
+	var tasklistid = $(element).data('tasklistid');
+	var taskid = $(element).data('taskid');
+
+	if ((status == 'To be done') || (status == 'Check result')){
+		var progress = "In Progress";
+		$.get('/progressTask',
+			{newstate : progress,
+			tasklistid : tasklistid,
+			taskid : taskid
+			},
+			function(data) {
+				if (data == 'Done'){
+					socket.emit('Send Ping');
+				}else{
+					alert(data);
+				}			
+		});
+	}else{
+		$('#newstate').data('tasklistid', tasklistid);
+		$('#newstate').data('taskid', taskid);
+		$('#taskprogdescript').val('');
+		$('#newstatus').modal('show');
+	}
+};
+
+function progresstaskstate(element, comment){
+	var newstatus = $(":selected").val();
+	var tasklistid = $(element).data('tasklistid');
+	var taskid = $(element).data('taskid');
+	var progress = "Set Next State";
+
+	$.get('/progressTask',
+	{newstate : progress,
+	newstatus : newstatus,
+	tasklistid : tasklistid,
+	taskid : taskid,
+	description : comment
+	},
+	function(data) {
+		if (data == 'Done'){
+			socket.emit('Send Ping');
+		}else{
+			alert(data);
+		}			
+	});
+
+};

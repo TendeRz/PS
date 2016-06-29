@@ -6,8 +6,14 @@ var jq = require('../queries/jq.js');
 
 
 router.get('/', function(req, res, next) {
-	db.countryList(function(result){				
-		res.render('index', { countries: result });
+	db.countryList(function(result){
+		db.selectProgressState(function(progressState){
+			res.render('index', { 
+							countries: result,
+							state: progressState
+						});	
+		})
+		
 	});
 });
 

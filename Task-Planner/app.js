@@ -9,8 +9,9 @@ var fs = require('fs');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
-var selectCountries = require('./routes/selectCountries');
 var task = require('./routes/task');
+var selectCountries = require('./routes/selectCountries');
+var progressTask = require('./routes/progressTask');
 var app = express();
 
 // view engine setup
@@ -30,6 +31,7 @@ app.use(express.static(path.join(__dirname, 'queries')));
 app.use('/', routes);
 app.use('/users', users);
 app.use('/selectCountries', selectCountries);
+app.use('/progressTask', progressTask);
 app.use('/task', task);
 
 // catch 404 and forward to error handler

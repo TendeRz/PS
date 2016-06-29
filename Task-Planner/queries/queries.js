@@ -7,13 +7,13 @@ var con = mysql.createConnection({
     password: "051rdb188",
     database: "dstorage"
 });
+var username = 'admin';
 
 con.connect(function(err){
     if(err){
         console.log('Error connecting to Db');
         return;
     }
-    console.log('Connection established');
 });
 
 module.exports = {
@@ -23,7 +23,7 @@ module.exports = {
             callback(rows);
         })
     },
-    setCountries: function (selected, callbackz) {
+    selectTasks: function (selected, callbackz) {
         var sqlQuerie = "SELECT \
             CONCAT(LPAD(MONTH(TL.tlistfulldate),2,0),'/',LPAD(DAYOFMONTH(TL.tlistfulldate),2,0)) AS Startdate, \
             TIME_FORMAT(TL.tlisttime, '%H:%i') AS Starttime, \
@@ -131,5 +131,28 @@ module.exports = {
             if(err) throw err;
             callback(rows);
         })
+    },
+    selectProgressState: function (callback){
+        var sqlQuery = "SELECT * FROM taskstate WHERE taskstateid > 2";
+        con.query(sqlQuery, function(err,rows){
+            if(err) throw err;
+            callback(rows);
+        })
+    },
+    updateQProgress: function (tasklistid, taskid, callback){
+        var sqlQuery = "UPDATE tasklist SET tliststate = 2 WHERE tasklistid = "+tasklistid;
+        var sqlQuery2 = "INSERT INTO tasklisthistory (taskid, tasklistid, modifyname, modifystate, modifycomment)\
+                            VALUES ('"+taskid+"', '"+tasklistid+"', '"+username+"', '2', 'Started' )";
+        con.query(sqlQuery, function(err,rows){if(err) throw err;})
+        con.query(sqlQuery2, function(err,rows){if(err) throw err;})
+        callback('Done');
+    },
+    updateProgress: function (tasklistid, taskid, newstatus, description, callback){
+        var sqlQuery = "UPDATE tasklist SET tliststate = '"+newstatus+"' WHERE tasklistid = "+tasklistid;
+        var sqlQuery2 = "INSERT INTO tasklisthistory (taskid, tasklistid, modifyname, modifystate, modifycomment)\
+                        VALUES ('"+taskid+"', '"+tasklistid+"', '"+username+"', '"+newstatus+"', '"+description+"' )";
+        con.query(sqlQuery, function(err,rows){if(err) throw err;})
+        con.query(sqlQuery2, function(err,rows){if(err) throw err;})
+        callback('Done');
     }
 }

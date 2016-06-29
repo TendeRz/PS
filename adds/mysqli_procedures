@@ -446,26 +446,117 @@ mv /data1/T2EDW/landing/00301010/00301010.CDR_Usage.P.%%EDW_00301010_PREV_Date.*
 
 DROP FUNCTION IF EXISTS LAST;
 DELIMITER #
-CREATE FUNCTION LAST(tasklistidz INT) RETURNS VARCHAR(50)
+CREATE FUNCTION LAST(p_tasklistidz INT) RETURNS VARCHAR(50) DETERMINISTIC
 BEGIN
 DECLARE modname VARCHAR(50);
-SELECT modifyname INTO modname FROM tasklisthistory WHERE tasklistid = tasklistidz ORDER BY tasklisthistoryid DESC LIMIT 1;
+SELECT modifyname INTO modname FROM tasklisthistory WHERE tasklistid = p_tasklistidz ORDER BY tasklisthistoryid DESC LIMIT 1;
 RETURN modname;
 END; #
 
 
 DROP FUNCTION IF EXISTS TEST;
 DELIMITER #
-CREATE FUNCTION TEST(param INT) RETURNS VARCHAR(50)
+CREATE FUNCTION lastmodified(param INT) RETURNS VARCHAR(50) DETERMINISTIC
 BEGIN
 DECLARE modname VARCHAR(50);
-
-RETURN param;
+SELECT modifyname INTO modname FROM tasklisthistory WHERE tasklistid = param ORDER BY tasklisthistoryid DESC LIMIT 1;
+RETURN modname;
 END; #
 
 
 testuser
 Password14
+
+
+
+
+SELECT 	tasklisthistoryid,
+		tasklistid,
+		CASE
+		WHEN @prevRank = tasklistid THEN @curRank := @curRank + 1
+		WHEN @prevRank := tasklistid THEN @curRank := 0 
+		END AS rank,
+		taskid,
+		modifydate,
+		modifyname,
+		modifystate,
+		modifycomment
+
+FROM 	tasklisthistory,
+		(SELECT @curRank :=0, @prevRank := NULL) r
+ORDER BY tasklistid, tasklisthistoryid DESC
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			SELECT               
+                CONCAT(LPAD(MONTH(TL.tlistfulldate),2,0),'/',LPAD(DAYOFMONTH(TL.tlistfulldate),2,0)) AS Startdate,
+                TIME_FORMAT(TL.tlisttime, '%H:%i') AS Starttime,
+                CC.ClassCountryName AS Country,
+                TL.taskname AS Subject,
+                TS.taskstate AS Status,
+                CS.ClassSysName AS System,
+                TL.tasklistid AS ID,
+                TL.taskid AS Taskid,
+                IF(LENGTH(TLHR.modifyname)>0, TLHR.modifyname, TL.tlistcreatename) as Lastmod,
+                TLHR.tasklisthistoryid,
+                TLHR.rank
+                FROM 	classcountry CC,
+                		classfuncarea CF,
+                		classsystem CS,
+                		taskstate TS,
+                		procedures P, 
+                		tasklist TL LEFT JOIN               		
+                		(SELECT 	
+                				tasklisthistoryid,
+								tasklistid,
+								CASE
+								WHEN @prevRank = tasklistid THEN @curRank := @curRank + 1
+								WHEN @prevRank := tasklistid THEN @curRank := 0 
+								END AS rank,
+								taskid,
+								modifydate,
+								modifyname,
+								modifystate,
+								modifycomment
+
+						FROM 	tasklisthistory,
+								(SELECT @curRank :=0, @prevRank := NULL) r
+						ORDER BY tasklisthistoryid DESC) TLHR ON TL.tasklistid = TLHR.tasklistid
+                WHERE
+                    TL.tlistsystem = CS.classsysid
+                    AND
+                    TL.tlistcountry = CC.classcountryid
+                    AND
+                    TL.tlistfuncarea = CF.classfuncid
+                    AND
+                    TL.tliststate = TS.taskstateid
+                    AND
+                    TL.tlistprocedure = P.procid
+                    AND
+                    TL.tliststate IN (0, 1, 2, 4, 7)
+                    AND
+                    CC.classcountryid IN (0, 1, 2, 3, 4, 5, 6)                    
+                    AND
+                    (TLHR.rank = 0 || TLHR.rank IS NULL)
+                ORDER BY TL.tlistfulldate, TL.tlisttime;
 
 
 
