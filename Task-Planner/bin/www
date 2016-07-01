@@ -33,6 +33,9 @@ io.sockets.on('connection', function(socket){
     socket.on('Send Ping', function(){
       io.emit('Ping');
     })
+    socket.on('Update Task State', function(){
+      io.emit('Update Task View');
+    })
 }); 
 /**
  * Normalize a port into a number, string, or false.

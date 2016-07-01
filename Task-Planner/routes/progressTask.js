@@ -9,10 +9,12 @@ router.get('/', function(req, res, next) {
 	var taskid = req.query.taskid;
 	var newstatus = req.query.newstatus;
 	var description = req.query.description;
+	var testDescription = req.query.testDescription;
 
 
 	if (newstate == 'In Progress') {quickProgress(tasklistid, taskid);};
 	if (newstate == 'Set Next State') {progressTask(tasklistid, taskid, newstatus, description);};
+	if (newstate == 'Description Update') {descriptionUpdate(tasklistid, taskid, testDescription);};
 
 
 	function quickProgress(tasklistid, taskid, callback){
@@ -23,6 +25,12 @@ router.get('/', function(req, res, next) {
 
 	function progressTask(tasklistid, taskid, newstatus, description, callback){
 		db.updateProgress(tasklistid, taskid, newstatus, description, function(result){
+			res.send(result);
+		})
+	}
+
+	function descriptionUpdate(tasklistid, taskid, testDescription){
+		db.updateDescription(tasklistid, taskid, testDescription, function(result){
 			res.send(result);
 		})
 	}

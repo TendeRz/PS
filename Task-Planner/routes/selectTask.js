@@ -2,12 +2,11 @@ var express = require('express');
 var router = express.Router();
 var db = require('../queries/queries.js');
 
-/* GET full task view. */
-
+/* GET users listing. */
 router.get('/', tabldeData, tablehistory, progresState, rendering);
+
 function tabldeData(req, res, next){
 	var tasklistid = req.query.tasklistid;
-
 	db.selectTask(tasklistid, function(data){
 		var problem = data[0].createdate;
 		var norpblem = new Date(problem).toISOString().replace(/T/, ' ').replace(/\..+/, '');
@@ -35,7 +34,7 @@ function progresState (req, res, next){
 
 
 function rendering(req, res){
-	res.render('task', {
+	res.send( {
 		task: req.tabledata,
 		createdate: req.createdate,
 		tablehistory: req.tablehistory,
@@ -45,5 +44,4 @@ function rendering(req, res){
 	});
 }
 
-
-module.exports = router;
+	module.exports = router;

@@ -95,7 +95,9 @@ module.exports = {
                 TL.tlistdescription as descript,\
                 TL.tlistcreatedate as createdate,\
                 TL.tlistcreatename as createname,\
-                'Task Created' as note\
+                'Task Created' as note,\
+                TL.tasklistid as tasklistid,\
+                TL.taskid as taskid\
                 FROM classcountry CC, classfuncarea CF, classsystem CS, taskstate TS, procedures P, tasklist TL LEFT JOIN tasklisthistory TLH ON TL.tasklistid = TLH.tasklistid\
                 WHERE\
                     TL.tlistsystem = CS.classsysid\
@@ -133,7 +135,7 @@ module.exports = {
         })
     },
     selectProgressState: function (callback){
-        var sqlQuery = "SELECT * FROM taskstate WHERE taskstateid > 2";
+        var sqlQuery = "SELECT * FROM taskstate WHERE taskstateid > 2 AND taskstateid NOT IN ( 8 )";
         con.query(sqlQuery, function(err,rows){
             if(err) throw err;
             callback(rows);
@@ -151,6 +153,35 @@ module.exports = {
         var sqlQuery = "UPDATE tasklist SET tliststate = '"+newstatus+"' WHERE tasklistid = "+tasklistid;
         var sqlQuery2 = "INSERT INTO tasklisthistory (taskid, tasklistid, modifyname, modifystate, modifycomment)\
                         VALUES ('"+taskid+"', '"+tasklistid+"', '"+username+"', '"+newstatus+"', '"+description+"' )";
+        con.query(sqlQuery, function(err,rows){if(err) throw err;})
+        con.query(sqlQuery2, function(err,rows){if(err) throw err;})
+        callback('Done');
+    },
+    selectProcedure: function (procid, callback){
+        var sqlQuery = "SELECT\
+                D.procid as ID,\
+                D.proctitle as Title,\
+                A.classsysname as System,\
+                B.classcountryname as Country,\
+                C.classfuncname as Func,\
+                D.procdescript as Descript,\
+                D.procdependecies as Depend,\
+                D.procaccess as Access,\
+                D.procdescription as Description,\
+                D.proctroubleshooting as Troubleshooting,\
+                D.procimpact as Impact\
+                FROM\
+                classsystem A, classcountry B, classfuncarea C, procedures D\
+                WHERE A.classsysid = D.procsystem and B.classcountryid = d.proccountry and c.classfuncid = d.procfuncarea and d.procid = '"+procid+"';"
+                con.query(sqlQuery, function(err,rows){
+                    if(err) throw err;
+                    callback(rows);
+                })
+    },
+    updateDescription: function (tasklistid, taskid, testDescription, callback){
+        var sqlQuery = "UPDATE tasklist SET tlistdescription = CONCAT(tlistdescription, '"+testDescription+"') WHERE tasklistid = "+tasklistid;
+        var sqlQuery2 = "INSERT INTO tasklisthistory (taskid, tasklistid, modifyname, modifystate, modifycomment)\
+                        VALUES ('"+taskid+"', '"+tasklistid+"', '"+username+"', '8', 'Update' )";
         con.query(sqlQuery, function(err,rows){if(err) throw err;})
         con.query(sqlQuery2, function(err,rows){if(err) throw err;})
         callback('Done');
