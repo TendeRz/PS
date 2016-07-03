@@ -16,8 +16,12 @@ function progresState (req, res, next){
 
 function rendering(req, res){
 	var tasklistid = req.query.tasklistid;
+	var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+	if(!req.session.username){res.render('login', {fullUrl : fullUrl})}else{
 	res.render('tasks', {tasklistid: tasklistid,
-						progstate: req.progstate});
+						progstate: req.progstate,
+						user: req.session.username});
+	}
 }
 
 module.exports = router;

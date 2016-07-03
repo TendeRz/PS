@@ -10,7 +10,7 @@ router.get('/', function(req, res, next) {
 	var newstatus = req.query.newstatus;
 	var description = req.query.description;
 	var testDescription = req.query.testDescription;
-
+	var user = req.session.username;
 
 	if (newstate == 'In Progress') {quickProgress(tasklistid, taskid);};
 	if (newstate == 'Set Next State') {progressTask(tasklistid, taskid, newstatus, description);};
@@ -18,19 +18,19 @@ router.get('/', function(req, res, next) {
 
 
 	function quickProgress(tasklistid, taskid, callback){
-		db.updateQProgress(tasklistid, taskid, function(result){
+		db.updateQProgress(tasklistid, taskid, user, function(result){
 			res.send(result);
 		})
 	}
 
 	function progressTask(tasklistid, taskid, newstatus, description, callback){
-		db.updateProgress(tasklistid, taskid, newstatus, description, function(result){
+		db.updateProgress(tasklistid, taskid, newstatus, description, user, function(result){
 			res.send(result);
 		})
 	}
 
 	function descriptionUpdate(tasklistid, taskid, testDescription){
-		db.updateDescription(tasklistid, taskid, testDescription, function(result){
+		db.updateDescription(tasklistid, taskid, testDescription, user, function(result){
 			res.send(result);
 		})
 	}

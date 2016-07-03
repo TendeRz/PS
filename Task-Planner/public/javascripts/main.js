@@ -50,7 +50,8 @@ function selectcountries() {
 				<td class="status">'+data.Status+'</td>\
 				<td>'+data.System+'</td>\
 				<td>'+data.Lastmod+'</td>\
-				<td> <button class="btn btn-default btn-xs" type="button" data-taskid="'+data.Taskid+'" data-tasklistid="'+data.ID+'" onClick="quickprogresstaskstate($(this))">Next</button></td>\
+				<td> <button class="btn btn-default btn-xs" type="button" data-taskid="'+data.Taskid+'"\
+					data-tasklistid="'+data.ID+'" onClick="quickprogresstaskstate($(this))">Next</button></td>\
 				</tr>\
 				';
 			})

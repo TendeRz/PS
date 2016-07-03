@@ -17,6 +17,16 @@ con.connect(function(err){
 });
 
 module.exports = {
+    sessionStart: function(username, password, callback){
+        con.query("SELECT * FROM authorization WHERE username='"+username+"' and password='"+password+"'", function(err,rows){
+            if(err) throw err;
+            if(rows.length == 1){
+                callback('Oki')
+            }else{
+                callback('Noki')
+            }
+        })
+    },
     countryList: function (callback) {
         con.query('SELECT * FROM classcountry ORDER BY 2', function(err,rows){
             if(err) throw err;
@@ -141,18 +151,18 @@ module.exports = {
             callback(rows);
         })
     },
-    updateQProgress: function (tasklistid, taskid, callback){
+    updateQProgress: function (tasklistid, taskid, user, callback){
         var sqlQuery = "UPDATE tasklist SET tliststate = 2 WHERE tasklistid = "+tasklistid;
         var sqlQuery2 = "INSERT INTO tasklisthistory (taskid, tasklistid, modifyname, modifystate, modifycomment)\
-                            VALUES ('"+taskid+"', '"+tasklistid+"', '"+username+"', '2', 'Started' )";
+                            VALUES ('"+taskid+"', '"+tasklistid+"', '"+user+"', '2', 'Started' )";
         con.query(sqlQuery, function(err,rows){if(err) throw err;})
         con.query(sqlQuery2, function(err,rows){if(err) throw err;})
         callback('Done');
     },
-    updateProgress: function (tasklistid, taskid, newstatus, description, callback){
+    updateProgress: function (tasklistid, taskid, newstatus, description, user, callback){
         var sqlQuery = "UPDATE tasklist SET tliststate = '"+newstatus+"' WHERE tasklistid = "+tasklistid;
         var sqlQuery2 = "INSERT INTO tasklisthistory (taskid, tasklistid, modifyname, modifystate, modifycomment)\
-                        VALUES ('"+taskid+"', '"+tasklistid+"', '"+username+"', '"+newstatus+"', '"+description+"' )";
+                        VALUES ('"+taskid+"', '"+tasklistid+"', '"+user+"', '"+newstatus+"', '"+description+"' )";
         con.query(sqlQuery, function(err,rows){if(err) throw err;})
         con.query(sqlQuery2, function(err,rows){if(err) throw err;})
         callback('Done');
@@ -178,10 +188,10 @@ module.exports = {
                     callback(rows);
                 })
     },
-    updateDescription: function (tasklistid, taskid, testDescription, callback){
+    updateDescription: function (tasklistid, taskid, testDescription, user, callback){
         var sqlQuery = "UPDATE tasklist SET tlistdescription = CONCAT(tlistdescription, '"+testDescription+"') WHERE tasklistid = "+tasklistid;
         var sqlQuery2 = "INSERT INTO tasklisthistory (taskid, tasklistid, modifyname, modifystate, modifycomment)\
-                        VALUES ('"+taskid+"', '"+tasklistid+"', '"+username+"', '8', 'Update' )";
+                        VALUES ('"+taskid+"', '"+tasklistid+"', '"+user+"', '8', 'Update' )";
         con.query(sqlQuery, function(err,rows){if(err) throw err;})
         con.query(sqlQuery2, function(err,rows){if(err) throw err;})
         callback('Done');

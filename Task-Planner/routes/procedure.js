@@ -6,10 +6,12 @@ var db = require('../queries/queries.js');
 router.get('/', function(req, res, next) {
 	var procedureID = req.query.procID;
 	db.selectProcedure(procedureID, function(result){
-		console.log(result);
-		res.render('procedure', {
-			proc: result
-		});
+		var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+		if(!req.session.username){res.render('login', {fullUrl : fullUrl})}else{
+			res.render('procedure', {
+				proc: result
+			});
+		}
 	});
 });
 

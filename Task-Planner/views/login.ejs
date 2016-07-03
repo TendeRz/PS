@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+<head>
+    <title>Task Planner</title>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/my_style.css">
+
+</head>
+<body>
+    <div class="container">
+        <div class="col-md-6 margin-top-200 col-md-offset-3">
+        	<div class="panel panel-default">	
+                <div class="panel-heading middle">Please Login</div>
+        		<div class="panel-body">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="glyphicon glyphicon-user input-group-addon" style="top:0px;"></span>
+                            <input id="myusername" type="text" class="form-control" placeholder="Username" onChange="checkUsername(this.value, this)">
+                            <span class="glyphicon glyphicon-remove-circle input-group-addon myUser" style="top:0px;"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="glyphicon glyphicon-lock input-group-addon" style="top:0px;"></span>
+                            <input id="mypassword" type="password" class="form-control" placeholder="Password" onchange="validatePswd(this.value, this)">
+                            <span class="glyphicon glyphicon-remove-circle input-group-addon myPwd" style="top:0px;"></span>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-primary signIn" onClick="login($('#myusername').val(), $('#mypassword').val(), '<%= fullUrl %>')" disabled>Login</button>
+                    <button id="register" class="btn btn-primary" onClick="register()">Register</button>
+        		</div>
+        	</div>
+        	<div class="middle">
+        		<a href="#">Forgot Password?</a>
+        	</div>
+        </div>
+    </div>
+    <script src="/javascripts/jquery-2.2.0.js"></script>
+    <script src="/javascripts/bootstrap.js"></script>
+    <script src="/javascripts/login_checks.js"></script>
+    <script>
+    function register(){
+        alert("No!");
+    }
+    </script>
+</body>
+</html>
