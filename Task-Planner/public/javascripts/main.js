@@ -1,5 +1,8 @@
 var socket = io();
 
+var url = window.location.href;
+console.log(url);
+
 function checkallcountries(){           
 	$('input:checkbox').prop('checked', true);
 };

@@ -4,6 +4,8 @@
     <title>Task Planner</title>
     <link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="/stylesheets/my_style.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/jquery-ui.min.css">
+    
 
 </head>
 <body>
@@ -11,7 +13,7 @@
 
 <%- include modal.ejs %>
 
-    <div class="select-country">
+    <div id="countrySelect" class="select-country">
         <button class="btn btn-default btn-xs" onClick="checkallcountries()" style="width:100%">Check All</button>
         <button class="btn btn-default btn-xs" onClick="uncheckallcountries()" style="width:100%">Uncheck</button>
         <form action="" id="setCountries">
@@ -29,7 +31,9 @@
         <button class="btn btn-primary" onclick="selectcountries()">Set Countries</button>
     </div>
     <div class="container" >
-        <table class="table table-hover"> 
+    <%- include navigation.ejs %>
+        <hr>
+        <table class="table table-hover" style="margin-top: -5px"> 
             <thead> 
                 <tr> 
                     <th>Start Date</th> 
@@ -51,10 +55,16 @@
 
 
     <script src="/javascripts/jquery-2.2.0.js"></script>
+    <script src="/javascripts/jquery-ui.min.js"></script>
     <script src="/javascripts/bootstrap.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/javascripts/main.js"></script>
+    <script src="/javascripts/login_checks.js"></script>
     <script>
+        $(document).ready(function(){
+            $("#countrySelect").draggable();
+        });        
+
         var socket = io();
         $(document).ready(function() {
             setInterval(checkTasks, 60000);

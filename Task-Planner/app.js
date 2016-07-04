@@ -17,6 +17,7 @@ var tasks = require('./routes/tasks');
 var selectTask = require('./routes/selectTask');
 var login = require('./routes/login');
 var startSession = require('./routes/startSession');
+var endSession = require('./routes/endSession');
 var access_denied = require('./routes/access_denied');
 var app = express();
 
@@ -44,6 +45,7 @@ app.use('/procedure', procedure);
 app.use('/selectTask', selectTask);
 app.use('/login', login);
 app.use('/startSession', startSession);
+app.use('/endSession', endSession);
 app.use('/access_denied', access_denied);
 
 // catch 404 and forward to error handler
