@@ -313,7 +313,7 @@ END #
 
 
 DELIMITER #
-CREATE PROCEDURE updateTaskList()
+CREATE PROCEDURE updateTaskListNew()
 BEGIN
 DECLARE done INT DEFAULT FALSE;
 DECLARE dectaskid INT;
@@ -376,7 +376,9 @@ OPEN cursortask;
 					AND
 					(TD.day = day or TD.day = 'all')
 					AND
-					T.taskid = dectaskid;
+					T.taskid = dectaskid
+					AND
+					T.taskobsolite = 0;
 					
 				SET startdate = ADDDATE(startdate, 1);
 			END WHILE;

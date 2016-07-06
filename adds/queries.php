@@ -459,10 +459,11 @@ $newTaskID;
         $schedProcID = $_POST['schedProcID'];
         $schedDescript = stripslashes($_POST['schedDescription']);
         $schedDescript = mysqli_real_escape_string($link, $_POST['schedDescription']);
+        $schedType = $_POST['schedType'];
         $schedCreateName = $_SESSION['myusername'];
         $schedCreateDate = date('Y/m/d H:i:s');
 
-        $sql="INSERT INTO tasks (taskname, taskinitstate, tasksystem, taskcountry, taskfuncarea, taskprocedure, taskdescription, taskcreatename, taskcreatedate, taskmodname, taskmoddate) VALUES ('$schedSubject', '$schedState', '$schedSystem', '$schedCountry', '$schedFuncArea', '$schedProcID', '$schedDescript', '$schedCreateName', '$schedCreateDate', '$schedCreateName', '$schedCreateDate')";
+        $sql="INSERT INTO tasks (taskname, taskinitstate, tasksystem, taskcountry, taskfuncarea, taskprocedure, taskdescription, taskschedtype, taskcreatename, taskcreatedate, taskmodname, taskmoddate) VALUES ('$schedSubject', '$schedState', '$schedSystem', '$schedCountry', '$schedFuncArea', '$schedProcID', '$schedDescript', '$schedType', '$schedCreateName', '$schedCreateDate', '$schedCreateName', '$schedCreateDate')";
         
         if (mysqli_query($link, $sql)) {
             echo "New Task Inserted";
@@ -753,6 +754,33 @@ $newTaskID;
                 } else {
                     echo "Error: " . $sql . "<br>" . mysqli_error($link);
                 }        
+        mysqli_close($link);
+    }
+
+    function selectEditTaskList($system_id, $country_id){
+        global $link;
+        $sql = "SELECT
+                    t.taskid as id,
+                    t.taskname as name,
+                    ts.taskschedule as schedule,
+                    t.taskobsolite as obsolite
+                FROM 
+                    tasks t, taskschedule ts
+                WHERE 
+                    t.taskschedtype = ts.taskscheduleid
+                    AND
+                    t.taskcountry = '$country_id'
+                    AND
+                    t.tasksystem = '$system_id'
+                ORDER BY name";
+        return(mysqli_fetch_all($link->query($sql)));
+        mysqli_close($link);
+    }
+
+    function selectEditCountry($system_id){
+        global $link;
+        $sql = "SELECT DISTINCT taskcountry, ClassCountryName, ClassCountryID from tasks, classcountry WHERE tasksystem = '$system_id' AND ClassCountryID = taskcountry ORDER BY 2";
+        return(mysqli_fetch_all($link->query($sql)));
         mysqli_close($link);
     }
 ?>

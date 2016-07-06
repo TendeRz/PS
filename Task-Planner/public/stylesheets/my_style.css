@@ -190,7 +190,7 @@ html {
 
 .select-country {
 	border: 2px gray solid;
-	margin: 38px 0 0 50px;
+	margin: 125px 0 0 50px;
 	border-radius: 5%;
 	padding: 10px;
 	width: 140px;
@@ -205,6 +205,12 @@ html {
 .select-country > form > label:hover {
 	font-weight: bold;
 	background: #E6E6E6;
+}
+
+hr{
+	color: black;
+	border-top: 2px solid #080808;
+	margin-bottom: 10px;
 }
 /* ******************************************************************************************************************************************************************** */
 /*				TEST 	TEST				TEST 	TEST				TEST 	TEST				TEST 	TEST				TEST 	TEST				TEST 	    */
