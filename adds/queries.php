@@ -757,6 +757,8 @@ $newTaskID;
         mysqli_close($link);
     }
 
+
+
     function selectEditTaskList($system_id, $country_id){
         global $link;
         $sql = "SELECT
@@ -780,6 +782,41 @@ $newTaskID;
     function selectEditCountry($system_id){
         global $link;
         $sql = "SELECT DISTINCT taskcountry, ClassCountryName, ClassCountryID from tasks, classcountry WHERE tasksystem = '$system_id' AND ClassCountryID = taskcountry ORDER BY 2";
+        return(mysqli_fetch_all($link->query($sql)));
+        mysqli_close($link);
+    }
+
+    function selectEditTask($taskid){
+        global $link;
+        $sql = "SELECT 
+                    T.taskid,
+                    T.taskname,
+                    T.taskinitstate,
+                    TD.taskstartdate,
+                    T.taskschedtype,
+                    T.tasksystem,
+                    T.taskcountry,
+                    T.taskfuncarea,
+                    T.taskprocedure,
+                    T.taskdescription,
+                    T.taskobsolite,
+                    T.taskcreatename,
+                    T.taskcreatedate,
+                    T.taskmodname,
+                    T.taskmoddate
+                FROM
+                    tasks T, taskdates TD
+                WHERE
+                    T.taskid = TD.taskid
+                    AND
+                    T.taskid = '$taskid'";
+        return(mysqli_fetch_all($link->query($sql)));
+        mysqli_close($link);
+    }
+
+    function selectEditTaskProcedure($procid){
+        global $link;
+        $sql = "SELECT ProcTitle FROM procedures WHERE ProcID = '$procid'";
         return(mysqli_fetch_all($link->query($sql)));
         mysqli_close($link);
     }
