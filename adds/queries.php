@@ -127,9 +127,9 @@
         }        
     }
 
-    // if (ISSET($_POST['selected'])){
-    //     selectCountries();
-    // }
+    if (ISSET($_POST['editSched'])){
+        spoolPOST();
+    }
 /////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////
 ////////////////////////     GLOBAL     /////////////////////////////
@@ -437,15 +437,7 @@ $newTaskID;
     mysqli_close($link);
     }
 
-    function spoolPOST(){
 
-        echo "<pre>";
-        print_r($_POST);
-        echo "</pre>";
-
-        echo '<br>';
-        echo '<a href="../test_data.php">Back</a>';
-    }
 
     function insertNewTask(){
         global $newTaskID, $link;
@@ -818,6 +810,36 @@ $newTaskID;
         global $link;
         $sql = "SELECT ProcTitle FROM procedures WHERE ProcID = '$procid'";
         return(mysqli_fetch_all($link->query($sql)));
-        mysqli_close($link);
+    mysqli_close($link);
+    }
+
+    function selectEditTaskTimes($taskid){
+        global $link;
+        $sql = "SELECT tasktimeid, starttime FROM tasktimes where taskid = '$taskid'";
+        return(mysqli_fetch_all($link->query($sql)));
+    mysqli_close($link);
+    }
+
+    function selectEditTaskWeedays($taskid){
+        global $link;
+        $sql = "SELECT weekday FROM taskdates WHERE taskid = '$taskid'";
+        return(mysqli_fetch_all($link->query($sql)));
+    mysqli_close($link);
+    }
+
+    function selectEditTaskMonthdays($taskid){
+        global $link;
+        $sql = "SELECT day FROM taskdates WHERE taskid = '$taskid'";
+        return(mysqli_fetch_all($link->query($sql)));
+    mysqli_close($link);
+    }
+    function spoolPOST(){
+
+        echo "<pre>";
+        print_r($_POST);
+        echo "</pre>";
+
+        echo '<br>';
+        echo '<a href="'.$_SERVER['HTTP_REFERER'].'">Back</a>';
     }
 ?>

@@ -104,7 +104,13 @@
 									<div class="panel panel-default">
 										<div class="panel-body addTime">
 											<div class="timeset">
-												
+												<?php if($taskSchedType == 1){
+
+													$tasktimes = selectEditTaskTimes($globalTaskID);
+													foreach ($tasktimes as $key => $tasktimesitem) {
+														echo '<input type="text" class="form-control addedTime" name="schedTimeset[]" value="'.$tasktimesitem[1].'"/>';
+													}
+													} ?>
 											</div>
 										</div>
 										<button type="button" id="addTime" class="btn" style="margin: 20px 0 20px 20px">Add Time Line</button>
@@ -115,7 +121,12 @@
 									<div class="panel panel-default">
 										<div class="panel-body addTime">
 											Schedule will be set for every day of month.											
-												<input type='text' class="form-control timeInput" name="schedTimesetDaily"/>
+												<?php if($taskSchedType == 2){
+													$tasktimes = selectEditTaskTimes($globalTaskID);
+													foreach ($tasktimes as $key => $tasktimesitem) {
+														echo '<input type="text" class="form-control timeInput" name="schedTimesetDaily" value="'.$tasktimesitem[1].'"/>';
+													}
+													} ?>
 											<div>
 											</div>
 										</div>
@@ -125,8 +136,13 @@
 									<div class="panel panel-default">
 										<div class="panel-body addTime">
 											Schedule will be set for every day of month, excluding weekends.
-											<input type='text' class="form-control timeInput" name="schedTimesetNoWeekends"/>
-										<div>											
+											<?php if($taskSchedType == 3){
+												$tasktimes = selectEditTaskTimes($globalTaskID);
+												foreach ($tasktimes as $key => $tasktimesitem) {
+													echo '<input type="text" class="form-control timeInput" name="schedTimesetNoWeekends" value="'.$tasktimesitem[1].'"/>';
+												}
+											} ?>
+										<div>
 										</div>
 										</div>
 									</div>
@@ -134,67 +150,72 @@
 								<div id="schedOption4" class="schedulingOptions">
 									<div class="panel panel-default">
 										<div class="panel-body addTime">
-											<label class="checkbox-inline"><input type="checkbox" name="schedWeekday[]" value="0"> Monday</label>
-											<label class="checkbox-inline"><input type="checkbox" name="schedWeekday[]" value="1"> Tuesday</label>
-											<label class="checkbox-inline"><input type="checkbox" name="schedWeekday[]" value="2"> Wednesday</label>
-											<label class="checkbox-inline"><input type="checkbox" name="schedWeekday[]" value="3"> Thursday</label>
-											<label class="checkbox-inline"><input type="checkbox" name="schedWeekday[]" value="4"> Friday</label>
-											<label class="checkbox-inline"><input type="checkbox" name="schedWeekday[]" value="5"> Staurday</label>
-											<label class="checkbox-inline"><input type="checkbox" name="schedWeekday[]" value="6"> Sunday</label>
+
+											<?php if($taskSchedType == 4) {
+												$weekdays = selectEditTaskWeedays($globalTaskID);
+												$result = array();
+												foreach ($weekdays as $key => $weekdaysitem) {
+													$result = array_merge($result, $weekdaysitem);
+												}
+												for ($i=0; $i < 7; $i++) { 
+													if ($i == 0) {$day = 'Monday';}
+													elseif ($i == 1) {$day = 'Tuesday';}
+													elseif ($i == 2) {$day = 'Wednesday';}
+													elseif ($i == 3) {$day = 'Thursday';}
+													elseif ($i == 4) {$day = 'Friday';}
+													elseif ($i == 5) {$day = 'Staurday';}
+													elseif ($i == 6) {$day = 'Sunday';}
+													if(in_array($i, $result) ){
+														echo '<label class="checkbox-inline"><input type="checkbox" name="schedWeekday[]" value="'.$i.'" checked>'.$day.'</label>';
+													}else{
+														echo '<label class="checkbox-inline"><input type="checkbox" name="schedWeekday[]" value="'.$i.'">'.$day.'</label>';
+													}
+												 }
+											}?>
 										</div>
-										<input type='text' class="form-control timeInput" name="schedTimesetWeekday"/>
+										<!-- <input type='text' class="form-control timeInput" name="schedTimesetWeekday"/> -->
+										<?php if($taskSchedType == 4){
+											$tasktimes = selectEditTaskTimes($globalTaskID);
+											foreach ($tasktimes as $key => $tasktimesitem) {
+												echo '<input type="text" class="form-control timeInput" name="schedTimesetWeekday" value="'.$tasktimesitem[1].'"/>';
+											}
+										} ?>
 										<div>
 										</div>
 									</div> 
 								</div>
 								<div id="schedOption5" class="schedulingOptions">
 									<div class="panel panel-default">
-										<div class="panel-body addTime">
-											<div class="row">
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="1"> 01 </label>
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="2"> 02 </label>
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="3"> 03 </label>
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="4"> 04 </label>
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="5"> 05 </label>
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="6"> 06 </label>
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="7"> 07 </label>
-											</div>
-											<div class="row">
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="8"> 08 </label>
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="9"> 09 </label>
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="10"> 10 </label>
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="11"> 11 </label>
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="12"> 12 </label>
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="13"> 13 </label>
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="14"> 14 </label>
-											</div>
-											<div class="row">
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="15"> 15 </label>
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="16"> 16 </label>
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="17"> 17 </label>
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="18"> 18 </label>
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="19"> 19 </label>
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="20"> 20 </label>
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="21"> 21 </label>
-											</div>
-											<div class="row">
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="22"> 22 </label>
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="23"> 23 </label>
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="24"> 24 </label>
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="25"> 25 </label>
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="26"> 26 </label>
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="27"> 27 </label>
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="28"> 28 </label>
-											</div>
-											<div class="row">
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="29"> 29 </label>
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="30"> 30 </label>
-												<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="31"> 31 </label>
-											</div>
+										<div class="panel-body addTime" style="margin-left:10px">
+											<?php if($taskSchedType == 5) {
+												$weekdays = selectEditTaskMonthdays($globalTaskID);
+												$result = array();
+												foreach ($weekdays as $key => $weekdaysitem) {
+													$result = array_merge($result, $weekdaysitem);
+												}
+												echo '<div class="row">';
+												for ($i=1; $i < 32; $i++) {
+													$a = sprintf("%02d", $i);
+													if(in_array($i, $result) ){
+														echo '<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="'.$i.'" checked> '.$a.' </label>';
+													}else{
+														echo '<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="'.$i.'"> '.$a.' </label>';
+													}
+													if (($i % 7) == 0)
+														{echo '</div><div class="row">';}
+												}
+												echo '</div>';
+											}?>
+
 										</div>
-										<input type='text' class="form-control timeInput" name="schedTimesetMonthday"/>
+										<?php if($taskSchedType == 5){
+											$tasktimes = selectEditTaskTimes($globalTaskID);
+											foreach ($tasktimes as $key => $tasktimesitem) {
+												echo '<input type="text" class="form-control timeInput" name="schedTimesetMonthday" value="'.$tasktimesitem[1].'"/>';
+											}
+										} ?>
 										<div>
-										</div>										
+										</div>
 									</div>
 								</div>
 								<div id="schedOption6" class="schedulingOptions">
@@ -209,7 +230,7 @@
 									</div>
 								</div>
 							</div>
-						</div>					
+						</div>
 				</div>
 			</div>
 			<div class="panel panel-default">
@@ -267,7 +288,12 @@
 
 					<label class="col-sm-2 control-label margin-top-5">Procedure</label>
 					<div class="col-sm-10">
-						<input id="schedProcName" type="text" class="form-control" placeholder="Task Name" name="schedProcedure" data-toggle="modal" data-target="#schedProcedureModal" value="<?php echo selectEditTaskProcedure($taskProcedure)[0][0]; ?>">
+						<input id="schedProcName" type="text" class="form-control" placeholder="Task Name" name="schedProcedure" data-precedureid="<?php echo $taskProcedure ?>" data-toggle="modal" data-target="#schedProcedureModal" value="<?php echo selectEditTaskProcedure($taskProcedure)[0][0]; ?>">
+					
+						<input id="schedProcName2" type="text" class="form-control" name="schedProcID2" value="<?php echo $taskProcedure ?>" style="visibility: hidden;">
+						
+
+
 						<div class="modal fade" id="schedProcedureModal" tabindex="-1" role="dialog" aria-hidden="true">
 							<div class="modal-dialog">
 								<div class="modal-content">
@@ -335,6 +361,8 @@
 								</div>
 							</div>
 						</div>
+
+
 					</div>
 				</div>
 			</div>
@@ -366,15 +394,8 @@
 				</div>
 			</div>
 		</form>
-			<input  class="btn btn-default" type="submit" form="scheduleInsertForm" name="newSched" value="Create" style="margin-top: 5px">
+			<input  class="btn btn-default" type="submit" form="scheduleInsertForm" name="editSched" value="Create" style="margin-top: 5px">
 	</div>
-
-<?php 
-	$selectedProcedure = selectEditTaskProcedure($taskProcedure);
-	print_r($selectedProcedure);
-	echo $selectedProcedure[0][0];
-	echo selectEditTaskProcedure($taskProcedure)[0][0];
- ?>
 
     <script type="text/javascript">
        	$(function () {
@@ -385,15 +406,22 @@
 				})
 			});
 
+			$('.timeset input').each(function () {
+				$(this).datetimepicker({
+					locale: 'en',
+					format: "HH:mm"
+				});
+			});
+
       		$('#schedAddProcedure').on('click', function () {
 				$('#schedProcName').val($('input[type="radio"][name="schedProcID"]:checked').data('procid'));
+				$('#schedProcName2').val($('input[type="radio"][name="schedProcID"]:checked').val());
 			})
 
 
 			$('#addTime').on('click',function () {
 				$('.timeset').append('<input type="text" class="form-control addedTime" name="schedTimeset[]"/>');
 				$('.timeset input').each(function () {
-
 					$(this).datetimepicker({
 						locale: 'en',
 						format: "HH:mm"
@@ -433,6 +461,8 @@
       	$('.schedulingOptions').hide("fast");
       	$('#schedOption' + selectedSchedOption).show("slow");
       })
+
+
     </script>
 </body>
 </html>
