@@ -126,7 +126,9 @@
 													foreach ($tasktimes as $key => $tasktimesitem) {
 														echo '<input type="text" class="form-control timeInput" name="schedTimesetDaily" value="'.$tasktimesitem[1].'"/>';
 													}
-													} ?>
+													} else {
+														echo '<input type="text" class="form-control timeInput" name="schedTimesetDaily"/>';
+														} ?>
 											<div>
 											</div>
 										</div>
@@ -141,6 +143,8 @@
 												foreach ($tasktimes as $key => $tasktimesitem) {
 													echo '<input type="text" class="form-control timeInput" name="schedTimesetNoWeekends" value="'.$tasktimesitem[1].'"/>';
 												}
+											} else {
+												echo '<input type="text" class="form-control timeInput" name="schedTimesetNoWeekends"/>';
 											} ?>
 										<div>
 										</div>
@@ -171,7 +175,19 @@
 														echo '<label class="checkbox-inline"><input type="checkbox" name="schedWeekday[]" value="'.$i.'">'.$day.'</label>';
 													}
 												 }
-											}?>
+											}else{
+												for ($i=0; $i < 7; $i++) { 
+													if ($i == 0) {$day = 'Monday';}
+													elseif ($i == 1) {$day = 'Tuesday';}
+													elseif ($i == 2) {$day = 'Wednesday';}
+													elseif ($i == 3) {$day = 'Thursday';}
+													elseif ($i == 4) {$day = 'Friday';}
+													elseif ($i == 5) {$day = 'Staurday';}
+													elseif ($i == 6) {$day = 'Sunday';}													
+													echo '<label class="checkbox-inline"><input type="checkbox" name="schedWeekday[]" value="'.$i.'">'.$day.'</label>';
+												}
+											}
+											?>
 										</div>
 										<!-- <input type='text' class="form-control timeInput" name="schedTimesetWeekday"/> -->
 										<?php if($taskSchedType == 4){
@@ -179,6 +195,8 @@
 											foreach ($tasktimes as $key => $tasktimesitem) {
 												echo '<input type="text" class="form-control timeInput" name="schedTimesetWeekday" value="'.$tasktimesitem[1].'"/>';
 											}
+										}else{
+											echo '<input type="text" class="form-control timeInput" name="schedTimesetWeekday"/>';
 										} ?>
 										<div>
 										</div>
@@ -205,7 +223,16 @@
 														{echo '</div><div class="row">';}
 												}
 												echo '</div>';
-											}?>
+											}else{
+												echo '<div class="row">';
+												for ($i=1; $i < 32; $i++) {
+													$a = sprintf("%02d", $i);
+													echo '<label class="checkbox-inline"><input type="checkbox" name="schedMonthday[]" value="'.$i.'"> '.$a.' </label>';
+													if (($i % 7) == 0){echo '</div><div class="row">';}
+												} 
+												echo '</div>';
+											}
+											?>
 
 										</div>
 										<?php if($taskSchedType == 5){
@@ -213,7 +240,9 @@
 											foreach ($tasktimes as $key => $tasktimesitem) {
 												echo '<input type="text" class="form-control timeInput" name="schedTimesetMonthday" value="'.$tasktimesitem[1].'"/>';
 											}
-										} ?>
+										}else{
+											echo '<input type="text" class="form-control timeInput" name="schedTimesetMonthday"/>';
+											} ?>
 										<div>
 										</div>
 									</div>
@@ -222,11 +251,26 @@
 									<div class="panel panel-default">
 										<div class="panel-body addTime">
 											<div class="customDateset">
-												
+												<?php 
+												if($taskSchedType == 6){
+													$customdays = selectEditTaskCustomdays($globalTaskID);
+													foreach ($customdays as $key => $customdaysitem) {
+														echo '<input type="text" class="form-control addedCustomDate" name="schedDatesetCustom[]" value="'.$customdaysitem[0].'"/>';
+													}
+												}
+												?>
 											</div>
 										</div>
 										<button type="button" id="addCustomDate" class="btn" style="margin: 20px 0 20px 20px">Add Date Line</button>
 										<button type="button" id="removeCustomDate" class="btn" style="margin: 20px 0 20px 20px">Remove Date Line</button>
+										<?php if($taskSchedType == 6){
+											$tasktimes = selectEditTaskTimes($globalTaskID);
+											foreach ($tasktimes as $key => $tasktimesitem) {
+												echo '<input type="text" class="form-control timeInput" name="schedTimesetCustom" value="'.$tasktimesitem[1].'"/>';
+											}
+										} else {
+											echo '<input type="text" class="form-control timeInput" name="schedTimesetCustom"/> <div></div>';
+										} ?>
 									</div>
 								</div>
 							</div>
@@ -435,13 +479,12 @@
 
 
 			$('#addCustomDate').on('click',function () {
-				$('.customDateset').append('<input type="text" class="form-control addedCustomDate" name="schedCustomTimeset[]"/>');
+				$('.customDateset').append('<input type="text" class="form-control addedCustomDate" name="schedDatesetCustom[]"/>');
 				$('.customDateset input').each(function () {
 
 					$(this).datetimepicker({
 						locale: 'en',
-						format: "YYYY-MM-DD HH:mm",
-						sideBySide: true
+						format: "YYYY-MM-DD"
 					});
 				});
 			})

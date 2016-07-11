@@ -178,6 +178,9 @@
 										</div>
 										<button type="button" id="addCustomDate" class="btn" style="margin: 20px 0 20px 20px">Add Date Line</button>
 										<button type="button" id="removeCustomDate" class="btn" style="margin: 20px 0 20px 20px">Remove Date Line</button>
+										<input type='text' class="form-control timeInput" name="schedTimesetCustom"/>
+										<div>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -361,13 +364,12 @@
 
 
 			$('#addCustomDate').on('click',function () {
-				$('.customDateset').append('<input type="text" class="form-control addedCustomDate" name="schedCustomTimeset[]"/>');
+				$('.customDateset').append('<input type="text" class="form-control addedCustomDate" name="schedDatesetCustom[]"/>');
 				$('.customDateset input').each(function () {
 
 					$(this).datetimepicker({
 						locale: 'en',
-						format: "YYYY-MM-DD HH:mm",
-						sideBySide: true
+						format: "YYYY-MM-DD"
 					});
 				});
 			})

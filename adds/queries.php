@@ -607,7 +607,7 @@ $newTaskID;
             echo "Time added successfully <br />";
             foreach ($_POST['schedMonthday'] as $key => $monthday) {
                 $sql="INSERT INTO taskdates (taskid, taskstartdate, year, month, week, weekday, day) VALUES ('$newTaskID', '$schedStartDate' ,'all' ,'all' ,'all' ,'all' ,'$monthday')";
-                 if (mysqli_query($link, $sql)) {
+                if (mysqli_query($link, $sql)) {
                     echo "Day added successfully <br />";
                 } else {
                     echo "Error: " . $sql . "<br>" . mysqli_error($link);
@@ -622,34 +622,27 @@ $newTaskID;
 
     function insertScheduleCustom(){
         global $newTaskID, $link;
-        
+        insertNewTask();
+        $schedTimesetCustom = $_POST['schedTimesetCustom'];
+        $starttime = substr($schedTimesetCustom, 0, 5);
         $schedStartDate = $_POST['schedStartDate'];
+        $sql2="INSERT INTO tasktimes (taskid, starttime) VALUES ('$newTaskID', '$starttime')";
 
-        foreach ($_POST['schedCustomTimeset'] as $key => $customTimeSet) {
-
-            insertNewTask();
-
-            $taskYear = substr($customTimeSet, 0, 4);
-            $taskMonth = substr($customTimeSet, 5, 2);
-            $taskDay = substr($customTimeSet, 8, 2);
-            $starttime = substr($customTimeSet, 11, 5);
-
-            $sql="INSERT INTO taskdates (taskid, taskstartdate, year, month, week, weekday, day) VALUES ('$newTaskID', '$schedStartDate' ,'$taskYear' ,'$taskMonth' ,'all' ,'all' ,'$taskDay')";
-            $sql2="INSERT INTO tasktimes (taskid, starttime) VALUES ('$newTaskID', '$starttime')";
-            if (mysqli_query($link, $sql2)) {
-                echo "Time added successfully <br />";
+        if (mysqli_query($link, $sql2)) {
+            echo "Time added successfully <br />";
+            foreach ($_POST['schedDatesetCustom'] as $key => $customTimeSet) {
+                $taskYear = substr($customTimeSet, 0, 4);
+                $taskMonth = substr($customTimeSet, 5, 2);
+                $taskDay = substr($customTimeSet, 8, 2);
+                $sql="INSERT INTO taskdates (taskid, taskstartdate, year, month, week, weekday, day) VALUES ('$newTaskID', '$schedStartDate' ,'$taskYear' ,'$taskMonth' ,'all' ,'all' ,'$taskDay')";
                 if (mysqli_query($link, $sql)) {
                     echo "Day added successfully <br />";
                 } else {
                     echo "Error: " . $sql . "<br>" . mysqli_error($link);
                 } 
-            } else {
-                echo "Error: " . $sql . "<br>" . mysqli_error($link);
             }
-
-            trigger();
         }
-    
+    trigger();    
     mysqli_close($link);
     }
 
@@ -833,6 +826,15 @@ $newTaskID;
         return(mysqli_fetch_all($link->query($sql)));
     mysqli_close($link);
     }
+
+    function selectEditTaskCustomdays($taskid){
+        global $link;
+        $sql = "SELECT CONCAT_WS('-', year, month, day) FROM taskdates WHERE taskid = '$taskid'";
+        return(mysqli_fetch_all($link->query($sql)));
+    mysqli_close($link);
+    }
+
+
     function spoolPOST(){
 
         echo "<pre>";
@@ -842,4 +844,6 @@ $newTaskID;
         echo '<br>';
         echo '<a href="'.$_SERVER['HTTP_REFERER'].'">Back</a>';
     }
+
+
 ?>
