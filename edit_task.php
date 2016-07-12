@@ -44,6 +44,8 @@
 	
 
 		<form action="./adds/queries.php" enctype='multipart/form-data' method="post" role="form" autocomplete="off" id="scheduleInsertForm">
+			<input type="hidden" name="schedCreateDate" value="<?php echo $taskCreateDate; ?>">
+			<input type="hidden" name="schedTaskID" value="<?php echo $globalTaskID; ?>">
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h3 class="panel-title"> Schedule </h3>
@@ -85,7 +87,20 @@
 									
 								    
 							</div>
-
+							<label class="col-sm-2 control-label margin-top-5">Activation</label>
+							<div class="col-sm-10">
+								<select class="form-control" name="schedActive">
+									<?php $obsolite = selectEditTaskActive($globalTaskID);
+										foreach ($obsolite as $key => $obsoliteItem) {
+											if($obsoliteItem[0] == 0) {
+												echo '<option value="0" selected>Inactive</option><option value="1">Active</option>';
+											}else{
+												echo '<option value="0">Inactive</option><option value="1" selected>Active</option>';
+											}
+										}
+									 ?>
+								</select>
+							</div>
 							<label class="col-sm-2 control-label margin-top-5">Select Schedule</label>
 							<div  class="col-sm-10">
 								<select id="schedSelect" class="form-control" name="schedType">'
@@ -333,11 +348,6 @@
 					<label class="col-sm-2 control-label margin-top-5">Procedure</label>
 					<div class="col-sm-10">
 						<input id="schedProcName" type="text" class="form-control" placeholder="Task Name" name="schedProcedure" data-precedureid="<?php echo $taskProcedure ?>" data-toggle="modal" data-target="#schedProcedureModal" value="<?php echo selectEditTaskProcedure($taskProcedure)[0][0]; ?>">
-					
-						<input id="schedProcName2" type="text" class="form-control" name="schedProcID2" value="<?php echo $taskProcedure ?>" style="visibility: hidden;">
-						
-
-
 						<div class="modal fade" id="schedProcedureModal" tabindex="-1" role="dialog" aria-hidden="true">
 							<div class="modal-dialog">
 								<div class="modal-content">
@@ -376,7 +386,11 @@
 																						$procList = selectProcedure($countrName[0], $funcAreaName[2]);
 																						foreach ($procList as $key => $procedureName) {
 																						echo '<li class="list-group-item procedure-list-item">';
-																							echo '<label><input type="radio" name="schedProcID" data-procid="'.$procedureName[1].'" value="'.$procedureName[0].'" checked="">'.$procedureName[1].'</input></label>';
+																							if ($procedureName[0] == $taskProcedure){
+																								echo '<label><input type="radio" name="schedProcID" data-procid="'.$procedureName[1].'" value="'.$procedureName[0].'" checked>'.$procedureName[1].'</input></label>';
+																							}else{
+																								echo '<label><input type="radio" name="schedProcID" data-procid="'.$procedureName[1].'" value="'.$procedureName[0].'" >'.$procedureName[1].'</input></label>';
+																							}
 																						echo '</li>';
 																						}
 																					echo '</ul>';
@@ -456,10 +470,17 @@
 					format: "HH:mm"
 				});
 			});
+			
+			$('.customDateset input').each(function () {
+
+					$(this).datetimepicker({
+						locale: 'en',
+						format: "YYYY-MM-DD"
+					});
+				});
 
       		$('#schedAddProcedure').on('click', function () {
 				$('#schedProcName').val($('input[type="radio"][name="schedProcID"]:checked').data('procid'));
-				$('#schedProcName2').val($('input[type="radio"][name="schedProcID"]:checked').val());
 			})
 
 

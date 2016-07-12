@@ -51,7 +51,7 @@ session_start();
 														$taskList = selectEditTaskList($systemName[0], $countryName[2]);
 														foreach ($taskList as $key => $taskListItem) {
 															echo '<tr style="font-size: 90%">';																
-																	echo '<td class="col-sm-1" style="padding:0; text-align: center"><span class="glyphicon '.($taskListItem[3] == 0 ? 'glyphicon-ok' : 'glyphicon-remove').'" ></span></td>';
+																	echo '<td class="col-sm-1" style="padding:0; text-align: center"><span class="glyphicon '.($taskListItem[3] == 1 ? 'glyphicon-ok' : 'glyphicon-remove').'" ></span></td>';
 																	echo '<td class="col-sm-8" style="padding:0"> <a href="edit_task.php?taskID='.$taskListItem[0].'" target="_blank">'.$taskListItem[1].'</a> </td>';
 																	echo '<td class="col-sm-2" style="padding:0">' .$taskListItem[2]. '</td>';
 															echo '</tr>';

@@ -128,7 +128,35 @@
     }
 
     if (ISSET($_POST['editSched'])){
-        spoolPOST();
+        switch ($_POST['schedType']) {
+            case 1:
+                deleteTask($_POST['schedTaskID'], $_POST['schedName'], 'Deleted for Modification', $_SESSION['myusername']);
+                insertScheduleMoreThenOnce();
+                break;
+            case 2:
+                deleteTask($_POST['schedTaskID'], $_POST['schedName'], 'Deleted for Modification', $_SESSION['myusername']);
+                insertScheduleDaily();
+                break;
+            case 3:
+                deleteTask($_POST['schedTaskID'], $_POST['schedName'], 'Deleted for Modification', $_SESSION['myusername']);
+                insertScheduleDailyNoWeekend();
+                break;
+            case 4:
+                deleteTask($_POST['schedTaskID'], $_POST['schedName'], 'Deleted for Modification', $_SESSION['myusername']);
+                insertScheduleWeekly();
+                break;
+            case 5:
+                deleteTask($_POST['schedTaskID'], $_POST['schedName'], 'Deleted for Modification', $_SESSION['myusername']);
+                insertScheduleMonthly();
+                break;
+            case 6:
+                deleteTask($_POST['schedTaskID'], $_POST['schedName'], 'Deleted for Modification', $_SESSION['myusername']);
+                insertScheduleCustom();
+                break;
+            default:
+                spoolPOST();
+                break;
+        }
     }
 /////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////
@@ -453,9 +481,19 @@ $newTaskID;
         $schedDescript = mysqli_real_escape_string($link, $_POST['schedDescription']);
         $schedType = $_POST['schedType'];
         $schedCreateName = $_SESSION['myusername'];
-        $schedCreateDate = date('Y/m/d H:i:s');
+        if (ISSET($_POST['schedActive'])) {
+            $schedObsolite = $_POST['schedActive'];
+        }else{
+            $schedObsolite = 1;
+        }
 
-        $sql="INSERT INTO tasks (taskname, taskinitstate, tasksystem, taskcountry, taskfuncarea, taskprocedure, taskdescription, taskschedtype, taskcreatename, taskcreatedate, taskmodname, taskmoddate) VALUES ('$schedSubject', '$schedState', '$schedSystem', '$schedCountry', '$schedFuncArea', '$schedProcID', '$schedDescript', '$schedType', '$schedCreateName', '$schedCreateDate', '$schedCreateName', '$schedCreateDate')";
+        if (ISSET($_POST['schedCreateDate'])){
+            $schedCreateDate = $_POST['schedCreateDate'];
+        }else{
+            $schedCreateDate = date('Y/m/d H:i:s');
+        }
+
+        $sql="INSERT INTO tasks (taskname, taskinitstate, tasksystem, taskcountry, taskfuncarea, taskprocedure, taskdescription, taskschedtype, taskcreatename, taskcreatedate, taskmodname, taskmoddate, taskobsolite) VALUES ('$schedSubject', '$schedState', '$schedSystem', '$schedCountry', '$schedFuncArea', '$schedProcID', '$schedDescript', '$schedType', '$schedCreateName', '$schedCreateDate', '$schedCreateName', '$schedCreateDate', '$schedObsolite')";
         
         if (mysqli_query($link, $sql)) {
             echo "New Task Inserted";
@@ -833,6 +871,48 @@ $newTaskID;
         return(mysqli_fetch_all($link->query($sql)));
     mysqli_close($link);
     }
+
+    function selectEditTaskActive($taskid){
+        global $link;
+        $sql = "SELECT taskobsolite FROM tasks WHERE taskid = '$taskid'";
+        return(mysqli_fetch_all($link->query($sql)));
+    mysqli_close($link);
+    }
+
+    function deleteTask($taskid, $taskname, $modification, $modifier){
+        global $link;
+        $sql_1 = "DELETE FROM tasks WHERE taskid = '$taskid'";
+        $sql_2 = "DELETE FROM taskdates WHERE taskid = '$taskid'";
+        $sql_3 = "DELETE FROM tasktimes WHERE taskid = '$taskid'";
+        $sql_4 = "DELETE FROM tasklist WHERE taskid = '$taskid' AND tliststate IN (0,1)";
+        $sql_5 = "INSERT INTO TASKHISTORY (taskid, taskname, taskhistorymodification, taskhistoryeditor) VALUES ('$taskid', '$taskname', '$modification', '$modifier')";
+        if (mysqli_query($link, $sql_1)) {
+            echo "First successfully <br />";
+            if (mysqli_query($link, $sql_2)) {
+                echo "Second successfully <br />";
+                if (mysqli_query($link, $sql_3)) {
+                    echo "Third successfully <br />";
+                    if (mysqli_query($link, $sql_4)) {
+                        echo "Fourth successfully <br />";
+                        if (mysqli_query($link, $sql_5)) {
+                            echo "Fifth successfully <br />";
+                        }else{
+                            echo "Error: " . $sql . "<br>" . mysqli_error($link);
+                        }
+                    }else{
+                        echo "Error: " . $sql . "<br>" . mysqli_error($link);
+                    }
+                }else{
+                    echo "Error: " . $sql . "<br>" . mysqli_error($link);
+                }
+            }else{
+                echo "Error: " . $sql . "<br>" . mysqli_error($link);
+            }
+        } else {
+        echo "Error: " . $sql . "<br>" . mysqli_error($link);
+        } 
+    }
+
 
 
     function spoolPOST(){
