@@ -38,7 +38,13 @@
                 }
             ?>
 
-
+        <div class="panel panel-primary">
+            <div class="panel-heading">Action</div>
+            <div class="panel-body">
+                <a class="btn btn-primary" href="edit_procedure.php?procid=<?php echo $pprocid ?>&procname=<?php echo $pprocTitle ?>" target="_blank">Edit Procedure</a>
+                <input class="btn btn-warning" style="float:right" type="button" value="Close" onclick="self.close()">
+            </div>
+        </div>
 
         <div class="bs-example" data-example-id="collapse-accordion"> 
             <div class="panel-group procedure-list-group" id="accordion0" role="tablist" aria-multiselectable="true"> 
@@ -46,7 +52,7 @@
                 <div class="panel panel-primary">
                     <div class="panel-heading" role="tab" id="headingOne"> 
                         <h4 class="panel-title"> 
-                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion0" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">  
+                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion0" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
                             Classification
                             </a>
                         </h4> 

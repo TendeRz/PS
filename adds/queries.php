@@ -158,6 +158,10 @@
                 break;
         }
     }
+
+    if (ISSET($_POST['editProcedure'])) {
+        spoolPOST();
+    }
 /////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////
 ////////////////////////     GLOBAL     /////////////////////////////
@@ -493,7 +497,7 @@ $newTaskID;
             $schedCreateDate = date('Y/m/d H:i:s');
         }
 
-        $sql="INSERT INTO tasks (taskname, taskinitstate, tasksystem, taskcountry, taskfuncarea, taskprocedure, taskdescription, taskschedtype, taskcreatename, taskcreatedate, taskmodname, taskmoddate, taskobsolite) VALUES ('$schedSubject', '$schedState', '$schedSystem', '$schedCountry', '$schedFuncArea', '$schedProcID', '$schedDescript', '$schedType', '$schedCreateName', '$schedCreateDate', '$schedCreateName', '$schedCreateDate', '$schedObsolite')";
+        $sql="INSERT INTO tasks (taskname, taskinitstate, tasksystem, taskcountry, taskfuncarea, taskprocedure, taskdescription, taskschedtype, taskcreatename, taskcreatedate, taskmodname, taskobsolite) VALUES ('$schedSubject', '$schedState', '$schedSystem', '$schedCountry', '$schedFuncArea', '$schedProcID', '$schedDescript', '$schedType', '$schedCreateName', '$schedCreateDate', '$schedCreateName', '$schedObsolite')";
         
         if (mysqli_query($link, $sql)) {
             echo "New Task Inserted";
