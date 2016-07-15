@@ -162,6 +162,14 @@
     if (ISSET($_POST['editProcedure'])) {
         spoolPOST();
     }
+
+    if (ISSET($_POST['saveProcedure'])) {
+        insertProceduresArchive(3);
+    }
+
+    if (ISSET($_POST['updateProcedure'])) {
+        insertProceduresArchive(1);
+    }
 /////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////
 ////////////////////////     GLOBAL     /////////////////////////////
@@ -328,7 +336,8 @@ $newTaskID;
                 D.procaccess as Access,
                 D.procdescription as Description,
                 D.proctroubleshooting as Troubleshooting,
-                D.procimpact as Impact
+                D.procimpact as Impact,
+                D.procversion as Version
                 FROM
                 classsystem A, classcountry B, classfuncarea C, procedures D
                 WHERE A.classsysid = D.procsystem and B.classcountryid = d.proccountry and c.classfuncid = d.procfuncarea and d.procid = '$procid';";
@@ -929,5 +938,38 @@ $newTaskID;
         echo '<a href="'.$_SERVER['HTTP_REFERER'].'">Back</a>';
     }
 
+    function insertProceduresArchive($state){
+        global $link;
+        $procid = $_POST['procid'];
+        $title = $_POST['procTitle'];
+        $system = $_POST['System'];
+        $country = $_POST['Country'];
+        $funcarea = $_POST['FuncArea'];
+        $descript = $_POST['procDescript'];
+        $dependecies = $_POST['procDependecies'];
+        $access = $_POST['procAccess'];
+        $description = $_POST['procDescription'];
+        $troubleshoot = $_POST['procTroubleshooting'];
+        $impact = $_POST['procImpact'];
+        $version = $_POST['procversion']+1;
+        $date = date('Y/m/d h:i:s', time());
+        $editor = $_SESSION['myusername'];
+
+        $sql="INSERT INTO proceduresarchive
+                (procid, ProcTitle, ProcSystem, ProcCountry, ProcFuncArea, ProcDescript, ProcDependecies, ProcAccess, ProcDescription,
+                ProcTroubleshooting, ProcImpact, procstate, procversion, proccreatedate, proccreatename, procmodname )
+            VALUES
+                ('$procid', '$title', '$system', '$country', '$funcarea', '$descript', '$dependecies', '$access',
+                '$description', '$troubleshoot', '$impact', '$state', '$version', '$date', '$editor', '$editor')";
+        
+        if (mysqli_query($link, $sql)) {
+            header("Location: {$_SERVER['HTTP_REFERER']}");
+        } else {
+            echo "Error: " . $sql . "<br>" . mysqli_error($link);
+        }
+        mysqli_close($link);
+    }
+
 
 ?>
+

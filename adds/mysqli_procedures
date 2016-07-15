@@ -562,3 +562,18 @@ ORDER BY tasklistid, tasklisthistoryid DESC
 
 
 
+DELIMITER ##
+DROP TRIGGER IF EXISTS updateProcedure;
+DELIMITER ##
+CREATE TRIGGER updateProcedure AFTER INSERT ON proceduresarchive
+FOR EACH ROW
+BEGIN
+    IF (NEW.procstate = 1) THEN
+    UPDATE procedures
+        SET ProcTitle = NEW.ProcTitle, ProcSystem = NEW.ProcSystem, ProcCountry = NEW.ProcCountry, ProcFuncArea = NEW.ProcFuncArea, ProcDescript = NEW.ProcDescript,
+            ProcDependecies = NEW.ProcDependecies, ProcAccess = NEW.ProcAccess, ProcDescription = NEW.ProcDescription, ProcTroubleshooting = NEW.ProcTroubleshooting,
+            ProcImpact = NEW.ProcImpact, procversion = NEW.procversion, procmoddate = NEW.procmoddate, procmodname = NEW.procmodname
+        WHERE procid = NEW.procid;
+    END IF;
+END
+##

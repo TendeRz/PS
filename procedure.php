@@ -35,6 +35,7 @@
                     $pprocDescription = $procedureItem[8];
                     $pprocTroubleshooting = $procedureItem[9];
                     $pprocImpact = $procedureItem[10];
+                    $pprocVersion = $procedureItem[11];
                 }
             ?>
 
@@ -92,7 +93,7 @@
                                     Version:
                                 </div>
                                 <div class="col-xs-2">
-                                    6.00
+                                    <?php echo $pprocVersion ?>
                                 </div>
                             </div>
                         </div>

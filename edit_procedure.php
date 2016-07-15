@@ -44,6 +44,7 @@
                     $pprocDescription = $procedureItem[8];
                     $pprocTroubleshooting = $procedureItem[9];
                     $pprocImpact = $procedureItem[10];
+                    $pprocVersion = $procedureItem[11];
                 }
             ?>
 
@@ -52,7 +53,8 @@
         <div class="panel-group" style="margin-top: 20px">
             <form action="./adds/queries.php" method="post">
 
-
+				<input type="hidden" name="procid" value="<?php echo $pprocid ?>">
+				<input type="hidden" name="procversion" value="<?php echo $pprocVersion ?>">
 
                 <div class="row panel panel-primary">
                     <div class="panel-heading">
@@ -311,8 +313,9 @@
                         </div>
                     </div>
                 </div>
-
-                <input  class="btn btn-primary btn-lg" type="submit" name="editProcedure" style="margin-top: 20px">
+				<input  class="btn btn-primary btn-lg" type="submit" name="saveProcedure" value="Save" style="margin-top: 20px">
+                <input  class="btn btn-primary btn-lg" type="submit" name="editProcedure" value="Send for Approval" style="margin-top: 20px">
+                <input  class="btn btn-primary btn-lg" type="submit" name="updateProcedure" value="Update" style="margin-top: 20px">
             </form>
         </div>
     </div>
