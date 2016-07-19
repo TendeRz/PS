@@ -31,6 +31,7 @@
         });
 </script>
 			<?php
+                $accessLevel = 2;
                 $selectProcedure = procedurez($procidd);
 				foreach ($selectProcedure as $key => $procedureItem) {
                     $pprocid = $procedureItem[0];
@@ -313,11 +314,51 @@
                         </div>
                     </div>
                 </div>
-				<input  class="btn btn-primary btn-lg" type="submit" name="saveProcedure" value="Save" style="margin-top: 20px">
-                <input  class="btn btn-primary btn-lg" type="submit" name="editProcedure" value="Send for Approval" style="margin-top: 20px">
+
+                <div class="modal fade" id="procComment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="myModalLabel">Information!</h4>
+                            </div>
+                            <div class="modal-body">
+                                Please describe changes.
+                                <textarea class="procDescription" name="procComment" rows="3" cols="78"></textarea>
+                            </div>
+                            <div class="modal-footer">
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <?php 
+                                            if ($accessLevel <= 2){
+                                                echo '<input  class="btn btn-primary" type="submit" name="saveProcedure" value="Save Draft">';
+                                                echo '<input  class="btn btn-primary" type="submit" name="updateProcedure" value="Update Procedure">';
+                                            }else{
+                                                echo '<input  class="btn btn-primary" type="submit" name="saveProcedure" value="Save Draft">';
+                                                echo '<input  class="btn btn-primary" type="submit" name="sendForApproval" value="Send for Approval">';
+                                            }
+                                         ?>
+                                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>          
+                        </div>  
+                    </div>
+                </div>
+                <input  class='btn btn-primary btn-lg call-modal' type='button' value='Save Changes' style='margin-top: 20px'>
+                <input class="btn btn-warning btn-lg" style="float:right; margin-top: 20px" type="button" value="Close" onclick="self.close()">
+<!-- 				<input  class="btn btn-primary btn-lg" type="submit" name="saveProcedure" value="Save" style="margin-top: 20px">
+                <input  class="btn btn-primary btn-lg" type="submit" name="editProcedure" value="Send for Approval (check POST)" style="margin-top: 20px">
                 <input  class="btn btn-primary btn-lg" type="submit" name="updateProcedure" value="Update" style="margin-top: 20px">
+                <input  class="btn btn-primary btn-lg" type="button" value="Test" onClick="$('#procComment').modal('show');"> -->
+
             </form>
         </div>
     </div>
+    <script>
+        $('.call-modal').click(function(){
+            $('#procComment').modal('show');
+        })
+    </script>
     </body>
 </html>

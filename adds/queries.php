@@ -33,21 +33,6 @@
         callOut($calloute);
     }
 
-    if (ISSET($_POST['newProcedure'])){
-        $procTitle = $_POST['procTitle'];
-        $procSystem = $_POST['System'];
-        $procCountry = $_POST['Country'];
-        $procFuncArea = $_POST['FuncArea'];
-        $procDescript = $_POST['procDescript'];
-        $procDependecies = $_POST['procDependecies'];
-        $procAccess = $_POST['procAccess'];
-        $procDescription = $_POST['procDescription'];
-        $procTroubleshooting = $_POST['procTroubleshooting'];
-        $procImpact = $_POST['procImpact'];
-
-        insertNewProc($procTitle, $procSystem, $procCountry, $procFuncArea, $procDescript, $procDependecies, $procAccess, $procDescription, $procTroubleshooting, $procImpact);
-    }
-
     if (ISSET($_POST['newAdditionCheck'])){
         $newAddition = $_POST['newAdditionCheck'];
         switch ($_POST['addition']) {
@@ -159,17 +144,44 @@
         }
     }
 
-    if (ISSET($_POST['editProcedure'])) {
-        spoolPOST();
+    // if (ISSET($_POST['newProcedure'])){
+    //     $procTitle = $_POST['procTitle'];
+    //     $procSystem = $_POST['System'];
+    //     $procCountry = $_POST['Country'];
+    //     $procFuncArea = $_POST['FuncArea'];
+    //     $procDescript = $_POST['procDescript'];
+    //     $procDependecies = $_POST['procDependecies'];
+    //     $procAccess = $_POST['procAccess'];
+    //     $procDescription = $_POST['procDescription'];
+    //     $procTroubleshooting = $_POST['procTroubleshooting'];
+    //     $procImpact = $_POST['procImpact'];
+
+    //     insertNewProc($procTitle, $procSystem, $procCountry, $procFuncArea, $procDescript, $procDependecies, $procAccess, $procDescription, $procTroubleshooting, $procImpact);
+    //     spoolPOST();
+    // }
+
+    //New Procedure
+    if (ISSET($_POST['newProcedure'])){
+        insertNewProcedure(1, 0);
     }
 
-    if (ISSET($_POST['saveProcedure'])) {
-        insertProceduresArchive(3);
-    }
-
+    //straight update from planners
     if (ISSET($_POST['updateProcedure'])) {
-        insertProceduresArchive(1);
+        insertNewProcedure(1, 1);
     }
+
+    //send for approval
+    if (ISSET($_POST['sendForApproval'])) {
+        insertNewProcedure(4, 1);
+    }
+
+    //save draft
+    if (ISSET($_POST['saveProcedure'])) {
+        insertNewProcedure(3, 1);
+    }
+
+
+
 /////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////
 ////////////////////////     GLOBAL     /////////////////////////////
@@ -238,31 +250,6 @@ $newTaskID;
 
 
 
-    function insertNewProc($procTitle, $procSystem, $procCountry, $procFuncArea, $procDescript, $procDependecies, $procAccess, $procDescription, $procTroubleshooting, $procImpact){
-        $link = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME)or die("Cannot Connect");
-        $sql = "INSERT INTO procedures (procTitle, procSystem, procCountry, procFuncArea, procDescript, procDependecies, procAccess, procDescription, procTroubleshooting, procImpact) VALUES ('$procTitle', '$procSystem', '$procCountry', '$procFuncArea', '$procDescript', '$procDependecies', '$procAccess', '$procDescription', '$procTroubleshooting', '$procImpact')";
-        if (mysqli_query($link, $sql)) {
-            echo "New record created successfully";
-            header("Location: {$_SERVER['HTTP_REFERER']}");
-        } else {
-            echo "Error: " . $sql . "<br>" . mysqli_error($link);
-        }
-        mysqli_close($link);
-    }
-
-
-
-    function deleteProcedure(){
-    	$link = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME)or die("Cannot Connect");
-    	$sql = "TRUNCATE test_data";
-    	if (mysqli_query($link, $sql)) {
-			echo "Deleted successfully";
-		} else {
-			echo "Error: " . $sql . "<br>" . mysqli_error($link);
-		}
-		mysqli_close($link);
-		header("Location: {$_SERVER['HTTP_REFERER']}");
-    }
 
 
 
@@ -275,7 +262,7 @@ $newTaskID;
         //echo 'This:' . $country_id . '';
     }
 
-        function selectProcedure($country_id, $func_id){
+    function selectProcedure($country_id, $func_id){
         $link = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME)or die("Cannot Connect");
         $sql = "SELECT procid, proctitle FROM procedures WHERE proccountry = '$country_id' AND procfuncarea = '$func_id'";
         return(mysqli_fetch_all($link->query($sql)));
@@ -369,7 +356,6 @@ $newTaskID;
 
     function selectProfile($username){
         $link = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME)or die("Cannot Connect");
-        //$user = mysqli_real_escape_string($username);
         $sql = "SELECT * FROM authorization WHERE username = '$username'";
         return(mysqli_fetch_all($link->query($sql)));
     mysqli_close($link);
@@ -938,6 +924,8 @@ $newTaskID;
         echo '<a href="'.$_SERVER['HTTP_REFERER'].'">Back</a>';
     }
 
+
+
     function insertProceduresArchive($state){
         global $link;
         $procid = $_POST['procid'];
@@ -970,6 +958,64 @@ $newTaskID;
         mysqli_close($link);
     }
 
+    function insertNewProc($procTitle, $procSystem, $procCountry, $procFuncArea, $procDescript, $procDependecies, $procAccess, $procDescription, $procTroubleshooting, $procImpact){
+        $link = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME)or die("Cannot Connect");
+        $sql = "INSERT INTO procedures (procTitle, procSystem, procCountry, procFuncArea, procDescript, procDependecies, procAccess, procDescription, procTroubleshooting, procImpact) VALUES ('$procTitle', '$procSystem', '$procCountry', '$procFuncArea', '$procDescript', '$procDependecies', '$procAccess', '$procDescription', '$procTroubleshooting', '$procImpact')";
+        if (mysqli_query($link, $sql)) {
+            echo "New record created successfully";
+            header("Location: {$_SERVER['HTTP_REFERER']}");
+        } else {
+            echo "Error: " . $sql . "<br>" . mysqli_error($link);
+        }
+        mysqli_close($link);
+    }
 
+
+
+
+    function insertNewProcedure($state, $check){
+        global $link;
+
+        $procid = $_POST['procid'];
+        $title = $_POST['procTitle'];
+        $system = $_POST['System'];
+        $country = $_POST['Country'];
+        $funcarea = $_POST['FuncArea'];
+        $descript = $_POST['procDescript'];
+        $dependecies = $_POST['procDependecies'];
+        $access = $_POST['procAccess'];
+        $description = $_POST['procDescription'];
+        $troubleshoot = $_POST['procTroubleshooting'];
+        $impact = $_POST['procImpact'];
+
+        $version = $_POST['procversion']+1;
+        $date = date('Y/m/d H:i:s', time());
+        $editor = $_SESSION['myusername'];
+
+        if ($check == 0){
+            $getnewid = mysqli_fetch_assoc(mysqli_query($link, "SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dstorage' AND TABLE_NAME = 'procedures'"));
+            $newid = $getnewid['AUTO_INCREMENT'];
+            $sql="INSERT INTO proceduresarchive
+                (procid, ProcTitle, ProcSystem, ProcCountry, ProcFuncArea, ProcDescript, ProcDependecies, ProcAccess, ProcDescription,
+                ProcTroubleshooting, ProcImpact, procstate, procversion, proccreatedate, proccreatename, procmodname )
+            VALUES
+                ('$newid', '$title', '$system', '$country', '$funcarea', '$descript', '$dependecies', '$access',
+                '$description', '$troubleshoot', '$impact', '$state', '$version', '$date', '$editor', '$editor')";
+
+        }else{
+            $sql="INSERT INTO proceduresarchive
+                (procid, ProcTitle, ProcSystem, ProcCountry, ProcFuncArea, ProcDescript, ProcDependecies, ProcAccess, ProcDescription,
+                ProcTroubleshooting, ProcImpact, procstate, procversion, proccreatedate, proccreatename, procmodname )
+            VALUES
+                ('$procid', '$title', '$system', '$country', '$funcarea', '$descript', '$dependecies', '$access',
+                '$description', '$troubleshoot', '$impact', '$state', '$version', '$date', '$editor', '$editor')";
+        }
+
+        if (mysqli_query($link, $sql)) {
+            header("Location: {$_SERVER['HTTP_REFERER']}");
+        }else{
+            echo "Error: " . $sql . "<br>" . mysqli_error($link);
+        }
+    }
 ?>
 

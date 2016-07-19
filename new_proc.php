@@ -30,8 +30,7 @@
         <div class="panel-group" style="margin-top: 20px">
             <form action="./adds/queries.php" method="post">
 
-
-
+                <input type="hidden" name="procversion" value="0">
                 <div class="row panel panel-primary">
                     <div class="panel-heading">
                         <h4 class="panel-title">
@@ -278,7 +277,7 @@
                     </div>
                 </div>
 
-                <input  class="btn btn-primary btn-lg" type="submit" name="newProcedure" style="margin-top: 20px" disabled="true">
+                <input  class="btn btn-primary btn-lg" type="submit" name="newProcedure" style="margin-top: 20px" >
             </form>
         </div>
     </div>
