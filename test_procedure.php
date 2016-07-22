@@ -1,215 +1,135 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>Modal Test Procedure</title>
-        <link rel="stylesheet" type="text/css" href="/root/PS/css/bootstrap.css">
-        <link rel="stylesheet" type="text/css" href="/root/PS/css/my_style.css">
+<head>
+    <title>Procedures View Build</title>
+    <link rel="stylesheet" type="text/css" href="/root/PS/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/root/PS/css/my_style.css">
 
 
 
-    </head>
+</head>
 
-    <body>
-    <?php 
-        include_once('./adds/queries.php');
-    ?>
+<body>
+
     <div class="container" style="margin-top: 20px;">
-
-                <?php 
-                $procline = procedure(12);
+        <?php
+        include_once('login_check.php');
+        include_once('navigation.php');
+        include_once('./adds/queries.php');
+        include_once('./js/js.php');
+        include_once('./js/ck_editor_js.php');
+        include_once('./adds/modal.php');
+        ?>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Active Procedures</h3>
+            </div>
+            <div class="panel-body">
+                <?php
+                $countryList = selectAll('classcountry');
                 $countryID=1;
-                foreach ($procline as $key => $pline) {
-                    $procid = $pline[0];
-                    $procTitle = $pline[1];
-                    $procSystem = $pline[2];
-                    $procCountry = $pline[3];
-                    $procFuncArea = $pline[4];
-                    $procDescript = $pline[5];
-                    $procDependecies = $pline[6];
-                    $procAccess = $pline[7];
-                    $procDescription = $pline[8];
-                    $procTroubleshooting = $pline[9];
-                    $procImpact = $pline[10];
+                foreach ($countryList as $key => $countrName) {
+                    echo '<div class="panel-group procedure-list-group">';
+                    echo '<div class="panel panel-primary">';
+                    echo '<div class="panel-heading">';
+                    echo '<h4 class="panel-title">';
+                    echo '<a data-toggle="collapse" href="#collapse'.$countryID.'"><strong>'.$countrName[1].'</strong></a>';
+                    echo '</h4>';
+                    echo '</div>';
+                    echo '<div id="collapse'.$countryID.'" class="panel-collapse collapse">';
+                    echo '<ul class="list-group">';
+
+                    $funcAreaList = selectFuncArea($countrName[0]);
+                    $funcAreaID=1;
+                    foreach ($funcAreaList as $key => $funcAreaName){
+
+
+                        echo '<li class="list-group-item procedure-task-type-item">';
+                        echo '<div class="panel-heading">';
+                        echo '<h4 class="panel-title">';
+                        echo '<a data-toggle="collapse" href="#collapseFuncArea'.$countryID.''.$funcAreaID.'"><strong>'.$funcAreaName[1].'</strong></a>';
+                        echo '</h4>';
+                        echo '</div>';
+                        echo '<div id="collapseFuncArea'.$countryID.''.$funcAreaID.'" class="panel-collapse collapse">';
+                        echo '<ul class="list-group procedure-list-group">';
+                        $procList = selectProcedure($countrName[0], $funcAreaName[2]);
+                        foreach ($procList as $key => $procedureName) {
+                            echo '<li class="list-group-item procedure-list-item">';
+                            echo '<a href="procedure.php?procID='.$procedureName[0].'&procName='.$procedureName[1].'" target="_blank">'.$procedureName[1].'</a>';
+                            echo '</li>';
+                        }
+                        echo '</ul>';
+                        echo '</div>';
+                        echo '</li>';
+                        $funcAreaID++;
+                    }
+                    echo '</ul>';
+                    echo '</div>';
+                    $countryID++;
+                    echo '</div>';
+                    echo '</div>';
                 }
-            ?>
-
-
-
-        <div class="bs-example" data-example-id="collapse-accordion"> 
-            <div class="panel-group procedure-list-group" id="accordion" role="tablist" aria-multiselectable="true"> 
-
-                <div class="panel panel-primary">
-                    <div class="panel-heading" role="tab" id="headingOne"> 
-                        <h4 class="panel-title"> 
-                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">  
-                            Classification
-                            </a>
-                        </h4> 
-                    </div>
-                    <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne" aria-expanded="false">
-                        <div class="panel-body">
-                            <div class="row">
-                                <div class="col-xs-1">
-                                    Title:
-                                </div>
-                                <div class="col-xs-9 padding-bot-15">
-                                    <strong><?php echo $procTitle ?></strong>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-1">
-                                    System:
-                                </div>
-                                <div class="col-xs-2">
-                                    SingleView
-                                </div>
-                                <div class="col-xs-2">
-                                    Functional Area:
-                                </div>
-                                <div class="col-xs-2">
-                                    Customer Care
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-1">
-                                    Country:
-                                </div>
-                                <div class="col-xs-2">
-                                    Germany
-                                </div>
-                                <div class="col-xs-2">
-                                    Version:
-                                </div>
-                                <div class="col-xs-2">
-                                    6.00
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                ?>
             </div>
         </div>
-        <div class="bs-example" data-example-id="collapse-accordion"> 
-            <div class="panel-group procedure-list-group" id="accordion" role="tablist" aria-multiselectable="true">        
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Waiting for Approval</h3>
+            </div>
+            <div class="panel-body">
+                <table class="table table-hover"> 
+                    <thead> 
+                        <tr> 
+                            <th>Title</th> 
+                            <th>Initiator</th> 
+                            <th>Version</th>
+                            <th>Country</th>
+                            <th>System</th>
+                            <th>Functional Area</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                <?php 
+                $approvalList = selectForApproval(4);
 
-                <div class="panel panel-primary">
-                    <div class="panel-heading" role="tab" id="headingOneH"> 
-                        <h4 class="panel-title"> 
-                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOneH" aria-expanded="false" aria-controls="collapseOneH"> 
-                            Description
-                            </a>
-                        </h4> 
-                    </div>
-                    <div id="collapseOneH" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOneH" aria-expanded="false">
-                        <div class="panel-body">
-                            <?php echo $procDescript ?>
-                        </div>
-                    </div>
-                </div>
+
+                foreach ($approvalList as $key => $approvalListItem) {
+                    $procApprovalid = $approvalListItem[1];
+                    $procApprovalTitle = $approvalListItem[1];
+                    $procApprovalInitiator = $approvalListItem[14];
+                    $procApprovalVersion = $approvalListItem[12];
+                    $procApprovalCountry = $approvalListItem[3];
+                    $procApprovalSystem = $approvalListItem[2];
+                    $procApprovalFuncArea = $approvalListItem[4];
+                    ?>
+                    
+                        <tr class="taskrow">
+                            <td> <a href="#"><?php echo $procApprovalTitle ?></a> </td>
+                            <td> <?php echo $procApprovalInitiator ?> </td>
+                            <td> <?php echo $procApprovalVersion ?> </td>
+                            <td> <?php echo $procApprovalCountry ?> </td>
+                            <td> <?php echo $procApprovalSystem ?> </td>
+                            <td> <?php echo $procApprovalFuncArea ?> </td>
+                        </tr>
+                    <?php } ?>
+
+
+                    </tbody>
+                </table>
             </div>
         </div>
-
-        <div class="bs-example" data-example-id="collapse-accordion"> 
-            <div class="panel-group procedure-list-group" id="accordion" role="tablist" aria-multiselectable="true">        
-
-                <div class="panel panel-primary">
-                    <div class="panel-heading" role="tab" id="headingTwo"> 
-                        <h4 class="panel-title"> 
-                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo"> 
-                                Dependecies
-                            </a>
-                        </h4> 
-                    </div>
-                    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo" aria-expanded="false">
-                        <div class="panel-body">
-                            <?php echo $procDependecies ?>
-                        </div>
-                    </div>
-                </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">All Procedures</h3>
             </div>
-        </div>
-
-
-        <div class="bs-example" data-example-id="collapse-accordion"> 
-            <div class="panel-group procedure-list-group" id="accordion" role="tablist" aria-multiselectable="true">
-
-                <div class="panel panel-primary">
-                    <div class="panel-heading" role="tab" id="headingThree">
-                        <h4 class="panel-title">
-                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree"> 
-                                Access To Systems
-                            </a>
-                        </h4>
-                    </div>
-                    <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree" aria-expanded="false">
-                        <div class="panel-body">
-                            <?php echo $procAccess ?>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="bs-example" data-example-id="collapse-accordion"> 
-            <div class="panel-group procedure-list-group" id="accordion" role="tablist" aria-multiselectable="true">        
-                
-                <div class="panel panel-primary">
-                    <div class="panel-heading" role="tab" id="headingFive">
-                        <h4 class="panel-title">
-                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="false" aria-controls="collapseFive"> 
-                                Process Description
-                            </a>
-                        </h4>
-                    </div>
-                    <div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFive" aria-expanded="false">
-                        <div class="panel-body">
-                            <?php echo $procDescription ?>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="bs-example" data-example-id="collapse-accordion"> 
-            <div class="panel-group procedure-list-group" id="accordion" role="tablist" aria-multiselectable="true">        
-                <div class="panel panel-primary">
-                    <div class="panel-heading" role="tab" id="headingSix">
-                        <h4 class="panel-title">
-                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseSix" aria-expanded="false" aria-controls="collapseSix"> 
-                                Troubleshooting
-                            </a>
-                        </h4>
-                    </div>
-                    <div id="collapseSix" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSix" aria-expanded="false">
-                        <div class="panel-body">
-                            <?php echo $procTroubleshooting ?>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="bs-example" data-example-id="collapse-accordion"> 
-            <div class="panel-group procedure-list-group" id="accordion" role="tablist" aria-multiselectable="true">        
-                <div class="panel panel-primary">
-                    <div class="panel-heading" role="tab" id="headingSeven">
-                        <h4 class="panel-title">
-                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven"> 
-                                Business Impact
-                            </a>
-                        </h4>
-                    </div>
-                    <div id="collapseSeven" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSeven" aria-expanded="false">
-                        <div class="panel-body">
-                            <?php echo $procImpact ?>
-                        </div>
-                    </div>
-                </div>
+            <div class="panel-body">
+  
             </div>
         </div>
     </div>
-        <?php
-            include_once("/js/js.php");
-        ?>
-	</body>
+
+</body>
 </html>

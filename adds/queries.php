@@ -913,19 +913,6 @@ $newTaskID;
     }
 
 
-
-    function spoolPOST(){
-
-        echo "<pre>";
-        print_r($_POST);
-        echo "</pre>";
-
-        echo '<br>';
-        echo '<a href="'.$_SERVER['HTTP_REFERER'].'">Back</a>';
-    }
-
-
-
     function insertProceduresArchive($state){
         global $link;
         $procid = $_POST['procid'];
@@ -994,6 +981,8 @@ $newTaskID;
 
         if ($check == 0){
             $getnewid = mysqli_fetch_assoc(mysqli_query($link, "SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dstorage' AND TABLE_NAME = 'procedures'"));
+            //This is bad and have to be reworked (there is no "save as draft" option for new procedure)
+            //To create "save as draft" proc ID have to be set when procedure is activated
             $newid = $getnewid['AUTO_INCREMENT'];
             $sql="INSERT INTO proceduresarchive
                 (procid, ProcTitle, ProcSystem, ProcCountry, ProcFuncArea, ProcDescript, ProcDependecies, ProcAccess, ProcDescription,
@@ -1016,6 +1005,63 @@ $newTaskID;
         }else{
             echo "Error: " . $sql . "<br>" . mysqli_error($link);
         }
+    mysqli_close($link);
+    }
+
+    function selectForApproval($state){
+        global $link;
+
+        $sql="SELECT 
+                pa.procid,
+                pa.procTitle,
+                cs.ClassSysName,
+                cc.ClassCountryName,
+                cfa.ClassFuncName,
+                pa.procDescript,
+                pa.procDependecies,
+                pa.procAccess,
+                pa.procDescription,
+                pa.procTroubleshooting,
+                pa.procImpact,
+                pa.procstate,
+                pa.procversion,
+                pa.proccreatedate,
+                pa.proccreatename,
+                pa.procmoddate,
+                pa.procmodname
+            FROM 
+                proceduresarchive pa,
+                classcountry cc,
+                classfuncarea cfa,
+                classsystem cs
+            WHERE 
+                pa.procstate = '$state'
+            AND
+                pa.ProcCountry = cc.ClassCountryID
+            AND
+                pa.ProcFuncArea = cfa.ClassFuncID
+            AND
+                pa.ProcSystem = cs.ClassSysID
+                ";
+        return(mysqli_fetch_all($link->query($sql)));
+        mysqli_close($link);
+    }
+
+
+
+
+
+
+
+
+    function spoolPOST(){
+
+        echo "<pre>";
+        print_r($_POST);
+        echo "</pre>";
+
+        echo '<br>';
+        echo '<a href="'.$_SERVER['HTTP_REFERER'].'">Back</a>';
     }
 ?>
 

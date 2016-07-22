@@ -31,7 +31,7 @@
         });
 </script>
 			<?php
-                $accessLevel = 2;
+                $accessLevel = 4;
                 $selectProcedure = procedurez($procidd);
 				foreach ($selectProcedure as $key => $procedureItem) {
                     $pprocid = $procedureItem[0];
