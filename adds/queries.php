@@ -1048,6 +1048,21 @@ $newTaskID;
     }
 
 
+new proc menu 
+        -save
+            -resave
+            -create
+        -create
+
+edit proc menu
+        -save
+            -resave
+            -create
+            -send for approval
+        -create
+        -send for approval
+        -approve
+        -reject
 
 
 
