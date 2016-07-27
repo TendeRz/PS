@@ -42,7 +42,7 @@
         <div class="panel panel-primary">
             <div class="panel-heading">Action</div>
             <div class="panel-body">
-                <a class="btn btn-primary" href="edit_procedure.php?procid=<?php echo $pprocid ?>&procname=<?php echo $pprocTitle ?>" target="_blank">Edit Procedure</a>
+                <a class="btn btn-primary" href="edit_procedure.php?procid=<?php echo $pprocid ?>&procname=<?php echo $pprocTitle ?>">Edit Procedure</a>
                 <input class="btn btn-warning" style="float:right" type="button" value="Close" onclick="self.close()">
             </div>
         </div>

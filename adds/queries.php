@@ -144,41 +144,7 @@
         }
     }
 
-    // if (ISSET($_POST['newProcedure'])){
-    //     $procTitle = $_POST['procTitle'];
-    //     $procSystem = $_POST['System'];
-    //     $procCountry = $_POST['Country'];
-    //     $procFuncArea = $_POST['FuncArea'];
-    //     $procDescript = $_POST['procDescript'];
-    //     $procDependecies = $_POST['procDependecies'];
-    //     $procAccess = $_POST['procAccess'];
-    //     $procDescription = $_POST['procDescription'];
-    //     $procTroubleshooting = $_POST['procTroubleshooting'];
-    //     $procImpact = $_POST['procImpact'];
 
-    //     insertNewProc($procTitle, $procSystem, $procCountry, $procFuncArea, $procDescript, $procDependecies, $procAccess, $procDescription, $procTroubleshooting, $procImpact);
-    //     spoolPOST();
-    // }
-
-    //New Procedure
-    if (ISSET($_POST['newProcedure'])){
-        insertNewProcedure(1, 0);
-    }
-
-    //straight update from planners
-    if (ISSET($_POST['updateProcedure'])) {
-        insertNewProcedure(1, 1);
-    }
-
-    //send for approval
-    if (ISSET($_POST['sendForApproval'])) {
-        insertNewProcedure(4, 1);
-    }
-
-    //save draft
-    if (ISSET($_POST['saveProcedure'])) {
-        insertNewProcedure(3, 1);
-    }
 
 
 
@@ -189,6 +155,7 @@
 /////////////////////////////////////////////////////////////////////
 
 $newTaskID;
+$reserveProcedureID;
 
 /////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////
@@ -241,34 +208,59 @@ $newTaskID;
     mysqli_close($link);
     }
 
-    function procedure($procid){
-    	$link = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME)or die("Cannot Connect");
-    	$sql="SELECT * FROM procedures WHERE procid='$procid'";
-    	return(mysqli_fetch_all($link->query($sql)));
-		mysqli_close($link);
+
+
+    function selectCountryArchive($state, $table = "procedures"){
+        global $link;
+        $sql = "SELECT DISTINCT PA.ProcCountry, CC.ClassCountryName FROM $table PA, classcountry CC WHERE procstate = '$state' AND CC.ClassCountryID = PA.ProcCountry ORDER BY 2";
+        return(mysqli_fetch_all($link->query($sql)));
+    mysqli_close($link);
     }
 
-
-
-
-
-
-    function selectFuncArea($country_id){
-        $link = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME)or die("Cannot Connect");
-        $sql = "SELECT DISTINCT proccountry, classfuncname, classfuncid FROM procedures, classfuncarea WHERE ProcFuncArea = ClassFuncID AND proccountry = '$country_id' ORDER BY 2 ASC";
+    function selectFuncAreaArchive($state, $country_id, $table = "procedures"){
+        global $link;
+        $sql = "SELECT DISTINCT PA.ProcFuncArea, CFA.ClassFuncName FROM $table PA, classfuncarea CFA WHERE procstate = '$state' AND CFA.ClassFuncID = PA.ProcFuncArea AND PA.proccountry = '$country_id' ORDER BY 2";
         return(mysqli_fetch_all($link->query($sql)));
-        mysqli_close($link);
-        //$sql = "SELECT * FROM classfuncarea";
-        //echo 'This:' . $country_id . '';
+    mysqli_close($link);
     }
 
-    function selectProcedure($country_id, $func_id){
+    function selectProcedureArchive($country_id, $func_id, $state, $table = "procedures"){
         $link = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME)or die("Cannot Connect");
-        $sql = "SELECT procid, proctitle FROM procedures WHERE proccountry = '$country_id' AND procfuncarea = '$func_id'";
+        $a = "SELECT procid, proctitle FROM $table WHERE proccountry = '$country_id' AND procfuncarea = '$func_id' AND procstate = '$state'";
+        $b = "SELECT PA.procid, PA.proctitle, PA.procarchid, PA.procversion, PA.proccreatename, pa.proccreatedate, PA.procmoddate FROM proceduresarchive PA WHERE proccountry = '$country_id' AND procfuncarea = '$func_id' AND procstate = '$state'";
+
+        if ($table == 'procedures'){
+            $sql = $a;
+        }else{
+            $sql = $b;
+        }
         return(mysqli_fetch_all($link->query($sql)));
         mysqli_close($link);
-        //$sql = "SELECT * FROM classfuncarea";
-        //echo 'This:' . $country_id . '';
+    }
+
+    function selectProcedure($procid){}
+
+    function procedurez($procid){
+        $link = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME)or die("Cannot Connect");
+        $sql="SELECT
+                D.procid as ID,
+                D.proctitle as Title,
+                A.classsysname as System,
+                B.classcountryname as Country,
+                C.classfuncname as Func,
+                D.procdescript as Descript,
+                D.procdependecies as Depend,
+                D.procaccess as Access,
+                D.procdescription as Description,
+                D.proctroubleshooting as Troubleshooting,
+                D.procimpact as Impact,
+                D.procversion as Version,
+                D.procstate as State
+                FROM
+                classsystem A, classcountry B, classfuncarea C, procedures D
+                WHERE A.classsysid = D.procsystem and B.classcountryid = d.proccountry and c.classfuncid = d.procfuncarea and d.procid = '$procid';";
+        return(mysqli_fetch_all($link->query($sql)));
+        mysqli_close($link);
     }
 
     function checkNewAddition($newAddition, $table, $column){
@@ -307,28 +299,6 @@ $newTaskID;
         } else {
             echo "Error: " . $sql . "<br>" . mysqli_error($link);
         }
-        mysqli_close($link);
-    }
-
-    function procedurez($procid){
-        $link = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME)or die("Cannot Connect");
-        $sql="SELECT
-                D.procid as ID,
-                D.proctitle as Title,
-                A.classsysname as System,
-                B.classcountryname as Country,
-                C.classfuncname as Func,
-                D.procdescript as Descript,
-                D.procdependecies as Depend,
-                D.procaccess as Access,
-                D.procdescription as Description,
-                D.proctroubleshooting as Troubleshooting,
-                D.procimpact as Impact,
-                D.procversion as Version
-                FROM
-                classsystem A, classcountry B, classfuncarea C, procedures D
-                WHERE A.classsysid = D.procsystem and B.classcountryid = d.proccountry and c.classfuncid = d.procfuncarea and d.procid = '$procid';";
-        return(mysqli_fetch_all($link->query($sql)));
         mysqli_close($link);
     }
 
@@ -913,101 +883,6 @@ $newTaskID;
     }
 
 
-    function insertProceduresArchive($state){
-        global $link;
-        $procid = $_POST['procid'];
-        $title = $_POST['procTitle'];
-        $system = $_POST['System'];
-        $country = $_POST['Country'];
-        $funcarea = $_POST['FuncArea'];
-        $descript = $_POST['procDescript'];
-        $dependecies = $_POST['procDependecies'];
-        $access = $_POST['procAccess'];
-        $description = $_POST['procDescription'];
-        $troubleshoot = $_POST['procTroubleshooting'];
-        $impact = $_POST['procImpact'];
-        $version = $_POST['procversion']+1;
-        $date = date('Y/m/d h:i:s', time());
-        $editor = $_SESSION['myusername'];
-
-        $sql="INSERT INTO proceduresarchive
-                (procid, ProcTitle, ProcSystem, ProcCountry, ProcFuncArea, ProcDescript, ProcDependecies, ProcAccess, ProcDescription,
-                ProcTroubleshooting, ProcImpact, procstate, procversion, proccreatedate, proccreatename, procmodname )
-            VALUES
-                ('$procid', '$title', '$system', '$country', '$funcarea', '$descript', '$dependecies', '$access',
-                '$description', '$troubleshoot', '$impact', '$state', '$version', '$date', '$editor', '$editor')";
-        
-        if (mysqli_query($link, $sql)) {
-            header("Location: {$_SERVER['HTTP_REFERER']}");
-        } else {
-            echo "Error: " . $sql . "<br>" . mysqli_error($link);
-        }
-        mysqli_close($link);
-    }
-
-    function insertNewProc($procTitle, $procSystem, $procCountry, $procFuncArea, $procDescript, $procDependecies, $procAccess, $procDescription, $procTroubleshooting, $procImpact){
-        $link = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME)or die("Cannot Connect");
-        $sql = "INSERT INTO procedures (procTitle, procSystem, procCountry, procFuncArea, procDescript, procDependecies, procAccess, procDescription, procTroubleshooting, procImpact) VALUES ('$procTitle', '$procSystem', '$procCountry', '$procFuncArea', '$procDescript', '$procDependecies', '$procAccess', '$procDescription', '$procTroubleshooting', '$procImpact')";
-        if (mysqli_query($link, $sql)) {
-            echo "New record created successfully";
-            header("Location: {$_SERVER['HTTP_REFERER']}");
-        } else {
-            echo "Error: " . $sql . "<br>" . mysqli_error($link);
-        }
-        mysqli_close($link);
-    }
-
-
-
-
-    function insertNewProcedure($state, $check){
-        global $link;
-
-        $procid = $_POST['procid'];
-        $title = $_POST['procTitle'];
-        $system = $_POST['System'];
-        $country = $_POST['Country'];
-        $funcarea = $_POST['FuncArea'];
-        $descript = $_POST['procDescript'];
-        $dependecies = $_POST['procDependecies'];
-        $access = $_POST['procAccess'];
-        $description = $_POST['procDescription'];
-        $troubleshoot = $_POST['procTroubleshooting'];
-        $impact = $_POST['procImpact'];
-
-        $version = $_POST['procversion']+1;
-        $date = date('Y/m/d H:i:s', time());
-        $editor = $_SESSION['myusername'];
-
-        if ($check == 0){
-            $getnewid = mysqli_fetch_assoc(mysqli_query($link, "SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'dstorage' AND TABLE_NAME = 'procedures'"));
-            //This is bad and have to be reworked (there is no "save as draft" option for new procedure)
-            //To create "save as draft" proc ID have to be set when procedure is activated
-            $newid = $getnewid['AUTO_INCREMENT'];
-            $sql="INSERT INTO proceduresarchive
-                (procid, ProcTitle, ProcSystem, ProcCountry, ProcFuncArea, ProcDescript, ProcDependecies, ProcAccess, ProcDescription,
-                ProcTroubleshooting, ProcImpact, procstate, procversion, proccreatedate, proccreatename, procmodname )
-            VALUES
-                ('$newid', '$title', '$system', '$country', '$funcarea', '$descript', '$dependecies', '$access',
-                '$description', '$troubleshoot', '$impact', '$state', '$version', '$date', '$editor', '$editor')";
-
-        }else{
-            $sql="INSERT INTO proceduresarchive
-                (procid, ProcTitle, ProcSystem, ProcCountry, ProcFuncArea, ProcDescript, ProcDependecies, ProcAccess, ProcDescription,
-                ProcTroubleshooting, ProcImpact, procstate, procversion, proccreatedate, proccreatename, procmodname )
-            VALUES
-                ('$procid', '$title', '$system', '$country', '$funcarea', '$descript', '$dependecies', '$access',
-                '$description', '$troubleshoot', '$impact', '$state', '$version', '$date', '$editor', '$editor')";
-        }
-
-        if (mysqli_query($link, $sql)) {
-            header("Location: {$_SERVER['HTTP_REFERER']}");
-        }else{
-            echo "Error: " . $sql . "<br>" . mysqli_error($link);
-        }
-    mysqli_close($link);
-    }
-
     function selectForApproval($state){
         global $link;
 
@@ -1048,29 +923,12 @@ $newTaskID;
     }
 
 
-new proc menu 
-        -save
-            -resave
-            -create
-        -create
-
-edit proc menu
-        -save
-            -resave
-            -create
-            -send for approval
-        -create
-        -send for approval
-        -approve
-        -reject
-
-
-
-
 
 
     function spoolPOST(){
 
+        $full = ceil(5.07);
+        echo $full;
         echo "<pre>";
         print_r($_POST);
         echo "</pre>";

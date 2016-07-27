@@ -31,6 +31,8 @@
             <form action="./adds/queries.php" method="post">
 
                 <input type="hidden" name="procversion" value="0">
+                <input type="hidden" name="procstate" value="1">
+
                 <div class="row panel panel-primary">
                     <div class="panel-heading">
                         <h4 class="panel-title">
@@ -276,10 +278,45 @@
                         </div>
                     </div>
                 </div>
-
-                <input  class="btn btn-primary btn-lg" type="submit" name="newProcedure" style="margin-top: 20px" >
+                <div class="modal fade" id="procComment" tabindex="-1" role="dialog"  aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" >Information!</h4>
+                            </div>
+                            <div class="modal-body">
+                                Please describe changes.
+                                <textarea class="procDescription" name="procComment" rows="3" cols="78" style="resize:vertical"></textarea>
+                            </div>
+                            <div class="modal-footer">
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <?php 
+                                            if ($accessLevel <= 2){
+                                                echo '<input  class="btn btn-primary" type="submit" name="saveProcedure" value="Save as Draft">';
+                                                echo '<input  class="btn btn-primary" type="submit" name="newProcedure" value="Save and Publish">';
+                                            }else{
+                                                echo '<input  class="btn btn-primary" type="submit" name="saveProcedure" value="Save as Draft">';
+                                                echo '<input  class="btn btn-primary" type="submit" name="sendForApproval" value="Send for Approval">';
+                                            }
+                                         ?>
+                                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>          
+                        </div>  
+                    </div>
+                </div>
+                <input  class='btn btn-primary btn-lg call-modal' type='button' value='Save Changes' style='margin-top: 20px'>
+                <input class="btn btn-warning btn-lg" style="float:right; margin-top: 20px" type="button" value="Close" onclick="location.href='procedure_list.php'">
             </form>
         </div>
     </div>
+    <script>
+        $('.call-modal').click(function(){
+            $('#procComment').modal('show');
+        })
+    </script>
     </body>
 </html>

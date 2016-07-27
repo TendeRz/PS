@@ -20,6 +20,7 @@
             include_once('login_check.php');
             include_once('navigation.php');
             include_once('./adds/queries.php');
+            include_once('./adds/procedure_queries.php');
             include_once('./js/js.php');
             include_once('./js/ck_editor_js.php');
             include_once('./adds/modal.php');
@@ -31,7 +32,7 @@
         });
 </script>
 			<?php
-                $accessLevel = 4;
+                $accessLevel = 2;
                 $selectProcedure = procedurez($procidd);
 				foreach ($selectProcedure as $key => $procedureItem) {
                     $pprocid = $procedureItem[0];
@@ -46,6 +47,7 @@
                     $pprocTroubleshooting = $procedureItem[9];
                     $pprocImpact = $procedureItem[10];
                     $pprocVersion = $procedureItem[11];
+                    $pprocstate = $procedureItem[12];
                 }
             ?>
 
@@ -56,6 +58,7 @@
 
 				<input type="hidden" name="procid" value="<?php echo $pprocid ?>">
 				<input type="hidden" name="procversion" value="<?php echo $pprocVersion ?>">
+                <input type="hidden" name="procstate" value="<?php echo $pprocstate ?>">
 
                 <div class="row panel panel-primary">
                     <div class="panel-heading">
@@ -324,17 +327,17 @@
                             </div>
                             <div class="modal-body">
                                 Please describe changes.
-                                <textarea class="procDescription" name="procComment" rows="3" cols="78"></textarea>
+                                <textarea class="procDescription" name="procComment" rows="3" cols="78" style="resize:vertical"></textarea>
                             </div>
                             <div class="modal-footer">
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-10">
                                         <?php 
                                             if ($accessLevel <= 2){
-                                                echo '<input  class="btn btn-primary" type="submit" name="saveProcedure" value="Save Draft">';
-                                                echo '<input  class="btn btn-primary" type="submit" name="updateProcedure" value="Update Procedure">';
+                                                echo '<input  class="btn btn-primary" type="submit" name="saveProcedure" value="Save as Draft">';
+                                                echo '<input  class="btn btn-primary" type="submit" name="updateProcedure" value="Save and Publish">';
                                             }else{
-                                                echo '<input  class="btn btn-primary" type="submit" name="saveProcedure" value="Save Draft">';
+                                                echo '<input  class="btn btn-primary" type="submit" name="saveProcedure" value="Save as Draft">';
                                                 echo '<input  class="btn btn-primary" type="submit" name="sendForApproval" value="Send for Approval">';
                                             }
                                          ?>
