@@ -55,7 +55,7 @@ session_start();
                         $procList = selectProcedureArchive($countrName[0], $funcAreaName[0], 1);
                         foreach ($procList as $key => $procedureName) {
                             echo '<li class="list-group-item procedure-list-item">';
-                            echo '<a href="procedure.php?procID='.$procedureName[0].'&procName='.$procedureName[1].'" target="_blank">'.$procedureName[1].'</a>';
+                            echo '<a href="procedure.php?procID='.$procedureName[0].'&procName='.$procedureName[1].'&procArch=0" target="_blank">'.$procedureName[1].'</a>';
                             echo '</li>';
                         }
                         echo '</ul>';
@@ -162,11 +162,11 @@ session_start();
                         $procList = selectProcedureArchive($countrName[0], $funcAreaName[0], 3, 'proceduresarchive');
                         foreach ($procList as $key => $procedureName) {
                             echo '<tr>';
-                            echo '<th scope="row"><a href="procedure.php?procID='.$procedureName[0].'&procName='.$procedureName[1].'&procArchID='.$procedureName[2].'" target="_blank">'.$procedureName[1].'</a></th>';
+                            echo '<th scope="row"><a href="procedure.php?procID='.$procedureName[0].'&procName='.$procedureName[1].'&procArch=1" target="_blank">'.$procedureName[1].'</a></th>';
+                            echo '<td>'.$procedureName[2].'</td>';
                             echo '<td>'.$procedureName[3].'</td>';
                             echo '<td>'.$procedureName[4].'</td>';
                             echo '<td>'.$procedureName[5].'</td>';
-                            echo '<td>'.$procedureName[6].'</td>';
                             echo '</tr>';
                         }
                         echo '</tbody>';

@@ -226,8 +226,8 @@ $reserveProcedureID;
 
     function selectProcedureArchive($country_id, $func_id, $state, $table = "procedures"){
         $link = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME)or die("Cannot Connect");
-        $a = "SELECT procid, proctitle FROM $table WHERE proccountry = '$country_id' AND procfuncarea = '$func_id' AND procstate = '$state'";
-        $b = "SELECT PA.procid, PA.proctitle, PA.procarchid, PA.procversion, PA.proccreatename, pa.proccreatedate, PA.procmoddate FROM proceduresarchive PA WHERE proccountry = '$country_id' AND procfuncarea = '$func_id' AND procstate = '$state'";
+        $a = "SELECT procid, proctitle, procversion, proccreatename, proccreatedate, procmoddate FROM $table WHERE proccountry = '$country_id' AND procfuncarea = '$func_id' AND procstate = '$state'";
+        $b = "SELECT procarchid, proctitle, procversion, proccreatename, proccreatedate, procmoddate FROM $table WHERE proccountry = '$country_id' AND procfuncarea = '$func_id' AND procstate = '$state'";
 
         if ($table == 'procedures'){
             $sql = $a;
@@ -238,7 +238,29 @@ $reserveProcedureID;
         mysqli_close($link);
     }
 
-    function selectProcedure($procid){}
+    function selectProcedure($procid, $table = "procedures"){
+        global $link;
+
+        $a = "SELECT P.procid, P.proctitle, CS.classsysname, CC.classcountryname, CFA.classfuncname, P.procdescript, P.procdependecies, P.procaccess, P.procdescription,
+                    P.proctroubleshooting, P.procimpact, P.procversion, P.procstate, P.proccreatename, P.proccreatedate, P.procmodname, P.procmoddate
+                FROM
+                classsystem CS, classcountry CC, classfuncarea CFA, $table P
+                WHERE CS.classsysid = P.procsystem and CC.classcountryid = P.proccountry and CFA.classfuncid = P.procfuncarea and P.procid = '$procid'";
+
+        $b = "SELECT P.procarchid, P.proctitle, CS.classsysname, CC.classcountryname, CFA.classfuncname, P.procdescript, P.procdependecies, P.procaccess, P.procdescription,
+                    P.proctroubleshooting, P.procimpact, P.procversion, P.procstate, P.proccreatename, P.proccreatedate, P.procmodname, P.procmoddate
+                FROM
+                classsystem CS, classcountry CC, classfuncarea CFA, $table P
+                WHERE CS.classsysid = P.procsystem and CC.classcountryid = P.proccountry and CFA.classfuncid = P.procfuncarea and P.procarchid = '$procid'";
+        if ($table == 'procedures'){
+            $sql = $a;
+        }else{
+            $sql = $b;
+        }
+        
+        return(mysqli_fetch_all($link->query($sql)));
+        mysqli_close($link);
+    }
 
     function procedurez($procid){
         $link = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME)or die("Cannot Connect");

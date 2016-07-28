@@ -7,6 +7,7 @@
 	<?php
 		$procidd = $_GET['procID'];
 		$procname = $_GET['procName'];
+        $arch = $_GET['procArch'];
 		echo '<title>Proc: '.$procname.'</title>';
 	?>
 	
@@ -22,7 +23,14 @@
 
                 <?php
                 include_once('navigation.php');
-                $selectProcedure = procedurez($procidd);
+                if ($arch == 1) {
+                    echo "Hi from archive";
+                    $selectProcedure = selectProcedure($procidd, 'proceduresarchive');
+                }else{
+                    echo "Hi  from active";
+                    $selectProcedure = selectProcedure($procidd);
+                }
+
 				foreach ($selectProcedure as $key => $procedureItem) {
                     $pprocid = $procedureItem[0];
                     $pprocTitle = $procedureItem[1];
