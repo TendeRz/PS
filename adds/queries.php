@@ -247,11 +247,12 @@ $reserveProcedureID;
                 classsystem CS, classcountry CC, classfuncarea CFA, $table P
                 WHERE CS.classsysid = P.procsystem and CC.classcountryid = P.proccountry and CFA.classfuncid = P.procfuncarea and P.procid = '$procid'";
 
-        $b = "SELECT P.procarchid, P.proctitle, CS.classsysname, CC.classcountryname, CFA.classfuncname, P.procdescript, P.procdependecies, P.procaccess, P.procdescription,
-                    P.proctroubleshooting, P.procimpact, P.procversion, P.procstate, P.proccreatename, P.proccreatedate, P.procmodname, P.procmoddate
+        $b = "SELECT PA.procarchid, PA.proctitle, CS.classsysname, CC.classcountryname, CFA.classfuncname, PA.procdescript, PA.procdependecies, PA.procaccess, PA.procdescription,
+                    PA.proctroubleshooting, PA.procimpact, PA.procversion, PA.procstate, PA.proccreatename, PA.proccreatedate, PA.procmodname, PA.procmoddate, COALESCE(P.procversion, PA.procversion)
                 FROM
-                classsystem CS, classcountry CC, classfuncarea CFA, $table P
-                WHERE CS.classsysid = P.procsystem and CC.classcountryid = P.proccountry and CFA.classfuncid = P.procfuncarea and P.procarchid = '$procid'";
+                    classsystem CS, classcountry CC, classfuncarea CFA, $table PA
+                LEFT JOIN procedures P ON P.procid = PA.procid
+                WHERE CS.classsysid = PA.procsystem and CC.classcountryid = PA.proccountry and CFA.classfuncid = PA.procfuncarea and PA.procarchid = '$procid'";
         if ($table == 'procedures'){
             $sql = $a;
         }else{

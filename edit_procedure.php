@@ -8,6 +8,7 @@
 		<?php
 		$procidd = $_GET['procid'];
 		$procname = $_GET['procname'];
+        $arch = $_GET['procArch'];
 		echo '<title>Edit: '.$procname.'</title>';
 		?>
         <link rel="stylesheet" type="text/css" href="/root/PS/css/bootstrap.css">
@@ -31,10 +32,15 @@
         CKEDITOR.timestamp='ABCD'; 
         });
 </script>
-			<?php
+                <?php
                 $accessLevel = 2;
-                $selectProcedure = procedurez($procidd);
-				foreach ($selectProcedure as $key => $procedureItem) {
+                if ($arch == 1) {
+                    $selectProcedure = selectProcedure($procidd, 'proceduresarchive');
+                }else{
+                    $selectProcedure = selectProcedure($procidd);
+                }
+
+                foreach ($selectProcedure as $key => $procedureItem) {
                     $pprocid = $procedureItem[0];
                     $pprocTitle = $procedureItem[1];
                     $pprocSystem = $procedureItem[2];
@@ -48,13 +54,13 @@
                     $pprocImpact = $procedureItem[10];
                     $pprocVersion = $procedureItem[11];
                     $pprocstate = $procedureItem[12];
+                    $pprocVersionCurrent = $procedureItem[17];
                 }
             ?>
 
-		
 
         <div class="panel-group" style="margin-top: 20px">
-            <form action="./adds/queries.php" method="post">
+            <form action="./adds/procedure_queries.php" method="post">
 
 				<input type="hidden" name="procid" value="<?php echo $pprocid ?>">
 				<input type="hidden" name="procversion" value="<?php echo $pprocVersion ?>">

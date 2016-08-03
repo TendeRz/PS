@@ -26,12 +26,15 @@
         CKEDITOR.timestamp='ABCD'; 
         });
 </script>
-        
+        <?php 
+            $accessLevel = 2;
+         ?>
         <div class="panel-group" style="margin-top: 20px">
-            <form action="./adds/queries.php" method="post">
+            <form action="./adds/procedure_queries.php" method="post">
 
                 <input type="hidden" name="procversion" value="0">
-                <input type="hidden" name="procstate" value="1">
+                <input type="hidden" name="procstate" value="0">
+                <input type="hidden" name="procid" value="0">
 
                 <div class="row panel panel-primary">
                     <div class="panel-heading">

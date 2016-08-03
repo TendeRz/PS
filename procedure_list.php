@@ -11,7 +11,7 @@ session_start();
 
 <body>
 
-    <div class="container" style="margin-top: 20px;">
+    <div class="container">
         <?php
         include_once('login_check.php');
         include_once('navigation.php');

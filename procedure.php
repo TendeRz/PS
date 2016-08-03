@@ -24,10 +24,8 @@
                 <?php
                 include_once('navigation.php');
                 if ($arch == 1) {
-                    echo "Hi from archive";
                     $selectProcedure = selectProcedure($procidd, 'proceduresarchive');
                 }else{
-                    echo "Hi  from active";
                     $selectProcedure = selectProcedure($procidd);
                 }
 
@@ -44,13 +42,19 @@
                     $pprocTroubleshooting = $procedureItem[9];
                     $pprocImpact = $procedureItem[10];
                     $pprocVersion = $procedureItem[11];
+                    $pprocAuthor = $procedureItem[13];
+                    $pprocVersionCurrent = $procedureItem[17];
+
+                    if ($pprocVersion < $pprocVersionCurrent){
+                        $procversionStyle = 'color:red; font-weight:bold';
+                    }
                 }
             ?>
 
         <div class="panel panel-primary">
             <div class="panel-heading">Action</div>
             <div class="panel-body">
-                <a class="btn btn-primary" href="edit_procedure.php?procid=<?php echo $pprocid ?>&procname=<?php echo $pprocTitle ?>">Edit Procedure</a>
+                <a class="btn btn-primary" href="edit_procedure.php?procid=<?php echo $pprocid ?>&procname=<?php echo $pprocTitle ?>&procArch=<?php echo $arch ?>">Edit Procedure</a>
                 <input class="btn btn-warning" style="float:right" type="button" value="Close" onclick="self.close()">
             </div>
         </div>
@@ -77,7 +81,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-xs-1">
+                                <div class="col-xs-2">
                                     System:
                                 </div>
                                 <div class="col-xs-2">
@@ -91,17 +95,32 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-xs-1">
+                                <div class="col-xs-2">
                                     Country:
                                 </div>
                                 <div class="col-xs-2">
                                     <?php echo $pprocCountry ?>
                                 </div>
                                 <div class="col-xs-2">
+                                    Author:
+                                </div>
+                                <div class="col-xs-2">
+                                    <?php echo $pprocAuthor ?>
+                                </div>
+                                
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-2">
                                     Version:
                                 </div>
                                 <div class="col-xs-2">
                                     <?php echo $pprocVersion ?>
+                                </div>                                
+                                <div class="col-xs-2" style=" <?php echo $procversionStyle ?> ">
+                                    Active Version:
+                                </div>
+                                <div class="col-xs-1" style=" <?php echo $procversionStyle ?> ">
+                                    <?php echo $pprocVersionCurrent ?>
                                 </div>
                             </div>
                         </div>
