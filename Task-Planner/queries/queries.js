@@ -179,7 +179,8 @@ module.exports = {
                 D.procaccess as Access,\
                 D.procdescription as Description,\
                 D.proctroubleshooting as Troubleshooting,\
-                D.procimpact as Impact\
+                D.procimpact as Impact,\
+                D.procversion as Version\
                 FROM\
                 classsystem A, classcountry B, classfuncarea C, procedures D\
                 WHERE A.classsysid = D.procsystem and B.classcountryid = d.proccountry and c.classfuncid = d.procfuncarea and d.procid = '"+procid+"';"

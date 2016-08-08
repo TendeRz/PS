@@ -242,7 +242,7 @@ $reserveProcedureID;
         global $link;
 
         $a = "SELECT P.procid, P.proctitle, CS.classsysname, CC.classcountryname, CFA.classfuncname, P.procdescript, P.procdependecies, P.procaccess, P.procdescription,
-                    P.proctroubleshooting, P.procimpact, P.procversion, P.procstate, P.proccreatename, P.proccreatedate, P.procmodname, P.procmoddate
+                    P.proctroubleshooting, P.procimpact, P.procversion, P.procstate, P.proccreatename, P.proccreatedate, P.procmodname, P.procmoddate, P.procversion
                 FROM
                 classsystem CS, classcountry CC, classfuncarea CFA, $table P
                 WHERE CS.classsysid = P.procsystem and CC.classcountryid = P.proccountry and CFA.classfuncid = P.procfuncarea and P.procid = '$procid'";
@@ -910,7 +910,7 @@ $reserveProcedureID;
         global $link;
 
         $sql="SELECT 
-                pa.procid,
+                pa.procarchid,
                 pa.procTitle,
                 cs.ClassSysName,
                 cc.ClassCountryName,

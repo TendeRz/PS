@@ -54,11 +54,19 @@
                     $pprocImpact = $procedureItem[10];
                     $pprocVersion = $procedureItem[11];
                     $pprocstate = $procedureItem[12];
-                    $pprocVersionCurrent = $procedureItem[17];
+                    $pprocVersionActive = $procedureItem[17];
+
+                    if ($pprocVersion >= $pprocVersionActive){
+                        $style = hidden;
+                    }
                 }
+
             ?>
 
-
+        <div class="alert alert-info" role="alert" <?php echo $style ?>>
+            <strong>Warning!</strong>
+            Newer version available in Procedure Storage!
+        </div>
         <div class="panel-group" style="margin-top: 20px">
             <form action="./adds/procedure_queries.php" method="post">
 

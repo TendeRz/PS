@@ -42,20 +42,40 @@
                     $pprocTroubleshooting = $procedureItem[9];
                     $pprocImpact = $procedureItem[10];
                     $pprocVersion = $procedureItem[11];
+                    $pprocState = $procedureItem[12];
                     $pprocAuthor = $procedureItem[13];
-                    $pprocVersionCurrent = $procedureItem[17];
+                    $pprocVersionActive = $procedureItem[17];
 
-                    if ($pprocVersion < $pprocVersionCurrent){
+                    if ($pprocVersion < $pprocVersionActive){
                         $procversionStyle = 'color:red; font-weight:bold';
+                    } else {
+                        $style = 'hidden';
+                        $procversionStyle = ' ';
                     }
                 }
             ?>
 
-        <div class="panel panel-primary">
+        <div class="panel panel-primary" <?php if ($pprocState == 4) { echo "hidden"; } ?> >
             <div class="panel-heading">Action</div>
             <div class="panel-body">
                 <a class="btn btn-primary" href="edit_procedure.php?procid=<?php echo $pprocid ?>&procname=<?php echo $pprocTitle ?>&procArch=<?php echo $arch ?>">Edit Procedure</a>
                 <input class="btn btn-warning" style="float:right" type="button" value="Close" onclick="self.close()">
+            </div>
+        </div>
+
+        <div class="panel panel-primary" <?php if ($pprocState != 4) { echo "hidden"; } ?>>
+            <div class="panel-heading">Action</div>
+            <div class="panel-body">
+                <form action="./adds/procedure_queries.php" method="post">
+                    <div class="alert alert-danger" role="alert" <?php echo $style ?> style="font-size:20px; background-color: red; color: white;">
+                        <strong class="pulsate">Warning!</strong>
+                        Newer version available in Procedure Storage!
+                    </div>
+                    <input type="hidden" name="procarchid" value="<?php echo $pprocid ?>">
+                    <input type="hidden" name="procversion" value="<?php echo $pprocVersion ?>">
+                    <input  class="btn btn-primary" type="submit" name="procedureApprove" value="Approve">
+                    <input  class="btn btn-warning" style="float:right" type="submit" name="procedureReject" value="Reject">
+                </form>
             </div>
         </div>
 
@@ -115,13 +135,15 @@
                                 </div>
                                 <div class="col-xs-2">
                                     <?php echo $pprocVersion ?>
-                                </div>                                
+                                </div>
+                                <?php if ($arch == 1) { ?>
                                 <div class="col-xs-2" style=" <?php echo $procversionStyle ?> ">
                                     Active Version:
                                 </div>
                                 <div class="col-xs-1" style=" <?php echo $procversionStyle ?> ">
-                                    <?php echo $pprocVersionCurrent ?>
+                                    <?php echo $pprocVersionActive ?>
                                 </div>
+                                <?php } ?>
                             </div>
                         </div>
                     </div>

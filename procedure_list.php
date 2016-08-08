@@ -94,7 +94,7 @@ session_start();
 
 
                 foreach ($approvalList as $key => $approvalListItem) {
-                    $procApprovalid = $approvalListItem[1];
+                    $procApprovalid = $approvalListItem[0];
                     $procApprovalTitle = $approvalListItem[1];
                     $procApprovalInitiator = $approvalListItem[14];
                     $procApprovalVersion = $approvalListItem[12];
@@ -104,7 +104,8 @@ session_start();
                     ?>
                     
                         <tr class="taskrow">
-                            <td> <a href="#"><?php echo $procApprovalTitle ?></a> </td>
+                           
+                            <td> <a href="procedure.php?procID=<?php echo $procApprovalid ?>&procName=<?php echo $procApprovalTitle ?>&procArch=1" target="_blank"><?php echo $procApprovalTitle ?></a></td>
                             <td> <?php echo $procApprovalInitiator ?> </td>
                             <td> <?php echo $procApprovalVersion ?> </td>
                             <td> <?php echo $procApprovalCountry ?> </td>

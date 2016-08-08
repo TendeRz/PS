@@ -452,7 +452,7 @@ $globalTaskID = $_GET['taskID'];
 				</div>
 			</div>
 		</form>
-		<input  class="btn btn-default" type="submit" form="scheduleInsertForm" name="editSched" value="Create" style="margin-top: 5px">
+		<input  class="btn btn-default" type="submit" form="scheduleInsertForm" name="editSched" value="Update" style="margin-top: 5px">
 	</div>
 
 	<script type="text/javascript">
@@ -528,5 +528,8 @@ $globalTaskID = $_GET['taskID'];
 
 
 	</script>
+<?php 
+include_once('./adds/footer.php');
+ ?>   
 </body>
 </html>
