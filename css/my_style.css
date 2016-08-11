@@ -226,6 +226,41 @@ html {
     }
 }
 
+.procedure-tabs > li.active > a,
+.procedure-tabs > li.active > a:hover,
+.procedure-tabs > li.active > a:focus {
+	color: #3992db;
+    cursor: default;
+    /*background-color: #2b6ba0;*/
+    /*background-color: #337AB7;*/
+    /*background-color: #3992db;*/
+    background-color: #FFFFFF;
+    border: 2px solid #235c8c;
+    border-bottom-color: transparent;
+	
+}
+
+.procedure-tabs
+{
+	clear: both;
+	list-style: none;
+	padding: 0 0 10 0;
+}
+
+.procedure-tabs > li {
+	float: left;
+}
+.procedure-tabs > li > a {
+	padding: 7px 10px 11px 10px;
+	color: white;
+	text-decoration: none;
+	border: 2px solid #337AB7;
+	border-radius: 4px 4px 0 0
+}
+.procedure-tabs > li > a:hover {
+	background-color: #3992db;
+}
+
 /* ******************************************************************************************************************************************************************** */
 /*				TEST 	TEST				TEST 	TEST				TEST 	TEST				TEST 	TEST				TEST 	TEST				TEST 	    */
 /* ******************************************************************************************************************************************************************** */

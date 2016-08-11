@@ -27,7 +27,7 @@
         });
 </script>
         <?php 
-            $accessLevel = 2;
+            $accessLevel = 3;
          ?>
         <div class="panel-group" style="margin-top: 20px">
             <form action="./adds/procedure_queries.php" method="post">

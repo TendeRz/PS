@@ -14,7 +14,7 @@ if (ISSET($_POST['newProcedure'])){
 
 	echo $version = $_POST['procversion']+1;
 	echo "<br> New Procedure Inserted -> Insert<br>";
-	insertNewProcedure(1, 0, $version);
+	insertNewProcedure(1, 0, $version, 'Created');
 }
 
     //straight update from planners
@@ -23,12 +23,12 @@ if (ISSET($_POST['updateProcedure'])) {
 		case 1:
 			//echo "<br> Active Procedure Updated -> Insert<br>";			
 			$version = $_POST['procversion']+1;
-			insertNewProcedure(1, 1, $version);
+			insertNewProcedure(1, 1, $version, 'Updated');
 			break;
 		case 3:
 			//echo "<br> Draft Updated -> Update<br>";			
 			$version = ceil($_POST['procversion']);
-			updateSaveProcedure(1, $version);
+			updateSaveProcedure(1, $version, 'Created');
 			break;
 		default:
 			echo "Action not recognized!";
@@ -43,17 +43,17 @@ if (ISSET($_POST['sendForApproval'])) {
 		case 0:
 			//echo "<br> New Procedure Sent for approval -> Insert<br>";
 			$version = $_POST['procversion']+0.01;
-			insertNewProcedure(4, 0, $version);
+			insertNewProcedure(4, 0, $version, 'Sent for Approval');
 			break;
 		case 1:
 			//echo "<br> Active Procedure Sent for approval -> Insert<br>";			
 			$version = $_POST['procversion']+0.01;
-			insertNewProcedure(4, 1, $version);
+			insertNewProcedure(4, 1, $version, 'Sent for Approval');
 			break;
 		case 3:
 			//echo "<br> Draft Sent for approval -> Update<br>";			
 			$version = $_POST['procversion']+0.01;
-			updateSaveProcedure(4, $version);
+			updateSaveProcedure(4, $version, 'Sent for Approval');
 			break;
 		default:
 			echo "Action not recognized!";
@@ -69,17 +69,17 @@ if (ISSET($_POST['saveProcedure'])) {
 		case 0:
 			//echo "<br> New Procedure save -> Insert with reserved ID<br>";			
 			$version = $_POST['procversion']+0.01;
-			insertNewProcedure(3, 0, $version);
+			insertNewProcedure(3, 0, $version, 'Save as Draft');
 			break;
 		case 1:
 			//echo "<br> Active Procedure save -> Insert <br>";			
 			$version = $_POST['procversion']+0.01;
-			insertNewProcedure(3, 1, $version);
+			insertNewProcedure(3, 1, $version, 'Save as Draft');
 			break;
 		case 3:
 			//echo "<br> Draft save -> Update<br>";			
 			$version = $_POST['procversion']+0.01;
-			updateSaveProcedure(3, $version);
+			updateSaveProcedure(3, $version, 'Save as Draft');
 			break;
 		default:
 			echo "Action not recognized!";
@@ -92,14 +92,14 @@ if (ISSET($_POST['saveProcedure'])) {
     //approve procedure
 if (ISSET($_POST['procedureApprove'])){
 	$version = ceil($_POST['procversion']);
-	updateProcedure(1, $version);
+	updateProcedure(1, $version, 'Approved');
 }
 
 
     //reject procedure
 if (ISSET($_POST['procedureReject'])){
 	$version = $_POST['procversion'];
-	updateProcedure(2, $version);
+	updateProcedure(2, $version, 'Rejected');
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -119,23 +119,32 @@ $reserveProcedureID;
 
 
 
-function updateProcedure($state, $version){
+function updateProcedure($state, $version, $action){
 	global $link;
-	$procArchiveId = $_POST['procarchid'];
+	$procid = $_POST['procarchid'];
+	$procComment = $_POST['procComment'];
+	$editor = $_SESSION['myusername'];
+	$procidHistory = $_POST['procidhistory'];
 
-	$sql = "UPDATE proceduresarchive SET procstate = '$state', procversion = '$version' WHERE procarchid = '$procArchiveId'";
+	$sqlHistory = "INSERT INTO procedureshistory (procid, prochistoryeditor, prochistorystate, 	prochistoryversion, prochistoryaction, prochistorycomment) VALUES('$procidHistory', '$editor', '$state', '$version', '$action', '$procComment')";
+
+	$sql = "UPDATE proceduresarchive SET procstate = '$state', procversion = '$version' WHERE procarchid = '$procid'";
 
 	if (mysqli_query($link, $sql)) {
-		header('Location: /root/PS/procedure_list.php');
+		if (mysqli_query($link, $sqlHistory)) {
+			echo "<script>window.close();</script>";
+		}else{
+			echo "SQL:<br> " . $sql . "<br> Error: <br>" . mysqli_error($link);
+		}
 	}else{
-		echo "Error: " . $sql . "<br>" . mysqli_error($link);
+		echo "SQL:<br> " . $sql . "<br> Error: <br>" . mysqli_error($link);
 	}
 	mysqli_close($link);
 }
 
 
 
-function insertNewProcedure($state, $check, $version){
+function insertNewProcedure($state, $check, $version, $action){
 	global $reserveProcedureID, $link;
 
 	$procid = $_POST['procid'];
@@ -149,18 +158,22 @@ function insertNewProcedure($state, $check, $version){
 	$description = $_POST['procDescription'];
 	$troubleshoot = $_POST['procTroubleshooting'];
 	$impact = $_POST['procImpact'];
-
+	$procComment = $_POST['procComment'];
 	$editor = $_SESSION['myusername'];
+
+	
 
 	if ($check == 0){
 		insertReserveID();
-
+		
 		$sql="INSERT INTO proceduresarchive
 		(procid, ProcTitle, ProcSystem, ProcCountry, ProcFuncArea, ProcDescript, ProcDependecies, ProcAccess, ProcDescription,
 		ProcTroubleshooting, ProcImpact, procstate, procversion, proccreatename, procmodname )
 		VALUES
 		('$reserveProcedureID', '$title', '$system', '$country', '$funcarea', '$descript', '$dependecies', '$access',
 		'$description', '$troubleshoot', '$impact', '$state', '$version', '$editor', '$editor')";
+
+		$sqlHistory = "INSERT INTO procedureshistory (procid, prochistoryeditor, prochistorystate, prochistoryversion, prochistoryaction, prochistorycomment) VALUES('$reserveProcedureID', '$editor', '$state', '$version', '$action', '$procComment')";
 
 	}else{
 		$sql="INSERT INTO proceduresarchive
@@ -169,18 +182,25 @@ function insertNewProcedure($state, $check, $version){
 		VALUES
 		('$procid', '$title', '$system', '$country', '$funcarea', '$descript', '$dependecies', '$access',
 		'$description', '$troubleshoot', '$impact', '$state', '$version', '$editor', '$editor')";
+
+		$sqlHistory = "INSERT INTO procedureshistory (procid, prochistoryeditor, prochistorystate, prochistoryversion, prochistoryaction, prochistorycomment) VALUES('$procid', '$editor', '$state', '$version', '$action', '$procComment')";
 	}
 
 	if (mysqli_query($link, $sql)) {
-		mysqli_commit($link);
-		header("Location: {$_SERVER['HTTP_REFERER']}");
+		if (mysqli_query($link, $sqlHistory)) {
+			mysqli_commit($link);
+			//header("Location: {$_SERVER['HTTP_REFERER']}");	
+			echo "<script>window.close();</script>";
+		} else {
+			echo "SQL:<br> " . $sql . "<br> Error: <br>" . mysqli_error($link);
+		}	
 	}else{
 		echo "SQL:<br> " . $sql . "<br> Error: <br>" . mysqli_error($link);
 	}
 	mysqli_close($link);
 }
 
-function updateSaveProcedure($state, $version){
+function updateSaveProcedure($state, $version, $action){
 	global $reserveProcedureID, $link;
 
 	$procid = $_POST['procid'];
@@ -194,7 +214,11 @@ function updateSaveProcedure($state, $version){
 	$description = $_POST['procDescription'];
 	$troubleshoot = $_POST['procTroubleshooting'];
 	$impact = $_POST['procImpact'];
+	$procComment = $_POST['procComment'];
 	$editor = $_SESSION['myusername'];
+	$procidHistory = $_POST['procidhistory'];
+
+	$sqlHistory = "INSERT INTO procedureshistory (procid, prochistoryeditor, prochistorystate, prochistoryversion, prochistoryaction, prochistorycomment) VALUES('$procidHistory', '$editor', '$state', '$version', '$action', '$procComment')";
 
 		$sql="UPDATE proceduresarchive
 			SET
@@ -215,7 +239,12 @@ function updateSaveProcedure($state, $version){
 				procarchid = $procid";
 
 	if (mysqli_query($link, $sql)) {
-		header("Location: {$_SERVER['HTTP_REFERER']}");
+		if (mysqli_query($link, $sqlHistory)) {
+			//header("Location: {$_SERVER['HTTP_REFERER']}");
+			echo "<script>window.close();</script>";
+		}else{
+			echo "SQL:<br> " . $sql . "<br> Error: <br>" . mysqli_error($link);
+		}
 	}else{
 		echo "SQL:<br> " . $sql . "<br> Error: <br>" . mysqli_error($link);
 	}
@@ -230,6 +259,7 @@ function insertReserveID(){
 	$reserveProcedureID = mysqli_fetch_assoc(mysqli_query($link, "SELECT LAST_INSERT_ID() as ID;"))['ID'];
 	mysqli_rollback($link);
 }
+
 
 function spoolPOST1(){
 

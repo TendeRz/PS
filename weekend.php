@@ -16,7 +16,7 @@
 	<script src="./js/flipclock.js"></script>
 	<script type="text/javascript">
 		var d2 = new Date();
-		var d1 = new Date("2016-08-05 17:00:00");
+		var d1 = new Date("2016-08-12 16:45:00");
 		var difference = ((d1-d2)/1000).toString();
 		console.log(difference);
 

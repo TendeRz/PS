@@ -18,7 +18,7 @@
 				<li class="<?php echo ($_SERVER['PHP_SELF'] == '/root/PS/profile.php' ? ' active' : '');?>"><a href="/root/PS/profile.php">Profile</a></li>
 				<?php } ?>
 				<li class="<?php echo ($_SERVER['PHP_SELF'] == '/root/PS/procedure_list.php' ? ' active' : '');?>"><a href="/root/PS/procedure_list.php">Procedure Storage</a></li>
-				<li class="<?php echo ($_SERVER['PHP_SELF'] == '/root/PS/new_proc.php' ? ' active' : '');?>"><a href="/root/PS/new_proc.php">New Procedure</a></li>
+				<li class="<?php echo ($_SERVER['PHP_SELF'] == '/root/PS/new_proc.php' ? ' active' : '');?>"><a href="/root/PS/new_proc.php" target="_blank">New Procedure</a></li>
 				<li class="<?php echo ($_SERVER['PHP_SELF'] == '/root/PS/task_list.php' ? ' active' : '');?>"><a href="/root/PS/task_list.php">Tasks</a></li>
 				<li class="<?php echo ($_SERVER['PHP_SELF'] == '/root/PS/new_task.php' ? ' active' : '');?>"><a href="/root/PS/new_task.php" target="_blank">New Task</a></li>
 				<li class="<?php echo ($_SERVER['PHP_SELF'] == '/root/PS/weekend.php' ? ' active' : '');?>"><a href="/root/PS/weekend.php" target="_blank">Weekend</a></li>

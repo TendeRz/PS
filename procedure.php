@@ -45,10 +45,13 @@
                     $pprocState = $procedureItem[12];
                     $pprocAuthor = $procedureItem[13];
                     $pprocVersionActive = $procedureItem[17];
+                    $pprocidHistory = $procedureItem[18];
 
                     if ($pprocVersion < $pprocVersionActive){
                         $procversionStyle = 'color:red; font-weight:bold';
+                        $pprocNewVersion = $pprocVersionActive + 0.01;
                     } else {
+                        $pprocNewVersion = $pprocVersion;
                         $style = 'hidden';
                         $procversionStyle = ' ';
                     }
@@ -72,26 +75,28 @@
                         Newer version available in Procedure Storage!
                     </div>
                     <input type="hidden" name="procarchid" value="<?php echo $pprocid ?>">
-                    <input type="hidden" name="procversion" value="<?php echo $pprocVersion ?>">
+                    <input type="hidden" name="procidhistory" value="<?php echo $pprocidHistory ?>">
+                    <input type="hidden" name="procversion" value="<?php echo $pprocNewVersion ?>">
                     <input  class="btn btn-primary" type="submit" name="procedureApprove" value="Approve">
                     <input  class="btn btn-warning" style="float:right" type="submit" name="procedureReject" value="Reject">
                 </form>
             </div>
         </div>
 
-        <div class="bs-example" data-example-id="collapse-accordion"> 
-            <div class="panel-group procedure-list-group" id="accordion0" role="tablist" aria-multiselectable="true"> 
-
-                <div class="panel panel-primary">
-                    <div class="panel-heading" role="tab" id="headingOne"> 
-                        <h4 class="panel-title"> 
-                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion0" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                            Classification
-                            </a>
-                        </h4> 
-                    </div>
-                    <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne" aria-expanded="false">
-                        <div class="panel-body">
+        <div class="panel-group procedure-list-group" role="tablist" aria-multiselectable="true"> 
+            <div class="panel panel-primary">
+                <div class="panel-heading" style="padding-left: 0"> 
+                    <h4 class="panel-title"> 
+                        <ul class="procedure-tabs">
+                            <li class="active"><a data-toggle="tab" href="#classification">Classification</a></li>
+                            <li ><a data-toggle="tab" href="#history">History</a></li>
+                            <li ><a data-toggle="tab" href="#security">Security</a></li>
+                        </ul>
+                    </h4> 
+                </div>
+                <div class="panel-body">
+                    <div class="tab-content">
+                        <div id="classification" class="tab-pane fade in active">
                             <div class="row">
                                 <div class="col-xs-1">
                                     Title:
@@ -108,10 +113,10 @@
                                     <?php echo $pprocSystem ?>
                                 </div>
                                 <div class="col-xs-2">
-                                    Functional Area:
+                                    Author:
                                 </div>
                                 <div class="col-xs-2">
-                                    <?php echo $pprocFuncArea ?>
+                                    <?php echo $pprocAuthor ?>
                                 </div>
                             </div>
                             <div class="row">
@@ -121,21 +126,69 @@
                                 <div class="col-xs-2">
                                     <?php echo $pprocCountry ?>
                                 </div>
-                                <div class="col-xs-2">
-                                    Author:
-                                </div>
-                                <div class="col-xs-2">
-                                    <?php echo $pprocAuthor ?>
-                                </div>
                                 
-                            </div>
-                            <div class="row">
                                 <div class="col-xs-2">
                                     Version:
                                 </div>
                                 <div class="col-xs-2">
                                     <?php echo $pprocVersion ?>
                                 </div>
+                                
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-2">
+                                    Functional Area:
+                                </div>
+                                <div class="col-xs-2">
+                                    <?php echo $pprocFuncArea ?>
+                                </div>                                
+                                <?php if ($arch == 1) { ?>
+                                <div class="col-xs-2" style=" <?php echo $procversionStyle ?> ">
+                                    Active Version:
+                                </div>
+                                <div class="col-xs-1" style=" <?php echo $procversionStyle ?> ">
+                                    <?php echo $pprocVersionActive ?>
+                                </div>
+                                <?php } ?>
+                            </div>
+                        </div>
+                        <div id="history" class="tab-pane fade">
+                            <div class="row">
+                                <table class="table table-hover" style="font-size: 14px">
+                                    <thead> 
+                                        <tr>
+                                            <th class="col-xs-2">When</th>
+                                            <th >Who</th>
+                                            <th >Version</th>
+                                            <th class="col-xs-2">What</th>
+                                            <th >Comment</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php $procHistory = selectProcedureHistory($pprocidHistory, $arch); ?>
+                                        <?php foreach ($procHistory as $key => $procHistoryItem){
+                                            echo "<tr>";
+                                                echo '<td>'.$procHistoryItem[3].'</td>';
+                                                echo '<td>'.$procHistoryItem[2].'</td>';
+                                                echo '<td>'.$procHistoryItem[5].'</td>';
+                                                echo '<td>'.$procHistoryItem[6].'</td>';
+                                                echo '<td>'.$procHistoryItem[7].'</td>';
+                                            echo "</tr>";
+                                        }
+                                        ?>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div id="security" class="tab-pane fade">
+                            <div class="row">
+                                <div class="col-xs-2">
+                                    Security:
+                                </div>
+                                <div class="col-xs-2">
+                                    <?php echo $pprocFuncArea ?>
+                                </div>                                
                                 <?php if ($arch == 1) { ?>
                                 <div class="col-xs-2" style=" <?php echo $procversionStyle ?> ">
                                     Active Version:
@@ -147,8 +200,8 @@
                             </div>
                         </div>
                     </div>
-                </div>            
-            </div>
+                </div>
+            </div>            
         </div>
         <div class="bs-example" data-example-id="collapse-accordion"> 
             <div class="panel-group procedure-list-group" id="accordion1" role="tablist" aria-multiselectable="true">        
@@ -268,9 +321,13 @@
                 </div>
             </div>
         </div>
+
+
+        
     </div>
         <?php
             include_once("/js/js.php");
+            include_once('./adds/footer.php');
         ?>
 </body>
 </html>

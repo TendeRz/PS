@@ -242,13 +242,15 @@ $reserveProcedureID;
         global $link;
 
         $a = "SELECT P.procid, P.proctitle, CS.classsysname, CC.classcountryname, CFA.classfuncname, P.procdescript, P.procdependecies, P.procaccess, P.procdescription,
-                    P.proctroubleshooting, P.procimpact, P.procversion, P.procstate, P.proccreatename, P.proccreatedate, P.procmodname, P.procmoddate, P.procversion
+                    P.proctroubleshooting, P.procimpact, P.procversion, P.procstate, P.proccreatename, P.proccreatedate, P.procmodname, P.procmoddate, P.procversion,
+                    P.procid
                 FROM
                 classsystem CS, classcountry CC, classfuncarea CFA, $table P
                 WHERE CS.classsysid = P.procsystem and CC.classcountryid = P.proccountry and CFA.classfuncid = P.procfuncarea and P.procid = '$procid'";
 
         $b = "SELECT PA.procarchid, PA.proctitle, CS.classsysname, CC.classcountryname, CFA.classfuncname, PA.procdescript, PA.procdependecies, PA.procaccess, PA.procdescription,
-                    PA.proctroubleshooting, PA.procimpact, PA.procversion, PA.procstate, PA.proccreatename, PA.proccreatedate, PA.procmodname, PA.procmoddate, COALESCE(P.procversion, PA.procversion)
+                    PA.proctroubleshooting, PA.procimpact, PA.procversion, PA.procstate, PA.proccreatename, PA.proccreatedate, PA.procmodname, PA.procmoddate, COALESCE(P.procversion, PA.procversion),
+                    PA.procid
                 FROM
                     classsystem CS, classcountry CC, classfuncarea CFA, $table PA
                 LEFT JOIN procedures P ON P.procid = PA.procid
@@ -263,27 +265,15 @@ $reserveProcedureID;
         mysqli_close($link);
     }
 
-    function procedurez($procid){
-        $link = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME)or die("Cannot Connect");
-        $sql="SELECT
-                D.procid as ID,
-                D.proctitle as Title,
-                A.classsysname as System,
-                B.classcountryname as Country,
-                C.classfuncname as Func,
-                D.procdescript as Descript,
-                D.procdependecies as Depend,
-                D.procaccess as Access,
-                D.procdescription as Description,
-                D.proctroubleshooting as Troubleshooting,
-                D.procimpact as Impact,
-                D.procversion as Version,
-                D.procstate as State
-                FROM
-                classsystem A, classcountry B, classfuncarea C, procedures D
-                WHERE A.classsysid = D.procsystem and B.classcountryid = d.proccountry and c.classfuncid = d.procfuncarea and d.procid = '$procid';";
+    function selectProcedureHistory($procid, $option){
+        global $link;
+        if ($option == 0) {
+            $sql = "SELECT * FROM procedureshistory WHERE prochistorystate NOT LIKE 3 AND procid = '$procid' ORDER BY 1";
+        }else{
+            $sql = "SELECT * FROM procedureshistory WHERE procid = '$procid' ORDER BY 1";
+        }
         return(mysqli_fetch_all($link->query($sql)));
-        mysqli_close($link);
+    mysqli_close($link);
     }
 
     function checkNewAddition($newAddition, $table, $column){

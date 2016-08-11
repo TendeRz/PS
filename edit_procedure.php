@@ -55,9 +55,10 @@
                     $pprocVersion = $procedureItem[11];
                     $pprocstate = $procedureItem[12];
                     $pprocVersionActive = $procedureItem[17];
+                    $pprocidHistory = $procedureItem[18];
 
                     if ($pprocVersion >= $pprocVersionActive){
-                        $style = hidden;
+                        $style = 'hidden';
                     }
                 }
 
@@ -71,6 +72,7 @@
             <form action="./adds/procedure_queries.php" method="post">
 
 				<input type="hidden" name="procid" value="<?php echo $pprocid ?>">
+                <input type="hidden" name="procidhistory" value="<?php echo $pprocidHistory ?>">
 				<input type="hidden" name="procversion" value="<?php echo $pprocVersion ?>">
                 <input type="hidden" name="procstate" value="<?php echo $pprocstate ?>">
 
