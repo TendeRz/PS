@@ -238,6 +238,13 @@ $reserveProcedureID;
         mysqli_close($link);
     }
 
+    function slectProcedureArchiveAll($country_id, $func_id){
+        global $link;
+        $sql = "SELECT procarchid, proctitle, procversion, proccreatename, proccreatedate, procmoddate FROM proceduresarchive WHERE proccountry = '$country_id' AND procfuncarea = '$func_id' AND procstate IN (1, 2, 3) ORDER BY 2, 3 ";
+        return(mysqli_fetch_all($link->query($sql)));
+        mysqli_close($link);
+    }
+
     function selectProcedure($procid, $table = "procedures"){
         global $link;
 
@@ -895,7 +902,20 @@ $reserveProcedureID;
         } 
     }
 
+    function selectBadges($column, $table, $var1, $var2){
+        global $link;
+        $sql = "SELECT COUNT($column) FROM $table WHERE $var1 = $var2";
+        if (mysqli_query($link, $sql)) {
+            return(mysqli_fetch_all($link->query($sql)));
+        }else{
+            echo "SQL:<br> " . $sql . "<br> Error: <br>" . mysqli_error($link);
+        }
 
+
+
+        
+    mysqli_close($link);
+    }
     function selectForApproval($state){
         global $link;
 

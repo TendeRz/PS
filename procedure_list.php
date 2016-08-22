@@ -74,7 +74,11 @@ session_start();
         </div>
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title"><a data-toggle="collapse" href="#forApprovalProcedures"><strong>Waiting for Approval</strong></a></h3>
+                <h3 class="panel-title">
+                    <a data-toggle="collapse" href="#forApprovalProcedures"><strong>Waiting for Approval</strong> 
+                        <span class="badge"><?php echo $badge = selectBadges('proctitle', 'proceduresarchive', 'procstate', '4')[0][0]; ?></span>
+                    </a>
+                </h3>
             </div>
             <div id="forApprovalProcedures" class="panel-body panel-collapse collapse">
                 <table class="table table-hover"> 
@@ -161,6 +165,73 @@ session_start();
                         echo '</thead>';
                         echo '<tbody>';
                         $procList = selectProcedureArchive($countrName[0], $funcAreaName[0], 3, 'proceduresarchive');
+                        foreach ($procList as $key => $procedureName) {
+                            echo '<tr>';
+                            echo '<th scope="row"><a href="procedure.php?procID='.$procedureName[0].'&procName='.$procedureName[1].'&procArch=1" target="_blank">'.$procedureName[1].'</a></th>';
+                            echo '<td>'.$procedureName[2].'</td>';
+                            echo '<td>'.$procedureName[3].'</td>';
+                            echo '<td>'.$procedureName[4].'</td>';
+                            echo '<td>'.$procedureName[5].'</td>';
+                            echo '</tr>';
+                        }
+                        echo '</tbody>';
+                        echo '</table>';
+                        echo '</ul>';
+                        echo '</div>';
+                        echo '</li>';
+                        $funcAreaID++;
+                    }
+                    echo '</ul>';
+                    echo '</div>';
+                    $countryID++;
+                    echo '</div>';
+                    echo '</div>';
+                }
+                ?>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><a data-toggle="collapse" href="#allProcedures" ><strong>All Procedures</strong></a></h3>
+            </div>
+            <div id="allProcedures" class="panel-body panel-collapse collapse">
+                <?php
+                $countryList = selectCountryArchive(1, 'proceduresarchive');
+                $countryID=150;
+                foreach ($countryList as $key => $countrName) {
+                    echo '<div class="panel-group procedure-list-group">';
+                    echo '<div class="panel panel-primary ">';
+                    echo '<div class="panel-heading">';
+                    echo '<h4 class="panel-title">';
+                    echo '<a data-toggle="collapse" href="#collapse'.$countryID.'"><strong>'.$countrName[1].'</strong></a>';
+                    echo '</h4>';
+                    echo '</div>';
+                    echo '<div id="collapse'.$countryID.'" class="panel-collapse collapse">';
+                    echo '<ul class="list-group">';
+
+                    $funcAreaList = selectFuncAreaArchive(1, $countrName[0], 'proceduresarchive');
+                    $funcAreaID=150;
+                    foreach ($funcAreaList as $key => $funcAreaName){
+                        echo '<li class="list-group-item procedure-task-type-item">';
+                        echo '<div class="panel-heading">';
+                        echo '<h4 class="panel-title">';
+                        echo '<a data-toggle="collapse" href="#collapseFuncArea'.$countryID.''.$funcAreaID.'"><strong>'.$funcAreaName[1].'</strong></a>';
+                        echo '</h4>';
+                        echo '</div>';
+                        echo '<div id="collapseFuncArea'.$countryID.''.$funcAreaID.'" class="panel-collapse collapse">';
+                        echo '<ul class="list-group procedure-list-group">';
+                        echo '<table class="table table-hover">';
+                        echo '<thead>';
+                        echo '<tr>';
+                        echo '<th> </th>';
+                        echo '<th>Version</th>';
+                        echo '<th>Owner</th>';
+                        echo '<th>Created</th>';
+                        echo '<th>Modified</th>';
+                        echo '</tr>';
+                        echo '</thead>';
+                        echo '<tbody>';
+                        $procList = slectProcedureArchiveAll($countrName[0], $funcAreaName[0]);
                         foreach ($procList as $key => $procedureName) {
                             echo '<tr>';
                             echo '<th scope="row"><a href="procedure.php?procID='.$procedureName[0].'&procName='.$procedureName[1].'&procArch=1" target="_blank">'.$procedureName[1].'</a></th>';

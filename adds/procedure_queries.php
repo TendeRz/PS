@@ -88,18 +88,27 @@ if (ISSET($_POST['saveProcedure'])) {
 	}
 }        
 
-
     //approve procedure
 if (ISSET($_POST['procedureApprove'])){
 	$version = ceil($_POST['procversion']);
 	updateProcedure(1, $version, 'Approved');
 }
 
-
     //reject procedure
 if (ISSET($_POST['procedureReject'])){
 	$version = $_POST['procversion'];
 	updateProcedure(2, $version, 'Rejected');
+}
+
+    //cancel procedure
+if (ISSET($_POST['obsoletProcedure'])){
+	$version = $_POST['procversion'];
+	obsoleteProcedure(5, $version, 'Canceled');
+}
+
+	//delete procedure version
+if (ISSET($_POST['deletetProcedure'])){
+	deletetProcedure();
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -117,7 +126,45 @@ $reserveProcedureID;
 /////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////
 
+function deletetProcedure(){
+	global $link;
+	$procid = $_POST['procid'];
 
+	$sql = "DELETE FROM proceduresarchive WHERE procarchid = '$procid'";
+
+	if (mysqli_query($link, $sql)) {
+			echo "<script>window.close();</script>";
+		}else{
+			echo "SQL:<br> " . $sql . "<br> Error: <br>" . mysqli_error($link);
+		}
+	mysqli_close($link);
+}
+
+function obsoleteProcedure($state, $version, $action){
+	global $link;
+	$procid = $_POST['procid'];
+	$procComment = $_POST['procComment'];
+	$editor = $_SESSION['myusername'];
+	
+	$sqlHistory = "INSERT INTO procedureshistory (procid, prochistoryeditor, prochistorystate, 	prochistoryversion, prochistoryaction, prochistorycomment) VALUES('$procid', '$editor', '$state', '$version', '$action', '$procComment')";
+	$sql = "DELETE FROM procedures WHERE procid = '$procid'";
+	$sql2 = "UPDATE proceduresarchive SET procstate = '$state' WHERE procid = '$procid'";
+
+	if (mysqli_query($link, $sql)) {
+		if (mysqli_query($link, $sql2)) {
+			if (mysqli_query($link, $sqlHistory)) {
+					echo "<script>window.close();</script>";
+				}else{
+					echo "SQL:<br> " . $sql . "<br> Error: <br>" . mysqli_error($link);
+				}
+		}else{
+			echo "SQL:<br> " . $sql . "<br> Error: <br>" . mysqli_error($link);
+		}
+	}else{
+		echo "SQL:<br> " . $sql . "<br> Error: <br>" . mysqli_error($link);
+	}
+	mysqli_close($link);
+}
 
 function updateProcedure($state, $version, $action){
 	global $link;

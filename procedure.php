@@ -78,7 +78,7 @@
                     <input type="hidden" name="procidhistory" value="<?php echo $pprocidHistory ?>">
                     <input type="hidden" name="procversion" value="<?php echo $pprocNewVersion ?>">
                     <input  class="btn btn-primary" type="submit" name="procedureApprove" value="Approve">
-                    <input  class="btn btn-warning" style="float:right" type="submit" name="procedureReject" value="Reject">
+                    <input  class="btn btn-danger" style="float:right" type="submit" name="procedureReject" value="Reject">
                 </form>
             </div>
         </div>
@@ -184,17 +184,17 @@
                         <div id="security" class="tab-pane fade">
                             <div class="row">
                                 <div class="col-xs-2">
-                                    Security:
+                                    Security: Sesuritu
                                 </div>
                                 <div class="col-xs-2">
-                                    <?php echo $pprocFuncArea ?>
+                                    
                                 </div>                                
                                 <?php if ($arch == 1) { ?>
-                                <div class="col-xs-2" style=" <?php echo $procversionStyle ?> ">
-                                    Active Version:
+                                <div class="col-xs-2">
+                                    Pew Pew
                                 </div>
-                                <div class="col-xs-1" style=" <?php echo $procversionStyle ?> ">
-                                    <?php echo $pprocVersionActive ?>
+                                <div class="col-xs-2">
+                                    Bang Bang
                                 </div>
                                 <?php } ?>
                             </div>

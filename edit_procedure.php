@@ -33,7 +33,7 @@
         });
 </script>
                 <?php
-                $accessLevel = 2;
+                $accessLevel = 3;
                 if ($arch == 1) {
                     $selectProcedure = selectProcedure($procidd, 'proceduresarchive');
                 }else{
@@ -347,9 +347,14 @@
                             </div>
                             <div class="modal-footer">
                                 <div class="form-group">
-                                    <div class="col-sm-offset-2 col-sm-10">
+                                    <!-- <div class="col-sm-offset-2 col-sm-10"> -->
                                         <?php 
                                             if ($accessLevel <= 2){
+                                                if ($arch == 0) {
+                                                    echo '<input  class="btn btn-danger" style="float: left" type="submit" name="obsoletProcedure" value="Cancel Procedure">';
+                                                }else{
+                                                    echo '<input  class="btn btn-danger" style="float: left" type="submit" name="deletetProcedure" value="Delete Procedure Version">';
+                                                }
                                                 echo '<input  class="btn btn-primary" type="submit" name="saveProcedure" value="Save as Draft">';
                                                 echo '<input  class="btn btn-primary" type="submit" name="updateProcedure" value="Save and Publish">';
                                             }else{
@@ -358,7 +363,7 @@
                                             }
                                          ?>
                                         <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                                    </div>
+                                   <!--  </div> -->
                                 </div>
                             </div>          
                         </div>  
@@ -366,11 +371,6 @@
                 </div>
                 <input  class='btn btn-primary btn-lg call-modal' type='button' value='Save Changes' style='margin-top: 20px'>
                 <input class="btn btn-warning btn-lg" style="float:right; margin-top: 20px" type="button" value="Close" onclick="self.close()">
-<!-- 				<input  class="btn btn-primary btn-lg" type="submit" name="saveProcedure" value="Save" style="margin-top: 20px">
-                <input  class="btn btn-primary btn-lg" type="submit" name="editProcedure" value="Send for Approval (check POST)" style="margin-top: 20px">
-                <input  class="btn btn-primary btn-lg" type="submit" name="updateProcedure" value="Update" style="margin-top: 20px">
-                <input  class="btn btn-primary btn-lg" type="button" value="Test" onClick="$('#procComment').modal('show');"> -->
-
             </form>
         </div>
     </div>

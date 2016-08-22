@@ -22,6 +22,7 @@
 				<li class="<?php echo ($_SERVER['PHP_SELF'] == '/root/PS/task_list.php' ? ' active' : '');?>"><a href="/root/PS/task_list.php">Tasks</a></li>
 				<li class="<?php echo ($_SERVER['PHP_SELF'] == '/root/PS/new_task.php' ? ' active' : '');?>"><a href="/root/PS/new_task.php" target="_blank">New Task</a></li>
 				<li class="<?php echo ($_SERVER['PHP_SELF'] == '/root/PS/weekend.php' ? ' active' : '');?>"><a href="/root/PS/weekend.php" target="_blank">Weekend</a></li>
+				<li class="<?php echo ($_SERVER['PHP_SELF'] == '/root/PS/administration.php' ? ' active' : '');?>"><a href="/root/PS/administration.php">Administration</a></li>
 				
 			</ul>
 			
