@@ -35,8 +35,8 @@ session_start();
                         </tr>
                     </thead>
                     <tbody>
-                    <?php 
-                        $userlist = selectUsers('%');
+                        <?php 
+                        $userlist = selectAllUsers('%');
                         $userCount = 1;
                         foreach ($userlist as $key => $user) {
                             ?>
@@ -47,13 +47,13 @@ session_start();
                                 <td><?php echo $user[4] ?></td>
                                 <td><?php echo $user[5] ?></td>
                                 <td>
-                                    <a class="btn btn-default btn-xs" href="#">Edit User</a>
+                                    <button class="btn btn-default btn-xs call-modal" onclick="userModal(<?php echo $user[0] ?>)">Edit User</button>
                                 </td>
                             </tr>
                             <?php
                             $userCount++;
                         }
-                     ?>
+                        ?>
                     </tbody>
                 </table>
             </div>
@@ -63,6 +63,39 @@ session_start();
     <?php 
     include_once('./adds/footer.php');
     ?>    
+    <div class="modal fade" id="editUserModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Edit User</h4>
+                </div>
+                
+                <div id="userinfo"></div>
+                
+                <div class="modal-footer">
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/root/PS/js/jquery-2.2.0.js"></script>
+    <script src="/root/PS/js/bootstrap.js"></script>
+    <script>
+        $('.call-modal').click(function(){
+            $('#editUserModal').modal('show');
+        })
 
+        function userModal($userModalID) {
+            var userModalID = $userModalID;
+            $.post('./adds/administration_queries.php', {userModalID}, function(data){
+                $("#userinfo").html(data);
+            });
+        };
+    </script>
 </body>
 </html>
